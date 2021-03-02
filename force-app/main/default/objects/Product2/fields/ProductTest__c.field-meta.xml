@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProductTest__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Created By: Mayank Pant Created Date: 21st Oct 2020 User Story: https://jira.hyundai-autoever.eu/browse/GD-1238 Purpose:</description>
+    <externalId>false</externalId>
+    <label>Product Test</label>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>Products (Product Test)</relationshipLabel>
+    <relationshipName>Products1</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

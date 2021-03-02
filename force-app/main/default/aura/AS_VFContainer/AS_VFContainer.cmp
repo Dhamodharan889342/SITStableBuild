@@ -1,0 +1,95 @@
+<!--
+Author: Neha Aggrawal
+Created Date: 15-01-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1026
+-->
+
+<aura:component
+        implements="force:hasRecordId,force:lightningQuickActionWithoutHeader"
+        access="global"
+        controller="AS_VFContainer"
+        extends="c:ObjectType"
+        description="VFContainer">
+
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .slds-modal__container{
+        max-width:none;
+        height:100%;
+        }
+        .repair-scroll{
+        height: 65vh !important;
+        max-height: 100%;GeneratePDF
+        overflow: hidden;
+        overflow-y: auto !important;
+        }
+
+    </aura:html>
+
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="origin" type="String"/>
+    <aura:attribute name="recordTypeName" type="String"/>
+    <aura:attribute name="initUrl" type="String"/>
+    <aura:attribute name="data" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
+      <aura:attribute type="Boolean" default="true" name="showoutsidemodal"/>
+     <aura:attribute type="Boolean" default="false" name="showuploadphotos"/>
+    <aura:attribute name="filetype" type="List" default="['.png', '.jpg', '.jpeg','image/*;capture=camera']"/>
+
+    <!-- for communication with VF -->
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="vfHost" type="String" default="about:blank"/>
+    <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <h4 class="title slds-text-heading--medium">{!v.recordTypeName} Outside Check</h4>
+    </div>
+	<aura:if isTrue="{!v.showoutsidemodal}">
+    <iframe src="{! vfHost }"
+            style="width:100%; height:435px;"
+            frameBorder="0"
+            id="my_iframe"
+            aura:id="aura_iframe"></iframe>
+        
+        <div class="slds-modal__footer slds-size_1-of-1">
+        <lightning:button label="{!$Label.c.COM_LAB_Save}" aura:id="aura_btn_save" variant="brand"
+                          onclick="{!c.sendToVF}"/>
+        <lightning:button label="{!$Label.c.COM_LAB_Cancel}" onclick="{!c.cancel}"/>
+    </div>
+    </aura:if>
+    <aura:if isTrue="{!and(not(v.showoutsidemodal),not(v.showuploadphotos))}">
+        <div class="slds-text-heading_medium">Would you like to take photos now?</div>
+        <div class="slds-modal__footer slds-size_1-of-1">
+         <lightning:button label="{!$Label.c.COM_LAB_YES}" variant="brand"
+                          onclick="{!c.next}"/>
+        <lightning:button label="{!$Label.c.COM_LAB_NO}" onclick="{!c.cancel}"/>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.showuploadphotos}">
+     
+   
+     <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <h4 class="title slds-text-heading--medium">Take Photos</h4>
+    </div>
+<lightning:fileUpload
+        name="fileUploader"
+        multiple="false"
+        accept="{!v.filetype}"
+        recordId="{!v.recordId}"
+        onuploadfinished="{!c.handleUploadFinished}"
+       />
+    <div class="slds-modal__footer slds-size_1-of-1"></div> 
+    </aura:if>
+
+</aura:component>

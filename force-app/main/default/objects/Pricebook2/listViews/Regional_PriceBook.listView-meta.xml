@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Regional_PriceBook</fullName>
+    <columns>PRICEBOOK2.NAME</columns>
+    <columns>PRICEBOOK2.IS_ACTIVE</columns>
+    <columns>PRICEBOOK2.DESCRIPTION</columns>
+    <columns>PRICEBOOK2.LAST_UPDATE</columns>
+    <columns>Department__c</columns>
+    <columns>Country__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Is_Regional_Pricebook__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Regional PriceBook</label>
+</ListView>

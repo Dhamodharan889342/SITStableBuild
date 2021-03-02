@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NSC_Aftersales_Manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>NSC Aftersales Manager</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Employee role has to be NSC Aftersales Manager and employee&#39;s country has to equal to country of department.</errorMessage>
+        <filterItems>
+            <field>$Source.Country__c</field>
+            <operation>equals</operation>
+            <valueField>Employee__c.Country__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Employee__c.Role__c</field>
+            <operation>equals</operation>
+            <value>NSC Aftersales Manager</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Employee__c</referenceTo>
+    <relationshipLabel>Departments (Add NSC Aftersales Manager)</relationshipLabel>
+    <relationshipName>Departments2</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

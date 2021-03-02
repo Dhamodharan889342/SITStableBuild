@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Net_Cost__c</fullName>
+    <description>Created By: Mayank Pant
+Created Date: 16th Nov 2020
+Purpose: This field will show the total net cost</description>
+    <externalId>false</externalId>
+    <label>Total Net Cost</label>
+    <summarizedField>RepairPackageItem__c.Total_Net_Cost__c</summarizedField>
+    <summaryForeignKey>RepairPackageItem__c.RepairPackage__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

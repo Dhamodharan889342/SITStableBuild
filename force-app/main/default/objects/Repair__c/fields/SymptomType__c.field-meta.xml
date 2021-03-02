@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SymptomType__c</fullName>
+    <description>Created By: Manoj Kumar
+Created Date: 23/10/2020
+User Story: GD-1297
+Purpose :- After Sales record of Customer.</description>
+    <externalId>false</externalId>
+    <label>Symptom Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Inspection/Allignment</fullName>
+                <default>false</default>
+                <label>Inspection/Allignment</label>
+            </value>
+            <value>
+                <fullName>Oil Replenishment</fullName>
+                <default>false</default>
+                <label>Oil Replenishment</label>
+            </value>
+            <value>
+                <fullName>Electronic Repair</fullName>
+                <default>false</default>
+                <label>Electronic Repair</label>
+            </value>
+            <value>
+                <fullName>Sheet Painting</fullName>
+                <default>false</default>
+                <label>Sheet Painting</label>
+            </value>
+            <value>
+                <fullName>Accessory</fullName>
+                <default>false</default>
+                <label>Accessory</label>
+            </value>
+            <value>
+                <fullName>Etc</fullName>
+                <default>false</default>
+                <label>Etc</label>
+            </value>
+            <value>
+                <fullName>Cleaning Service</fullName>
+                <default>false</default>
+                <label>Cleaning Service</label>
+            </value>
+            <value>
+                <fullName>Replenishment</fullName>
+                <default>false</default>
+                <label>Replenishment</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

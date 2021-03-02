@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Amount_of_Remaining_Services__c</fullName>
+    <description>Created By: Manoj Kumar
+Created Date: 06/11/2020
+User Story: Gd-1222
+Purpose :- After Sales service available of Customer.</description>
+    <externalId>false</externalId>
+    <formula>Total_Services__c-Completed_Services__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Amount of Remaining Services</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

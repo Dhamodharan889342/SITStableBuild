@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Created By: Mayank Pant
+Created Date: 26th Nov 2020
+Purpose: This custom meta data will provide information about who all users need access on a record.</description>
+    <label>Record Sharing</label>
+    <pluralLabel>Record Sharings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

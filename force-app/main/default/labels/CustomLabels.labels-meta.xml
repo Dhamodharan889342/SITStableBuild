@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>COM_LAB_Cancel</fullName>
+        <categories>Common</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LAB_Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>COM_LAB_NO</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LAB_NO</shortDescription>
+        <value>No</value>
+    </labels>
+    <labels>
+        <fullName>COM_LAB_Save</fullName>
+        <categories>Common</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LAB_Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>COM_LAB_YES</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COM_LAB_YES</shortDescription>
+        <value>Yes</value>
+    </labels>
+</CustomLabels>

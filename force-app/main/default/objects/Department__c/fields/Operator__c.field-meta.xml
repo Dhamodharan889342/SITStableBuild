@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Operator__c</fullName>
+    <description>Created By: Mayank Pant
+Created Date: 3rd Feb 2021
+User Story: https://jira.hyundai-autoever.eu/browse/GD-2376
+Purpose: Purpose not identified a the time of creating the field.</description>
+    <externalId>false</externalId>
+    <label>Operator</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

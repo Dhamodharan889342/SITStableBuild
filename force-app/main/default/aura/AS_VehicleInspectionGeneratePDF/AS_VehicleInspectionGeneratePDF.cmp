@@ -1,0 +1,56 @@
+<!--
+Author: Neha Aggrawal
+Created Date: 28-01-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1257
+-->
+
+
+<aura:component
+        implements="force:hasRecordId,force:lightningQuickActionWithoutHeader"
+        controller="AS_VehicleInspectionReportPDF"
+        extends="c:ObjectType"
+        description="AS_VehicleInspectionGeneratePDF">
+	    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .slds-modal__container{
+        max-width:none;
+        height:100%;
+        }
+        .repair-scroll{
+        height: 65vh !important;
+        max-height: 100%;GeneratePDF
+        overflow: hidden;
+        overflow-y: auto !important;
+        }
+
+    </aura:html>
+
+    <!-- auto mapping with id param -->
+    <lightning:quickActionAPI aura:id="quickActionAPI"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="recordTypeName" type="String"/>
+    <aura:attribute name="initUrl" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <iframe src="{! initUrl }"
+                       style="width:100%; height:500px;"
+                       frameBorder="0"
+                       id="my_iframe"
+                       aura:id="aura_iframe"></iframe>
+    <br/><br/>
+
+    <div class="slds-modal__footer slds-size_1-of-1">
+        <lightning:button label="{!$Label.c.COM_LAB_Save}" variant="brand" onclick="{!c.save}" />
+        <lightning:button label="{!$Label.site.cancel}" onclick="{!c.cancel}"/>
+    </div>
+</aura:component>

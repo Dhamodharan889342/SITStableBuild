@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AfterSales_Product_Request_Modified_Date</fullName>
+    <active>true</active>
+    <errorConditionFormula>DAOSSubmittedDate__c  &gt;  DAOSLastModifiedDate__c
+&amp;&amp;
+$Profile.Name != &quot;DIH Integration Profile&quot;</errorConditionFormula>
+    <errorDisplayField>DAOSLastModifiedDate__c</errorDisplayField>
+    <errorMessage>LastModifiedDate Cannot be before SubmittedDate</errorMessage>
+</ValidationRule>

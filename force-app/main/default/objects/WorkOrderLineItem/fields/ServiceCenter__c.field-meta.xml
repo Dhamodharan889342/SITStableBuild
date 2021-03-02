@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ServiceCenter__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Created By: Mayank Pant Created Date: 23rd Oct 2020 User Story: https://jira.hyundai-autoever.eu/browse/GD-1238 Purpose:</description>
+    <externalId>false</externalId>
+    <label>Service Center</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Department__c.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>Service_Center</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Department__c</referenceTo>
+    <relationshipLabel>Work Order Line Items</relationshipLabel>
+    <relationshipName>Work_Order_Line_Items</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

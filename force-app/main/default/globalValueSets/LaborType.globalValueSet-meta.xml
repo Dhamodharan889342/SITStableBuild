@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Bodywork</fullName>
+        <default>false</default>
+        <label>Bodywork</label>
+    </customValue>
+    <customValue>
+        <fullName>Diagnosis</fullName>
+        <default>false</default>
+        <label>Diagnosis</label>
+    </customValue>
+    <customValue>
+        <fullName>Genesis</fullName>
+        <default>false</default>
+        <label>Genesis</label>
+    </customValue>
+    <customValue>
+        <fullName>Internal</fullName>
+        <default>false</default>
+        <label>Internal</label>
+    </customValue>
+    <customValue>
+        <fullName>Warranty</fullName>
+        <default>false</default>
+        <label>Warranty</label>
+    </customValue>
+    <customValue>
+        <fullName>Maintenance</fullName>
+        <default>true</default>
+        <label>Maintenance</label>
+    </customValue>
+    <masterLabel>Labor Type</masterLabel>
+    <sorted>true</sorted>
+</GlobalValueSet>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>AfterSales_Germany_Repair_Package_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>AfterSales Germany Repair Package Rule</label>
+        <sharedTo>
+            <group>AfterSales_DE</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>NSC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Germany</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>AfterSales_Switzerland_Repair_Package_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>AfterSales Switzerland Repair Package Rule</label>
+        <sharedTo>
+            <group>AfterSales_CH</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>NSC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Switzerland</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>AfterSales_United_Kingdom_Repair_Package_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>AfterSales United Kingdom Repair Package Rule</label>
+        <sharedTo>
+            <group>AfterSales_UK</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>NSC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>United Kingdom</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+</SharingRules>

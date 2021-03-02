@@ -1,0 +1,82 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="AfterSales_Customer_CustIdentification" access="global" >
+	
+    <lightning:button label="Record share access" title="Record share access" onclick="{!c.handleClick }"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="firstName" type="string"/>
+    <aura:attribute name="lastName" type="string" />
+    <aura:attribute name="VIN" type="string" />
+    <aura:attribute name="password" type="string"/>  
+    <aura:attribute name="ErrorMessages" type="string"/>  
+    <aura:attribute name="accountsList" type="Account[]"/>
+    
+    <aura:attribute name="isRequestAccessModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="objectName" type="string"/>
+    <aura:attribute name="recordName" type="string"/>
+    <aura:attribute name="recordIdVal" type="string"/>
+    <aura:attribute name="wrongPassword" type="string"/>
+    
+    
+    <div class="slds-m-around_xx-large">      
+        <aura:if isTrue="{!v.isModalOpen}">            
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">                  
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>                        
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Request Customer Access</h2>
+                    </header>                    
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">    
+                        <b> Customer Identification</b>
+                        <br/><p>
+                        <div class="row">
+                            <lightning:input name="firstName" aura:id="fieldId" value="{!v.firstName}" label="First Name" />                            
+                        </div>
+                        
+                        <div class="row">
+                            <lightning:input name="lastName" aura:id="fieldId"  value="{!v.lastName}" label="Last Name" />                            
+                        </div>   
+                        
+                        <br/>
+                        <div class="row">
+                            <lightning:input name="VIN" aura:id="fieldId"  value="{!v.VIN}" label="VIN"    />                            
+                        </div>
+                        
+                        <br/>
+                        <p><b> Customer Password</b></p>
+                       
+                       
+                        <div class="row">
+                            <lightning:input name="password" aura:id="fieldId"  value="{!v.password}" label="Password" required="true"   placeholder="Please enter either Email, PhoneNo, Genesis Account Id, Licence Plate no." />                            
+                        </div> 
+                        
+                        
+                        <br/>
+                        <br/>                           
+                        </p>
+                    </div>                                 
+                    
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                        <lightning:button variant="brand"
+                                          label="Search Record"
+                                          title="Search Record"
+                                          onclick="{!c.searchDetail}"/>                        
+                    </footer>
+                </div>               
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+    
+    
+</aura:component>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Storage_Location__c</fullName>
+    <description>created By:- Abhishek Mamgain
+Created at :- 09/12/2020
+user story:- US- GD-1328
+Purpose:- Need to create as per requirement</description>
+    <externalId>false</externalId>
+    <label>Storage Location</label>
+    <length>4</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

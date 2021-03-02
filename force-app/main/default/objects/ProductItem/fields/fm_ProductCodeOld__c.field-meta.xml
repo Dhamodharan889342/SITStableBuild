@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fm_ProductCodeOld__c</fullName>
+    <description>Created By : Nagendra Lagisetty
+Created Date: 11/4/2020
+User Story:GD-822
+Purpose: Basic level object</description>
+    <externalId>false</externalId>
+    <formula>Product2.AMOSProductCodeOld__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Product Code (Old)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

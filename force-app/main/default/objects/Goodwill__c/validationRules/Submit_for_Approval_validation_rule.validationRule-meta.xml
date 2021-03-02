@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Submit_for_Approval_validation_rule</fullName>
+    <active>true</active>
+    <errorConditionFormula>(
+ TEXT(Stage__c) == &apos;Approved&apos;
+||
+ TEXT(Stage__c) == &apos;Adjusted&apos;
+)
+&amp;&amp;
+ Is_Approved__c == false</errorConditionFormula>
+    <errorMessage>Submit for Approval first.</errorMessage>
+</ValidationRule>

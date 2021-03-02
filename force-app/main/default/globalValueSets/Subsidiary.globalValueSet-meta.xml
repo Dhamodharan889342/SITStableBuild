@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Headquarter</fullName>
+        <default>false</default>
+        <label>Headquarter</label>
+    </customValue>
+    <customValue>
+        <fullName>Europe</fullName>
+        <default>false</default>
+        <label>Europe</label>
+    </customValue>
+    <description>Created By: Mayank Pant
+Created Date: 22nd Oct 2020
+User Story: https://jira.hyundai-autoever.eu/browse/GD-1238 
+Purpose:</description>
+    <masterLabel>Subsidiary</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

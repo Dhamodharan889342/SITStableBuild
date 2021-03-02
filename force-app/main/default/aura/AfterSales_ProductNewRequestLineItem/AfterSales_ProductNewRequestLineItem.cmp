@@ -1,0 +1,251 @@
+<aura:component controller="AfterSales_ProductNewRequestLineItem" 
+                implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global"
+                >
+    
+    <aura:attribute name="url" type="String"/>    
+    <lightning:navigation aura:id="navLink"/>
+    <aura:attribute name="strSupersession" type="String"  description="use for store user search input"  />
+    
+    <aura:attribute name="searchResult" type="List" description="use for store and display account list return from server" />
+    <aura:attribute name="searchKeyWord" type="String"  description="use for store user search input"  />    
+    <aura:attribute name="ProductItemCode" type="String"  description="use for store user search input"  />
+    <aura:attribute name="QuantityRequested" type="String"  description="use for store user search input"  />
+    <aura:attribute name="Description" type="String"  description="use for store user search input"  />    
+    <aura:attribute name="Message" type="boolean" default="false" description="use for display no record found message"/>
+    <aura:attribute name="recordId" type="String"/> 
+    <aura:attribute name="selectedProductId" type="String"/> 
+    
+    <aura:attribute name="RequestProductParentId" type="String"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
+    <aura:attribute name="newProductRequestLineItem" type="ProductRequestLineItem"
+                    default="{ 'sobjectType': 'ProductRequestLineItem',
+                             'ParentId': '' ,
+                             'Product2Id': '',
+                             'Description': '',
+                             'QuantityRequested':''  
+                             }"/>
+    <aura:attribute
+                    name="TotalNumberOfRecord"
+                    type="integer"
+                    default="0"
+                    description="use for display Number of records"
+                    />
+    
+    <div class="row">
+        Parent:
+        {!v.RequestProductParentId}
+    </div>
+    
+    <div class="row">
+        <lightning:input   aura:id="searchProductCode" name="ProductItemCode" label="Masterfile" value="{!v.searchKeyWord}" required="true"/>
+    </div>
+    <br />
+    <div class="row">
+        <lightning:button  name="btnSearch"  variant="brand"  label="{!$Label.c.AfterSales_SearchProductLineItem}"   title="Looks like a link"
+                          class="slds-m-left_x-small" onclick="{!c.Search}"    ></lightning:button>
+    </div>
+    <div class="row">
+        <lightning:input  aura:id="searchProductCode" type="number"  messages="Please enter Qty"  name="QuantityRequested" value="{!v.newProductRequestLineItem.QuantityRequested}"  label="Quantity Requested" required="true" 
+                         />
+    </div>
+    <div class="row">
+        <lightning:textarea aura:id="searchProductCode" value="{!v.newProductRequestLineItem.Description}"
+                            name="Description"
+                            label="Description"
+                            required="true"
+                            />
+        <br/>
+        <div class="row">
+            <lightning:button variant="brand" class=""
+                              label="{!$Label.c.AfterSales_SaveProductLineItem}"
+                              title="save"
+                              onclick="{!c.createProductRequestLineItem }"                              
+                              />
+            
+            <lightning:button  variant="brand"
+                              label="{!$Label.c.AfterSales_SaveAndNewProductLineItem}"
+                              title="save and New"
+                              onclick="{!c.saveAndNewRecord }"
+                              
+                              />
+        </div>
+    </div>
+    <div class="slds-m-around_xx-large scroll ">
+        <aura:if isTrue="{!v.isModalOpen}">
+            <!-- Modal/Popup Box starts here-->
+            <section
+                     role="dialog"
+                     tabindex="-1"
+                     aria-labelledby="modal-heading-01"
+                     aria-modal="true"
+                     aria-describedby="modal-content-id-1"
+                     class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container productlist">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon
+                                              iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"
+                                              />
+                        <h2
+                            id="modal-heading-01"
+                            class="slds-text-heading_medium slds-hyphenate"
+                            >Product Results</h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div
+                         class="slds-modal__content slds-p-around_medium scroll" style="height:400px" 
+                         id="modal-content-id-1">
+                        <div class="row">
+                            <lightning:input
+                                             name="txtProductSearchItemCode"
+                                             label="Product"
+                                             value="{!v.searchKeyWord}"
+                                             required="true"
+                                             />
+                        </div>
+                        <br />
+                        
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Product Name">PRODUCT NAME</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Product Code">PRODUCT CODE</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Product Description">DESCRIPTION</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Product Name(Native)">PRODUCT NATIVE</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Product Family">PRODUCT FAMILY</div>
+                                    </th> 
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Price">COST PRICE</div>
+                                    </th> 
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Vehical">VEHICLE</div>
+                                    </th> 
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="SUPERSESSION">SUPERSESSION</div>
+                                    </th> 
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="QUANTITY">QUANTITY</div>
+                                    </th> 
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="MINIMUM QUANTITY">MINIMUM QUANTITY</div>
+                                    </th> 
+                                    
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="QUANTITY INHAND">QUANTITY INHAND </div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="MSRP">MSRP</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Discount">Discount</div>
+                                    </th>                                    
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Product Family">START DATE</div>
+                                    </th>                
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="End Date">END DATE</div>
+                                    </th> 
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.searchResult}"  var="lstProductSearch"  indexVar="count"
+                                                >   
+                                    <tr class="slds-hint-parent">
+                                        <td data-label="Product Name">
+                                            <a><div data-id="{!lstProductSearch.Name}" data-pname="{!lstProductSearch.Id}" onclick="{!c.handleSelect}"> 
+                                                {!lstProductSearch.Name}
+                                                </div>   
+                                            </a>
+                                        </td>  	
+                                        <td data-label="Product Code">
+                                            {!lstProductSearch.ProductCode}
+                                        </td>   
+                                        <td data-label="Description">
+                                            {!lstProductSearch.Description}
+                                        </td>
+                                        <td data-label="Product Native">
+                                            {!lstProductSearch.ProductNameNative__c}
+                                        </td> 
+                                        <td data-label="Family">
+                                            {!lstProductSearch.Family}
+                                        </td>
+                                        <td data-label="Cost Price">
+                                            <aura:if isTrue="{!lstProductSearch.Quantity__c == 0}">                                          
+                                                <p style="color:red">  {!lstProductSearch.Price_Per_Unit__c}  </p>
+                                                <aura:set attribute="else">
+                                                    {!lstProductSearch.Price_Per_Unit__c}
+                                                </aura:set>
+                                            </aura:if>
+                                        </td>
+                                        <td data-label="Model">
+                                            {!lstProductSearch.Model__c}
+                                        </td>
+                                        <td data-label="Price">
+                                            <aura:if isTrue="{!lstProductSearch.Quantity__c == 0}">
+                                                <a href="{!v.url}" target="_blank" data-pname="{!lstProductSearch.AfterSales_Supersession__c}" onclick="{!c.openSupersessionRecord}"  >{!lstProductSearch.AfterSales_Supersession__c}</a>                                                
+                                            </aura:if>
+                                        </td>                                      
+                                        <td data-label="Quantity">
+                                            <aura:if isTrue="{!lstProductSearch.Quantity__c == 0}">                                          
+                                                <p style="color:red"> {!lstProductSearch.Quantity__c}  </p>
+                                                <aura:set attribute="else">
+                                                    {!lstProductSearch.Quantity__c}
+                                                </aura:set>
+                                            </aura:if>
+                                        </td>
+                                        <td data-label="Start Date">
+                                            {!lstProductSearch.DAOSMinimumOrderQuantity__c}
+                                        </td>
+                                        <td data-label="Start Date">
+                                            <aura:iteration items="{!lstProductSearch.ProductItems}" var="con" indexVar="index">
+                                                {!con.QuantityOnHand}
+                                            </aura:iteration>
+                                            <!--  {!lstProductSearch.QuantityOnHand}-->
+                                        </td>
+                                        <td data-label="Start Date">
+                                            {!lstProductSearch.AMOSPriceMSRP__c}
+                                        </td>                                      
+                                        <td data-label="Discount">
+                                            {!lstProductSearch.AMOSDiscountRateSTK__c}
+                                        </td>
+                                        
+                                        <td data-label="Start Date">
+                                            {!lstProductSearch.StartDate__c}
+                                        </td>
+                                        <td data-label="End Date">
+                                            {!lstProductSearch.EndDate__c}
+                                        </td>
+                                        
+                                    </tr>                       
+                                </aura:iteration>
+                            </tbody>
+                        </table>                        
+                    </div>
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">                        
+                        <lightning:button
+                                          variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{!c.closeModel }"   />
+                    </footer>
+                </div>
+            </section>     
+        </aura:if>
+    </div>
+</aura:component>

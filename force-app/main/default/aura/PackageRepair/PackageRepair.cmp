@@ -1,0 +1,527 @@
+<!--
+ - Created by H1812104 on 2019-03-27.
+
+   GD-1014
+
+	Adaptation from the ServiceLabor component in the chinese sandbox
+        <c:ServicePackage aura:id="servicePackage"/>
+
+ -->
+ 
+<aura:component
+        implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+        extends="c:ObjectType"
+        controller="PackageRepairController"
+        description="PackageRepair">
+
+    
+<!-- 
+            Components that will be used by the main
+            repair quote sections to add parts/labor
+     -->
+     <c:MessageBox aura:id="dialog"/>
+
+     
+
+    <!--  LMS 18/12/2020
+        Make the list of items be a variable
+    -->
+    <!-- <aura:attribute name="sectionList" type="List" default="Package Maintenance,Package Warranty,Package Other"/> -->
+
+    <aura:attribute name="sectionList" type="List" default=
+    "[{'name':'Package Maintenance', type:'Pack'},
+    {'name':'Package Warranty', type:'Pack'},
+    {'name':'Package Other', type:'Pack'}]"/>
+
+    <!--  
+            LMS GD-1014 this is the important list of items 
+                        that has to be managed within the repair
+                        quote "memory" until the moment it has to
+                        be saved by the user
+    -->
+    <aura:attribute name="itemList" type="List" default="[]"/>
+
+    <!-- LMS 3/1/2021 GD-1014
+        https://gist.github.com/pozil/70e101ae3e22dc4330474ea2ffb040bb
+        https://developer.salesforce.com/docs/atlas.en-us.lightning.meta/lightning/events_component_example.htm
+        Use component event parameter passing in order to share
+        itemList from child to parent (ex.: serviceNewLabor ==> PackageRepair)
+    -->
+    <aura:handler name="itemList_ComponentEvent" event="c:AS_itemList_CEVENT" action="{!c.handle_itemList_Event}"/>
+    
+
+    <!-- LMS GD-1014 
+        Temp attribute to store the accepted state
+    -->
+    <aura:attribute name="noData" type="Boolean" default="false"/>
+    <aura:attribute name="disabledApply" type="Boolean" default="false"/>
+    <aura:attribute name="approved" default="false" type="Boolean" />
+ 
+    <!-- 
+        GD-1225        
+        get the list of options for claimable item    
+    -->
+    <aura:attribute name="ClaimOptions" type="List" access="PRIVATE"/>
+    <aura:attribute name="mapClaimOptions" type="Map" default="{}" />
+
+    <!-- LMS GD-1014
+         for the options in  labor rates
+    -->
+    <aura:attribute name="LaborRateOptions" type="List" access="PRIVATE"/>
+    <aura:attribute name="LaborSelectedValue" type="String" access="PRIVATE"/>
+     
+    <!-- GD-1014
+            Communicate with the parents through bound attributes 
+    -->
+    <c:ServiceNewLabor aura:id="serviceNewLabor" itemList="{!v.itemList}" />
+    <c:ServiceNewPart aura:id="serviceNewPart" itemList="{!v.itemList}"/>
+    <c:servicePackage aura:id="servicePackage" itemList="{!v.itemList}" sectionList="{!v.sectionList}"   />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler event="force:refreshView" action="{!c.refresh}"/>
+
+
+    
+   
+    <!-- 
+        LMS GD-1014
+
+        In order to manage the repair quote in memory we
+        need to have a separate and quite visible "SAVE REPAIR QUOTE"
+        that can go through all the sections and save them to 
+        the proper repair quote items and repair quote items in the
+        Salesforce database
+
+        The "repairQuoteState" attribute is false when saved (true when the save
+        button has to be pressed)
+     -->
+     <aura:attribute name="RepairQuoteState" type="Boolean" default="true"/>
+     <div class="slds-grid slds-wrap">    
+        
+        <!-- <div class="slds-size- -1-of-2 slds-medium-size- -1-of-1 slds-large-size- -1-of-2"> -->
+                <!-- GD-1553 LMS 
+                    Button that creates a new job order
+
+                    Removed since job order creation is on another story GD-1553
+                -->
+                <!-- <div class="slds-align_absolute-center" style="height:5rem">
+                    <article class="slds-card">                    
+                        <lightning:button 
+                            label="*Create Job Order" 
+                            title="*Select items below to add to Job Order"
+                            iconName="utility:edit" 
+                            iconPosition="left"  
+                            variant="brand" />        
+                    </article>
+                </div>   -->
+        <!-- </div> -->
+        <!-- <div class="slds-size- -1-of-2 slds-medium-size- -1-of-1 slds-large-size- -1-of-2">                         -->
+            <div class="slds-align_absolute-center" style="height:5rem">
+                <article class="slds-card">                    
+                    <lightning:buttonStateful
+                        class="ColorBlue"         
+                        labelWhenOff="*Repair Quote Saved"
+                        labelWhenOn="*Please Save Repair Quote"                                                
+                        iconNameWhenOff="action:approval"
+                        iconNameWhenOn="utility:connected_apps"                        
+                        state="{! v.RepairQuoteState }"                        
+                        onclick="{! c.handleClickSaveRepairQuote }"                        
+                    />        
+                </article>
+            </div>  
+
+        <!-- </div> -->
+    </div>
+ <aura:iteration items="{!v.sectionList}" var="sectionUnit" indexVar="indSection">  
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+
+            <header class="slds-media slds-media--center slds-has-flexi-truncate" data-aura-rendered-by="9:672;a">
+                <div class="slds-media__figure" data-aura-rendered-by="10:672;a">
+                    <div class="extraSmall forceEntityIcon" style="background-color: #eb687f"
+                         data-aura-rendered-by="1840:0" data-aura-class="forceEntityIcon">
+                        <span class="uiImage" data-aura-class="uiImage">
+                            <img src="/img/icon/t4v35/custom/custom31_120.png" class="icon "/>
+                        </span>
+                    </div>
+                </div>
+                <div class="slds-media__body" data-aura-rendered-by="11:672;a">
+                    <h2 id="header_1:672;a">
+                        <a class="slds-card__header-link baseCard__header-title-container" href="javascript:void(0)">
+                            <span class="slds-card__header-title slds-truncate slds-m-right--xx-small">
+                                <!--{! $Label.c.RPR_LAB_Package } - -->
+                                 
+                            <!-- LMS 20/12/2020 
+                                The "title" of each section can be renamed
+                                LMS 21/12/2020 
+                                Only the free sections can be changed
+                                value="{!sectionUnit.name}"
+                                value="Change this title!"
+                            -->
+ 
+                            <aura:if isTrue="{!sectionUnit.type=='User'}">
+                                
+                                    <!-- <ui:inputText label="User Section: " class="field" value="{!sectionUnit.name}" updateOn="click"/> -->
+                                    <lightning:input  
+                                        name="{! sectionUnit.name+'#'+ indSection }" 
+                                        label="{!'Section=' + sectionUnit.name}" 
+                                        class="field"
+                                        required="false"  
+                                        value=""
+                                        aura:id="{! 'SectionTitle'+indSection}"
+                                        oncommit="{!c.handleChangeSectionName}"
+                                    />
+                                
+                                <aura:set attribute="else">
+
+                                    {!sectionUnit.name}        
+                                
+                                </aura:set>
+                            </aura:if>                                                           
+                        </span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+
+            <aura:if isTrue="{!v.isFlag}">
+                <aura:set attribute="else">
+                    <div class="slds-no-flex">
+                        <!-- LMS GD-1014 alter the concept 
+                             You don't show a package but the possibility of adding parts and labor to a package or
+                             free flow section
+
+                             Each button will also have a specific name to allow the proper insertion of select 
+                             items (labor/part) to the section unit
+                        -->
+                        <!-- disabled="{!v.disabledApply}" -->
+                        <lightning:button label="*Add Sublet/Part" variant="neutral" 
+                                          class="slds-float--center" value="part"
+                                          onclick="{!c.showPopup}"
+                                          name="{!sectionUnit.name +'_#' + sectionUnit.type }"
+                                          />
+
+                                          <!-- disabled="{!v.disabledApply}" -->
+                        <lightning:button label="*Add Work" variant="neutral" 
+                                          class="slds-float--center" value="labor"
+                                          
+                                          onclick="{!c.showPopup}"
+                                          name="{!sectionUnit.name +'_#' + sectionUnit.type }"  
+                                          />
+                        <!-- <lightning:button label="Save" variant="brand" class="slds-float- -center" onclick="{!c.save}"
+                                          disabled="{!v.disabledApply}"/> -->
+                        <!--                <lightning:button label="Sync With Work Order" variant="neutral" class="slds-float&#45;&#45;center"-->
+                        <!--                                  onclick="{!c.syncWithWorkOrder}"/>-->
+                    </div>
+                </aura:set>
+            </aura:if>
+
+        </div>
+        <div class="slds-card__body">
+            <lightning:layoutItem>
+                <table class="slds-table slds-table_bordered slds-table_col-bordered" role="grid">
+                    <thead>
+                    <tr class="slds-line-height_reset">
+                        <!--<th scope="col" style="text-align: center; width: 5%;"></th>-->
+                        <th scope="col" style="text-align: center; width: 5%;">
+                                {! v.ObjectType.Repair_Quote_Line_Item__c.LineItemType__c.label }
+                        </th>
+                        <th scope="col" style="text-align: center;width: 5%;">
+                            
+                                <!--{! v.ObjectType.Repair_Quote_Line_Item__c.fm_LaborName__c.label } 
+                                   Code applies to parts or labor
+                                -->
+
+                                {! $Label.c.RPR_LAB_Code }
+                        </th>
+                        <!-- 
+                            moved to GD-1553
+                            <th scope="col" style="text-align: center; width: 5%;">
+                            Job Order?   
+                        </th> -->
+                        <th scope="col" style="text-align: center; width: 10%;">
+                            {! v.ObjectType.Repair_Quote_Line_Item__c.Name.label }
+                        </th>
+                        <th scope="col" style="text-align: center; width: 5%;">
+                            {! v.ObjectType.Repair_Quote_Line_Item__c.Hours__c.label }
+                        </th>
+                        <!-- add a new collumn in order to define the labor rate -->
+                        <th scope="col" style="text-align: center; width: 5%;">
+                            *Labor Rate
+                        </th>
+                    
+                        <th scope="col" style="text-align: center; width: 5%;">
+                                {! v.ObjectType.Repair_Quote_Line_Item__c.Quantity__c.label }
+                        </th>
+                        <th scope="col" style="text-align: center; width: 5%;">
+                                {! v.ObjectType.Repair_Quote_Line_Item__c.ListPrice__c.label }
+                        </th>
+                        <th scope="col" style="text-align: center; width: 5%;">
+                                {! v.ObjectType.Repair_Quote_Line_Item__c.fm_Amount__c.label }
+                        </th>
+                        <th scope="col" style="text-align: center; width: 5%;">
+                              
+                                {! v.ObjectType.Repair_Quote_Line_Item__c.Discount__c.label }
+                        </th>
+                        <th scope="col" style="text-align: center; width: 5%;">
+                                {! v.ObjectType.Repair_Quote_Line_Item__c.Tax__c.label }
+                        </th>
+                        <th scope="col" style="text-align: center; width: 5%;">
+                                {! v.ObjectType.Repair_Quote_Line_Item__c.fm_TotalAmount__c.label }
+                        </th>
+                        <th scope="col" style="text-align: center; width: 5%;">
+                                {! v.ObjectType.Repair_Quote_Line_Item__c.Issue_Type__c.label }
+                        </th>
+                        <th scope="col" style="text-align: center; width: 5%;">
+                            Claim Type?
+                               <!-- {! v.ObjectType.Repair_Quote_Line_Item__c.ClaimType__c.label } -->
+                        </th>
+                        
+                        <th scope="col" style="text-align: center; width: 5%;">
+                            *Remove   <!-- TODO: Create label-->
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <aura:iteration items="{!v.itemList}" var="r" indexVar="i">
+                        <!-- 
+                            LMS GD-1014 
+                            28/12/2020  
+
+                                Will have to make sure that the current item to display belongs 
+                                to the package/section being displayed
+                        -->
+                        <!-- ::{!r.LineItemSectionName} ==>  {!sectionUnit.name } -->
+
+                        <aura:if isTrue="{!r.LineItemSectionName == sectionUnit.name }">
+                        <!-- <aura:if isTrue="{!r.LineItemSectionName == 'Package Maintenance' }">  -->
+                        
+                        <tr class="slds-hint-parent">
+                            <!-- <td role="gridcell" style="text-align: center;">
+                                <lightning:buttonIcon iconName="utility:add" value="{! r.laborCode }" onclick="{!c.addPart}" />
+                            </td>-->
+                            <th scope="row" style="text-align: center;">
+                                   <!-- {! r.laborCode } -->
+                                   {! r.LineItemType }
+                            </th> 
+
+                            <td role="gridcell" style="text-align: center;">
+                                   <!-- {! r.laborName } -->
+                                   {! r.LineItemCode }
+                                   
+
+                            </td>
+                            
+                            <!-- Moved job order creation to GD-1553
+                                
+                                <td role="gridcell" style="text-align: center;">
+                               
+                                <div class="slds-align_absolute-center" >
+                                    <ui:inputCheckbox aura:id="checkbox" label="" change="{!c.onCheck}" value="false"/>
+                                </div>                                
+                            </td> -->
+                            
+                            <th scope="row" style="text-align: center;">
+                                <!-- Generic name -->
+                                {! r.LineItemName }
+                            </th>
+                            <td role="gridcell" style="text-align: center;">
+                                    {!r.hours}
+                            </td>
+                            <!-- Add a select to add labor rate, only if is labor-->
+                            <td role="gridcell" style="text-align: center;">
+                                <!-- 
+                                    LMS GD-1014
+                                    get the list of labor rates
+
+                                    <option value="4">Maintenance</option>
+                                        <option value="1">Diagnosis/EE</option>
+                                        <option value="2">Internal</option>
+                                        <option value="3">Genesis</option>
+                                        <! - - <option value="4"></option> - - >
+                                        <option value="5">Warranty</option>
+                                        <option value="6">Bodywork</option>
+                                        
+                                        selected="{!option.selected}"
+                                        name="select1"  
+                                        aura:id="{!i}"
+
+                                        value="{!r.LaborTypeRateName}"  
+                                -->
+                                
+                                <aura:if isTrue="{! r.LineItemType=='Labor' }">
+                                    <lightning:select 
+                                        name="{!'SEL:'+ i}"  
+                                        required="False"
+                                        variant="label-hidden" class="label-hidden" 
+                                        value="{!r.LaborTypeRateId}"  
+                                        onchange="{! c.handleLaborTypeChange }"
+                                        >
+                                        <aura:iteration items="{!v.LaborRateOptions}" var="option">
+                                            <option text="{!option.text}" value="{!option.value}" />                        
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </aura:if>
+                               
+                            </td>
+                            <td role="gridcell" style="text-align: center;">
+                                <aura:if isTrue="{!r.isFlag}">
+                                    <lightning:formattedNumber value="{! r.quantity }" style="decimal"
+                                                               maximumFractionDigits="2"/>
+                                    <aura:set attribute="else">
+                                        <!-- 
+                                            LMS GD-1014
+
+                                            Handle the change of quantity in order
+                                            to display the proper amount in the line
+                                         -->
+                                        <lightning:input type="number" step="0.1"
+                                                         variant="label-hidden" class="label-hidden align-right"
+                                                         label="x" value="{! r.quantity }"
+                                                         id="{!i}"
+                                                         onchange="{!c.handleQuantityChange}"
+                                                         />
+                                    </aura:set>
+                                </aura:if>
+
+                            </td>
+                            <td role="gridcell" style="text-align: center;">
+                                <lightning:formattedNumber value="{! r.listPrice }" style="decimal"
+                                                           maximumFractionDigits="2"/>
+                            </td>
+                            <td role="gridcell" style="text-align: center;">
+                                <lightning:formattedNumber value="{! r.amount }" style="decimal"
+                                                           maximumFractionDigits="2"/>
+                            </td>
+                            <td role="gridcell" style="text-align: center;">
+                              
+                                <aura:if isTrue="{!r.isFlag}">
+                                    <lightning:formattedNumber value="{! r.discount }" style="decimal"
+                                                               maximumFractionDigits="2"/>
+                                    <aura:set attribute="else">
+                                        <!-- 
+                                            LMS GD-1014
+
+                                            Discount has to be manipulated
+                                         -->
+                                        <lightning:input type="number" step="1"
+                                                         variant="label-hidden" class="label-hidden align-right"
+                                                         label="x" value="{! r.discount }"
+                                                         id="{!i}"
+                                                         onchange="{!c.handleQuantityChange}"
+                                                         />
+                                    </aura:set>
+                                </aura:if>
+                                    <!-- <lightning:formattedNumber value="{! r.discount }" style="decimal"
+                                                           maximumFractionDigits="2"/> -->
+                            
+                            </td>
+                            <td role="gridcell" style="text-align: center;">
+                                <lightning:formattedNumber value="{! r.tax }" style="decimal"
+                                                           maximumFractionDigits="2"/>
+                            </td>
+                            <td role="gridcell" style="text-align: center;">
+                                <lightning:formattedNumber value="{! r.totalAmount }" style="decimal"
+                                                           maximumFractionDigits="2"/>
+                            </td>
+                            <td role="gridcell" style="text-align: center;">
+                                <!--  -->
+                                <lightning:select aura:id="type"
+                                                  label="{! v.ObjectType.Repair_Quote_Line_Item__c.Issue_Type__c.label }"
+                                                  value="{! r.issueType }"
+                                                  disabled="{!r.isFlag}"
+                                                  name="{! 'ISSUETYPE:'+ i }"
+                                                  onchange="{!c.onIssueTypeChanged}"
+                                                  variant="label-hidden" class="label-hidden">
+                                    <aura:iteration
+                                            items="{!v.ObjectType.Repair_Quote_Line_Item__c.Issue_Type__c.picklistOptions}"
+                                            var="option">
+                                        <aura:if isTrue="{! r.issueType == option.value }">
+                                            <option value="{! option.value }" text="{! option.label }"
+                                                    selected="selected"/>
+                                            <aura:set attribute="else">
+                                                <option value="{! option.value }" text="{! option.label }"/>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </td>
+                            <!-- LMS 22/10/2020  
+                                    simulate the UX 
+
+                                    Claimable ==> Warranty  çç
+                                                +
+                                              (list of items part|labor that belong to this package
+                                              and weren't redeemed before )
+
+                                               <lightning:select 
+                                    name="{!'SEL:'+ i}"  
+                                    required="False"
+                                        variant="label-hidden" class="label-hidden" value="" 
+                                        
+                                        onchange="{! c.handleLaborTypeChange }"
+                                        >
+                                        <aura:iteration items="{!v.LaborRateOptions}" var="option">
+                                            <option text="{!option.text}" value="{!option.value}" />                        
+                                        </aura:iteration>
+                                    </lightning:select>
+
+                                    items="[{'value':'1','label':'Warranty'}, {'value':'2','label':'Item 1 of Package '}]"
+                            -->
+                            <td role="gridcell" style="text-align: center;">
+                                
+                                <!-- onchange="{! c.handleChange }""
+                                    options="{! v.options }"
+                                     value="inProgress"
+                                -->
+                                <lightning:combobox 
+                                     
+                                    name="{!'COMDYNTYPE:'+ i}"
+                                    label=""
+                                    disabled="{!or(r.issueType != 'Claimable',r.isFlag)}" 
+                                    variant="label-hidden" class="label-hidden"
+                                    
+                                    value="{! r.claimType }"
+                                    title="{! r.claimTypeTitle }"
+                                    placeholder="Select Progress" 
+                                    onfocus="{!c.onChangeDynamicSelect}"
+                                    onchange="{!c.onChangeClaimType}"
+                                    
+                                   />
+                               
+                                   
+                                
+                            </td>
+                            <td role="gridcell" style="text-align: center;">
+                                                                
+                                <!-- <ui:inputCheckbox aura:id="checkbox" label=" " change="{!c.onCheck}" value="true"/> -->
+                                <!-- value="{! r.id }"  -->
+                                <lightning:buttonIcon iconName="utility:delete" 
+                                                    value = "{!i}"
+                                                    disabled="{!r.isFlag}"
+                                                      onclick="{!c.remove}"/>
+                            </td>
+                        
+                        </tr>
+                        </aura:if>
+                    </aura:iteration>
+                    </tbody>
+                </table>
+            </lightning:layoutItem>
+        </div>
+    </article>
+
+    <!-- LMS:  End of repeating Packages -->
+    </aura:iteration>
+    <!-- LMS: Create a new section or packaje that will be added to the repeating packages -->
+    <div class="slds-align_absolute-center" style="height:5rem">
+        <!-- TODO: Change label -->
+        <lightning:button label="*NEW Package" iconName="utility:edit" iconPosition="left"  variant="brand"
+            onclick="{! c.handleNewPackageClick }" 
+        />
+        <!-- TODO: Change label -->
+        <lightning:button label="*NEW User Defined Section" iconName="utility:edit" iconPosition="left"  variant="brand"
+            onclick="{! c.handleNewSectionClick }"
+        />
+    </div>
+</aura:component>

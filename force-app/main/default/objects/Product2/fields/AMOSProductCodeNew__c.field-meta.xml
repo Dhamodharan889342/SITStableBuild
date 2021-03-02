@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AMOSProductCodeNew__c</fullName>
+    <description>Created By: Mayank Pant Created Date: 21st Oct 2020 User Story: https://jira.hyundai-autoever.eu/browse/GD-1238 Purpose:
+Changed by Riddhi Mittal for US-820</description>
+    <externalId>false</externalId>
+    <label>AMOS Product Code (New)</label>
+    <length>20</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

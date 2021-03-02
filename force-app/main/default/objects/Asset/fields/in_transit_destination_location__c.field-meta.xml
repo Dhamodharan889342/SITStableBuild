@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>in_transit_destination_location__c</fullName>
+    <description>[11/11 5:18 PM] Mittal, Riddhi (Cognizant)
+    
+created By:- Riddhi Mittal
+Created at :- 11/11/2020
+user story:- US- GD-1452
+Purpose:- Need to create as per requirement</description>
+    <externalId>false</externalId>
+    <label>in transit destination location</label>
+    <length>4</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,83 @@
+div.THIS .red .slds-form-element__control .slds-radio_faux {
+	
+   background-color: rgb(255,0,0);
+    --sds-c-radio-color-background-checked: rgb(255,0,0);
+  
+
+}
+div.THIS .yellow .slds-form-element__control .slds-radio_faux {
+
+   background-color: #FFFF00;
+    --sds-c-radio-color-background-checked: #FFFF00;
+}
+div.THIS .green .slds-form-element__control .slds-radio_faux{
+
+   background-color: rgb(0, 128, 0);
+    --sds-c-radio-color-background-checked: rgb(0, 128, 0);
+}
+
+
+.THIS .header{
+    background-color: #000080;
+    color:white;
+    width:40%;
+    margin-bottom:1px;
+    border: 3px solid white;
+    padding: 3px;
+    
+    
+}
+div.THIS {
+    padding: 1%;
+    border: 1px solid black;
+    width:80%;
+}
+.THIS .sideheader{
+   
+    writing-mode: vertical-lr;
+    background-color: #5499C7;
+    color:white;
+    padding: 7px;
+    
+}
+.THIS .hzheader1{
+   
+    
+    background-color: #5499C7;
+    color:black;
+    padding: 7px;
+   width:100%;
+}
+.THIS .hzheader{
+   
+    
+    background-color: #EBF2F6;
+    color:black;
+	border: 1px solid white;
+}
+
+.THIS .section{
+    
+    color:white;
+    width:50%;
+    margin-bottom:1px;
+    border: 1px solid grey;
+    padding: 1px;
+}
+.THIS .radiosection{
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left:10px;
+    color:black;
+    
+}
+.THIS .radiosection1{
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left:10px;
+    color:black;
+}
+
+.THIS .slds-radio {
+    display: inline !important;
+}

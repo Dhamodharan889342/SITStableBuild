@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>CH</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>While I working on GD-1529 I identify to have to share users within the country</description>
+        <label>CH</label>
+        <sharedTo>
+            <role>Dealer_CH_Aftersales</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>Dealer_CH_Aftersales</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Call_Center</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Call Center will have access to Dealers, NSC and GME</description>
+        <label>Call Center</label>
+        <sharedTo>
+            <group>Call_Center</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>AfterSales_Users</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Germany</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>While I working on GD-1529 I identify to have to share users within the country</description>
+        <label>Germany</label>
+        <sharedTo>
+            <role>Dealer_DE_Aftersales</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>Dealer_DE_Aftersales</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>UK</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>While I working on GD-1529 I identify to have to share users within the country</description>
+        <label>UK</label>
+        <sharedTo>
+            <role>Dealer_UK_AfterSales</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>Dealer_UK_AfterSales</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

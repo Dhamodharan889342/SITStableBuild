@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Repair_Quote_Section__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>User Story: 1015
+Created by: Neha Aggrawal</description>
+    <externalId>false</externalId>
+    <label>Repair Quote Section</label>
+    <referenceTo>Repair_Quote_Section__c</referenceTo>
+    <relationshipLabel>Repair Quote Line Items</relationshipLabel>
+    <relationshipName>Repair_Quote_Line_Items</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

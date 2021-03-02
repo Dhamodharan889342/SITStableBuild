@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CheckStatusConfirmed</fullName>
+    <active>false</active>
+    <errorConditionFormula>if(text(Status)==&apos;Confirmed&apos;, 
+if(ischanged( Quantity_Received__c ), true,false),false)
+&amp;&amp;
+$Profile.Name != &quot;DIH Integration Profile&quot;</errorConditionFormula>
+    <errorMessage>As the status of this record is Confirmed, Quantity Received can not be updated now.</errorMessage>
+</ValidationRule>

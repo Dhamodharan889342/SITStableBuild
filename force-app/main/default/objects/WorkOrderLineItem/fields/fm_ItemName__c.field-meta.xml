@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fm_ItemName__c</fullName>
+    <description>Created By: Mayank Pant Created Date: 23rd Oct 2020 User Story: https://jira.hyundai-autoever.eu/browse/GD-1238 Purpose:</description>
+    <externalId>false</externalId>
+    <formula>IF (
+	RecordType.DeveloperName==&apos;Labor&apos;, Labor__r.Name,
+	IF (
+		RecordType.DeveloperName ==&apos;Part&apos;, Part__r.Name,
+		&apos;&apos;
+	)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Item Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

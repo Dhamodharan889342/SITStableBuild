@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Department_Manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>US-2375 , created by :- Riddhi mittal, on 2/17/2021</description>
+    <externalId>false</externalId>
+    <label>Department Manager</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Employee__c.Role__c</field>
+            <operation>contains</operation>
+            <value>Department Manager</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Employee__c</referenceTo>
+    <relationshipLabel>Departments (Department Manager)</relationshipLabel>
+    <relationshipName>Department_Manager</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

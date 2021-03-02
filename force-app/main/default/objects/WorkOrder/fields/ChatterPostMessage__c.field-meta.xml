@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ChatterPostMessage__c</fullName>
+    <description>Created By Mayank Pant. This field will store the chatter post message for the Job Record owner user.</description>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&quot;https://genesismotoreurope--dev.lightning.force.com/lightning/r/WorkOrder/&quot;+Id+&quot;/view&quot;,WorkOrderNumber) + &quot; is now completed. Please review &quot;+ HYPERLINK(&quot;https://genesismotoreurope--dev.lightning.force.com/lightning/r/Repair__c/&quot;+Repair__c+&quot;/view&quot;,Repair__r.Name)+&quot; if all tasks are done. When everything has been successfully completed inform &quot; + HYPERLINK(&quot;https://genesismotoreurope--dev.lightning.force.com/lightning/r/Account/&quot;+ AccountId +&quot;/view&quot;,Account.Name)+&quot; about his invoice and prepare delivery or pick-up.&quot;</formula>
+    <label>ChatterPostMessage</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

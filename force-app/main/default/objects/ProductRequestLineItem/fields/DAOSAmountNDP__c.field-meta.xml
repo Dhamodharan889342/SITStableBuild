@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DAOSAmountNDP__c</fullName>
+    <description>최종 판매가 (딜러 DC RATE 적용, 세금 미포함)</description>
+    <externalId>false</externalId>
+    <label>Amount NDP (DAOS)</label>
+    <precision>11</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

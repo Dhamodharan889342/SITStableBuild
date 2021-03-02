@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Authorized_Person_Driver_Licence_Valid__c</fullName>
+    <description>GD-2328</description>
+    <externalId>false</externalId>
+    <label>Authorized Person Driver Licence Valid</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

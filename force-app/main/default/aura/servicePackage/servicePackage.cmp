@@ -1,0 +1,280 @@
+<!--***************************************************************************
+* @author           Lee Donghu
+* @date             2019-07-30
+*
+* @group            Service
+* @group-content    Service
+*
+* @description      ServicePackage
+*****************************************************************************-->
+
+<aura:component
+        implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+        extends="c:ObjectType"
+        controller="ServicePackageController"
+        description="ServicePackage"
+        >
+<!---->
+    
+    <!-- GD-1014  default="[]"   -->
+    <aura:attribute name="itemList" type="List"  />
+    <aura:attribute name="sectionList" type="List" />
+    <aura:attribute name="sectionName" type="String" default="To be defined"/>
+    
+
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="packageList" type="List" default="[]" description="패키지 목록"/>
+    <aura:attribute name="selectedPackageList" type="List" default="[]" description="선택 패키지 목록"/>
+    <aura:attribute name="laborList" type="List" default="[]" description="공임 목록"/>
+    <aura:attribute name="partList" type="List" default="[]" description="부품 목록"/>
+    <aura:attribute name="isOpen" type="Boolean" default="false" description="Dialog 상태"/>
+
+    <aura:method name="open" action="{!c.open}" access="public" description="Dialog Open">
+        <aura:attribute name="param" type="Object"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <aura:if isTrue="{!equals(v.isOpen,true)}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+
+                 aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+
+            <div class="slds-modal__container">
+
+                <div class="modal-header slds-modal__header slds-size_1-of-1">
+
+                    <!-- <h4 class="title slds-text-heading- -medium">{!$Label.FSL.New+' '+$Label.c.RPR_LAB_Package}</h4> -->
+                    <h4 class="title slds-text-heading--medium">New {!$Label.c.RPR_LAB_Package}</h4>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div class="slds-grid slds-gutters">
+
+                        <!--
+                            LMS  - GD-1014   Package numbering not availabe in Genesis Europe  
+                            <div class="slds-col">
+                            <!- - label="{! v.ObjectType.RepairPackage__c.PackageNumber__c.label }" - ->
+                            <lightning:input type="text" name="packageNo" aura:id="packageNo"
+                                             label="*Package Number"/> - ->
+                        </div> -->
+
+                        <div class="slds-col">
+                            <!-- label="{! v.ObjectType.RepairPackage__c.Name.label }" -->
+                            <lightning:input type="text" name="packageName" aura:id="packageName"
+                                             label="*Repair Package Name"/>
+                        </div>
+                        <div class="slds-col">
+                            <lightning:input type="text" name="laborCode" aura:id="laborCode"
+                                             label="{! $Label.c.RPR_LAB_LaborCode}"/>
+                        </div>
+                        <div class="slds-col">
+                            <lightning:input type="text" name="laborName" aura:id="laborName"
+                                             label="{! $Label.c.RPR_LAB_LaborName }"/>
+                        </div>
+
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        
+                        <div class="slds-col">
+                            <lightning:input type="text" name="partNo" aura:id="partNo"
+                                             label="{! $Label.c.RPR_LAB_PartCode }"/>
+                        </div>
+                        <div class="slds-col">
+                            <lightning:input type="text" name="partName" aura:id="partName"
+                                             label="{! $Label.c.RPR_LAB_PartName }"/>
+                        </div>
+                    </div>
+
+                    <div class="slds-grid slds-gutters slds-text-align--right"
+                         style="padding-top:10px; padding-left:12px;">
+                        <lightning:button label="{! $Label.c.COM_LAB_Reset }" aura:id="aura_btn_reset" variant="brand"
+                                          onclick="{!c.reset}" class="slds-float--right"/>
+                        <lightning:button label="{! $Label.c.COM_LAB_Search }" aura:id="aura_btn_search" variant="brand"
+                                          onclick="{!c.search}" class="slds-float--right"/>
+                        <!--        <lightning:button label="Select" aura:id="aura_btn_search" variant="brand" onclick="{!c.select}" class="btn-right"/>-->
+                    </div>
+
+                    <div class="slds-card__body slds-scrollable slds-m-top_small" style="height: 135px;">
+                        <table class="slds-table slds-table_bordered slds-table_col-bordered" role="grid">
+                            <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col" style="text-align: center; width: 5%;">
+                                        {! $Label.c.COM_LAB_Number }
+                                </th>
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                        <!-- {! v.ObjectType.RepairPackage__c.PackageNumber__c.label } -->
+                                        * Package Seq
+                                </th>
+                                <th class="" scope="col" style="text-align: center;">
+                                        <!-- {! v.ObjectType.RepairPackage__c.Name.label } -->
+                                        *Repair Package Name
+                                </th>
+                                <!-- <th class="" scope="col" style="text-align: center; width: 10%;"> -->
+                                        <!-- {! v.ObjectType.RepairPackage__c.Brand__c.label } -->
+                                        <!-- *Brand -->
+                                <!-- </th> -->
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                    Model Code
+                                </th>
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                        <!-- {! v.ObjectType.RepairPackage__c.StartDate__c.label } -->
+                                        *Start Date
+                                </th>
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                        <!-- {! v.ObjectType.RepairPackage__c.EndDate__c.label } -->
+                                        *End Date
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <aura:iteration items="{!v.packageList}" var="p" indexVar="i">
+                                <tr class="slds-hint-parent">
+                                    <td role="gridcell" style="text-align: center;">
+                                            {!i + 1}
+                                    </td>
+                                    <th scope="gridcell">
+                                        <div style="text-align: center;"><a href="javascript:void(0);"
+                                                                            onclick="{! c.add }"
+                                                                            data-value="{! p.id +'#' + p.packageName }">{!p.packageNo}</a>
+                                        </div>
+                                    </th>
+                                    <td role="gridcell" class="slds-cell-wrap">
+                                        <div title="{!p.packageName}">
+                                            {!p.packageName}
+                                        </div>
+                                    </td>
+                                    <!-- <td role="gridcell">
+                                        <div style="text-align: right;">{!p.brand}</div>
+                                    </td> -->
+                                    <td role="gridcell">
+                                        <div style="text-align: center;">{!p.modelCode}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div style="text-align: center;"><lightning:formattedDateTime value="{! p.startDate}" /></div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div style="text-align: center;"><lightning:formattedDateTime value="{! p.endDate }" /></div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    ▶ {! $Label.c.RPR_LAB_Labor }
+                    <div class="slds-card__body slds-scrollable slds-m-top_small" style="height: 135px;">
+                        <table class="slds-table slds-table_bordered slds-table_col-bordered" role="grid">
+                            <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col" style="text-align: center; width: 5%;">
+                                        {! $Label.c.COM_LAB_Number }
+                                </th>
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                        <!-- {! v.ObjectType.RepairQuoteLineItem__c.fm_LaborCode__c.label } -->
+                                        *Labor Code
+                                </th>
+                                <th class="" scope="col">
+                                        <!-- {! v.ObjectType.RepairQuoteLineItem__c.fm_LaborName__c.label } -->
+                                        *Labor Name
+                                </th>
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                        <!-- {! v.ObjectType.RepairQuoteLineItem__c.Hours__c.label } -->
+                                        *Hours
+                                </th>
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                        <!-- {! v.ObjectType.RepairQuoteLineItem__c.Quantity__c.label } -->
+                                        *Quantity
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <aura:iteration items="{!v.laborList}" var="p" indexVar="i">
+                                <tr class="slds-hint-parent">
+                                    <td role="gridcell" style="text-align: center;">
+                                            {!i + 1}
+                                    </td>
+                                    <th scope="gridcell">
+                                        <div style="text-align: center;">{!p.code}</div>
+                                    </th>
+                                    <td role="gridcell" class="slds-cell-wrap">
+                                        <div>{!p.name}
+
+                                        </div>
+                                    </td>
+                                    <td role="gridcell" style="text-align: center;">
+                                            {!p.hours}
+                                    </td>
+                                    <td role="gridcell">
+                                        <div style="text-align: right;">{!p.quantity}</div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    ▶ {! $Label.c.RPR_LAB_Part }
+                    <div class="slds-card__body slds-scrollable slds-m-top_small" style="height: 135px;">
+                        <table class="slds-table slds-table_bordered slds-table_col-bordered" role="grid">
+                            <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col" style="text-align: center; width: 5%;">
+                                        {! $Label.c.COM_LAB_Number }
+                                </th>
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                        <!-- {! v.ObjectType.RepairQuoteLineItem__c.fm_PartCode__c.label } -->
+                                        *Part Code
+                                </th>
+                                <th class="" scope="col" style="text-align: center;">
+                                        <!-- {! v.ObjectType.RepairQuoteLineItem__c.fm_PartName__c.label } -->
+                                        *Part Name
+                                </th>
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                        <!-- {! v.ObjectType.RepairQuoteLineItem__c.QuantityUnitOfMeasure__c.label } -->
+                                        *Quantity Unit Of Measure
+                                </th>
+                                <th class="" scope="col" style="text-align: center; width: 10%;">
+                                        <!-- {! v.ObjectType.RepairQuoteLineItem__c.Quantity__c.label } -->
+                                        *Quantity
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <aura:iteration items="{!v.partList}" var="p" indexVar="i">
+                                <tr class="slds-hint-parent">
+                                    <td role="gridcell" style="text-align: center;">
+                                            {!i + 1}
+                                    </td>
+                                    <th scope="gridcell">
+                                        <div style="text-align: center;">{!p.code}</div>
+                                    </th>
+                                    <td role="gridcell" class="slds-cell-wrap">
+                                        <div title="{!p.name}">{!p.name}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div style="text-align: center;">{!p.measuringUnit}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div style="text-align: right;">{!p.quantity}</div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- // contents -->
+                <div class="slds-modal__footer">
+                    <lightning:button label="{! $Label.c.COM_LAB_Close }" type="button" variant="neutral"
+                                      onclick="{!c.close}"/>
+                    <lightning:button label="{! $Label.c.COM_LAB_Save }" type="button" variant="brand"
+                                      onclick="{!c.save}" disabled="{!or(v.hasError,v.saved) }"/>
+                </div>
+            </div>
+        </section>
+        <div aura:id="overlay" class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+</aura:component>

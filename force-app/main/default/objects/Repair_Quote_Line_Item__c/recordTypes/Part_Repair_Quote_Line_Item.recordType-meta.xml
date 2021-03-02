@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Part_Repair_Quote_Line_Item</fullName>
+    <active>true</active>
+    <description>Created by :- Riddhi Mittal for creating only Part(Product) in Repair Quote Line Item</description>
+    <label>Part Repair Quote Line Item</label>
+    <picklistValues>
+        <picklist>Insurer__c</picklist>
+        <values>
+            <fullName>AIG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hanhwa Life Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hyundai Marine%26Fire Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Samsung Life Insurance</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Issue_Type__c</picklist>
+        <values>
+            <fullName>Billable</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Claimable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LineItemType__c</picklist>
+        <values>
+            <fullName>Additional Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Part</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>QuantityUnitOfMeasure__c</picklist>
+        <values>
+            <fullName>EA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Each</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Created By: Manoj Kumar
+Created Date: 23/10/2020
+User Story: GD-1297
+Purpose :- After Sales record of Customer.</description>
+    <externalId>false</externalId>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Request Accepted</fullName>
+                <default>false</default>
+                <label>Request Accepted</label>
+            </value>
+            <value>
+                <fullName>Transferred</fullName>
+                <default>false</default>
+                <label>Transferred</label>
+            </value>
+            <value>
+                <fullName>Reservation Created</fullName>
+                <default>false</default>
+                <label>Reservation Created</label>
+            </value>
+            <value>
+                <fullName>On Way To Center</fullName>
+                <default>false</default>
+                <label>On Way To Center</label>
+            </value>
+            <value>
+                <fullName>Reception</fullName>
+                <default>false</default>
+                <label>Reception</label>
+            </value>
+            <value>
+                <fullName>Repair Preparation</fullName>
+                <default>false</default>
+                <label>Repair Preparation</label>
+            </value>
+            <value>
+                <fullName>Repair In Progress</fullName>
+                <default>false</default>
+                <label>Repair In Progress</label>
+            </value>
+            <value>
+                <fullName>Repair Completed</fullName>
+                <default>false</default>
+                <label>Repair Completed</label>
+            </value>
+            <value>
+                <fullName>Out For Delivery</fullName>
+                <default>false</default>
+                <label>Out For Delivery</label>
+            </value>
+            <value>
+                <fullName>On Way To Customer</fullName>
+                <default>false</default>
+                <label>On Way To Customer</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

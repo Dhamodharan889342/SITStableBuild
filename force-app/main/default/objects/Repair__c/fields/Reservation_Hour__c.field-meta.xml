@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reservation_Hour__c</fullName>
+    <description>Created By: Manoj Kumar
+Created Date: 23/10/2020
+User Story: GD-1297
+Purpose :- After Sales record of Customer.</description>
+    <externalId>false</externalId>
+    <label>Reservation Hour</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Hour</valueSetName>
+    </valueSet>
+</CustomField>

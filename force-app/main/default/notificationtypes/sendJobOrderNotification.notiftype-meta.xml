@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomNotificationType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customNotifTypeName>sendJobOrderNotification</customNotifTypeName>
+    <desktop>true</desktop>
+    <masterLabel>sendJobOrderNotification</masterLabel>
+    <mobile>true</mobile>
+</CustomNotificationType>

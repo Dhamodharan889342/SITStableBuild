@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customObject>true</customObject>
+    <description>Created By: Manoj Kumar
+Created Date: 06/11/2020
+User Story: Gd-1222
+Purpose :- After Sales service available of Customer.</description>
+    <motif>Custom20: Airplane</motif>
+</CustomTab>

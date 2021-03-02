@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fm_Icons__c</fullName>
+    <externalId>false</externalId>
+    <formula>IMAGE(&quot;/resource/repair_img/scratch_image.png&quot;, $Label.RPR_LAB_Scratch, 40, 40) + $Label.RPR_LAB_Scratch + &quot;　　&quot;
++ IMAGE(&quot;/resource/repair_img/damage_image.png&quot;, $Label.RPR_LAB_Damage, 40, 40) + $Label.RPR_LAB_Damage + &quot;　　&quot;
++ IMAGE(&quot;/resource/repair_img/dent_image.png&quot;, $Label.RPR_LAB_Dent, 40, 40) + $Label.RPR_LAB_Dent + &quot;　　&quot;
++ IMAGE(&quot;/resource/repair_img/peeling_paint_image.png&quot;, $Label.RPR_LAB_Peeling_paint, 40, 40) +$Label.RPR_LAB_Peeling_paint + &quot;　　&quot;
++ IMAGE(&quot;/resource/repair_img/crack_image.png&quot;, $Label.RPR_LAB_Crack, 40, 40) + $Label.RPR_LAB_Crack+ &quot;　　&quot;
++ IMAGE(&quot;/resource/repair_img/etc_image.png&quot;, $Label.RPR_LAB_ETC, 40, 40) + $Label.RPR_LAB_ETC + &quot;　　&quot;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Icons</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

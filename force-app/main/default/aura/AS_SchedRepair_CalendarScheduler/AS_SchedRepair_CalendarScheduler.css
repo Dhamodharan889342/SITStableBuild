@@ -1,0 +1,40 @@
+.THIS {
+    margin: 0 auto;
+}
+
+.THIS table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.THIS th {
+    font-weight: bold;
+    background-color: #dddddd;
+}
+
+.THIS th, .THIS td {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 3px;
+}
+
+.THIS td:hover {
+    background-color: #dddddd;
+}
+
+.THIS .bg-green {
+    background-color: #50c878;
+}
+
+.THIS .bg-blue {
+    background-color: #00abaf;
+}
+
+.THIS .bg-yellow {
+    background-color: #edc421;
+}
+
+.THIS .bg-red {
+    background-color: #d21f3c;
+}

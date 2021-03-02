@@ -1,0 +1,226 @@
+<!--
+Author: Neha Aggrawal
+Created Date: 18-01-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1026
+ -->
+
+<apex:page showHeader="false" standardController="StatusConfirmation__c" extensions="AS_StatusConfirmationExtension" standardStylesheets="false" renderAs="pdf" applyBodyTag="false" applyHtmlTag="false"
+        id="StatusConfirmationPDF">
+    <head>
+<style>
+
+td, th {
+  font-size: 13px;
+    }
+table {
+ width:100%
+    }
+
+td,th {
+   border: 1px solid black;
+            text-align:center;
+    }
+input[type="text"]{
+  width:20px;margin:5px;
+    }
+th.hideclass{
+   width:50%;
+    background-color:#007eff29;
+     
+    }
+</style>
+</head>
+<body>
+<div class="container">
+ <div class="row">
+        <table class="span12">
+            <thead>
+                <tr>
+                    <th><img src="{!$Resource.Logo}" height="50px" width="200px"/></th>
+                    <th><h1>Light Check-in<br/><br/><br/></h1></th>
+                    <td><br/><br/><strong>GENESIS Company Data</strong><br/>
+                    {!StatusConfirmation__c.Repair__r.Department__r.Name}<br/>
+                	{!StatusConfirmation__c.Repair__r.Department__r.Address__c}</td>
+                 
+                </tr>
+            </thead>
+        </table>
+        <table>   
+            <thead>
+            <td style=" border-right: 0 !important;">
+                <apex:repeat value="{!vehicleinfo}" var="veh">
+                       <strong>Customer Data</strong><br/>
+                        {!veh.record.Account.Name}<br/>
+                        {!veh.record.Account.PersonMobilePhone}<br/>
+                        {!veh.record.Account.PersonHomePhone}<br/>
+                        {!veh.record.Account.PersonEmail}<br/>
+                </apex:repeat>
+            </td>
+                <th style=" border-left: 0 !important;border-right: 0 !important;"></th>
+                <td  style=" border-left: 0 !important;"><strong>Pickup Expected Date and time </strong><br/>
+                    {!StatusConfirmation__c.Repair__r.Pick_Up_Date__c}</td>
+            </thead>
+       </table>
+       <table>
+            <thead>
+                <td style=" border-right: 0 !important;width:55%;"><strong>Service Request</strong><br/>
+                {!StatusConfirmation__c.Additional_Service_Request__c}</td>
+                <td style="border-left: 0 !important;"><Strong>Communication to Customer </Strong>
+                    <table style=" text-align: right;">
+                           <apex:form >
+                            <tr><th>Final Inspection Report</th><td> <apex:outputField value="{!StatusConfirmation__c.FinalInspectionReportCommunication__c}"/></td></tr>
+                            <tr>
+                                 <th>Invoice:(if needed)</th>
+                                 <td><apex:outputField value="{!StatusConfirmation__c.Invoice__c}"/> 
+                                 </td>
+                           </tr>
+                           </apex:form>
+                    </table>
+				</td>
+            </thead>
+		 </table>   
+     <table>
+            <thead>
+                <th>
+                    <h2> Car Data</h2>
+                    Brand: Genesis
+                    <apex:pageBlock >
+                  		<apex:pageBlockTable value="{!vehicleinfo}" var="r">
+							<apex:column value="{!r.record.Vehicle_Model_LTM__r.Model__c}"> </apex:column>
+                        	<apex:column value="{!r.record.Vehicle_Model_LTM__r.Engine_Capacity__c}"></apex:column>
+                            <apex:column value="{!r.record.Model_year__c}"></apex:column>
+                            <apex:column value="{!r.record.Vehicle_Model_LTM__r.Fuel_Type__c}"></apex:column>
+                            <apex:column value="{!r.record.Color__c}"></apex:column>
+                            <apex:column value="{!r.record.Latest_Mileage__c}"></apex:column>
+                            <apex:column value="{!r.record.Licence_plate_after_registration__c}"></apex:column>
+                       		<apex:column value="{!r.record.VIN__c}"></apex:column>
+                        </apex:pageBlockTable></apex:pageBlock>
+               
+                </th>
+         </thead>
+   </table>
+        <table>
+            
+                <thead>
+                    <th style="width:50%;background-color:#0080005c;"><h1>
+                        PICKUP
+                        </h1>
+                    </th>
+                    <apex:outputPanel rendered="{!showDeliverySection}">
+                    <th class="hideclass"><h1>
+                        DELIVERY
+                        </h1>
+                    </th></apex:outputPanel>
+                </thead>
+            <td style="background-color:#0080005c;">
+                    <strong>Check-in PICK-UP</strong><br/><br/>
+                    <strong>Vehicle State</strong><br/>
+                	<apex:form >
+                    Interior Inspected:   <apex:outputField value="{!StatusConfirmation__c.Pickup_Interior_Inspected__c}"/><br/>
+                    Exterior Inspected:   <apex:outputField value="{!StatusConfirmation__c.Pickup_Exterior_Inspected__c}"/><br/>
+                	</apex:form>
+                    <strong>Notes from valet (PICKUP)</strong><br/>
+                  	{!StatusConfirmation__c.PickupNotesfromValet__c}<br/><br/>
+                   <strong> Walk Around Inspection (PICKUP</strong>)<br/><br/>
+                   <img src="{!IF(
+                                ISBLANK( StatusConfirmation__c.OutsideCheckId__c ),
+                                "/resource/1550106869000/repair_car_empty",
+                                "/servlet/servlet.FileDownload?file=" + StatusConfirmation__c.OutsideCheckId__c + "&operationContext=S1")
+                               }" width="200px" height="100px"/> <br/>
+                    <strong>VALET Signature and date (PICKUP)</strong><br/><br/>
+                     <img src="{!IF(
+                                ISBLANK( StatusConfirmation__c.SignatureId__c ),
+                               "/resource/1610976891000/No_Image",
+                                "/servlet/servlet.FileDownload?file=" + StatusConfirmation__c.SignatureId__c + "&operationContext=S1")
+                               }" width="200px" height="100px"/> <br/>
+                   {!StatusConfirmation__c.CreatedDate} <br/>
+                    {!StatusConfirmation__c.CreatedBy.Name}<br/><br/>
+                    <strong>CUSTOMER Signature and date (PICKUP)</strong><br/><br/>
+                    <img src="{!IF(
+                                ISBLANK( StatusConfirmation__c.CustomerSignatureId__c ),
+                              "/resource/1610976891000/No_Image",
+                                "/servlet/servlet.FileDownload?file=" + StatusConfirmation__c.CustomerSignatureId__c + "&operationContext=S1")
+                               }" width="200px" height="100px"/> <br/>
+                     {!StatusConfirmation__c.CreatedDate} <br/>
+                <apex:repeat value="{!vehicleinfo}" var="veh">
+                     {!veh.record.Account.Name}<br/><br/>
+                </apex:repeat>
+                     <div style="{!IF(ISBLANK( StatusConfirmation__c.Pickup_On_Behalf_SignatureId__c),'display:none','')}">
+                    <strong>On behalf of Customer</strong><br/><br/>
+                    <img src="{!IF(
+                                ISBLANK( StatusConfirmation__c.Pickup_On_Behalf_SignatureId__c ),
+                              "",
+                                "/servlet/servlet.FileDownload?file=" + StatusConfirmation__c.Pickup_On_Behalf_SignatureId__c + "&operationContext=S1")
+                               }" width="200px" height="100px"/> <br/>
+                         {!StatusConfirmation__c.Pickup_Signer_onbehalf__c}</div><br/><br/>
+                    <strong>Date and time(PICKUP)</strong><br/>
+                     {!StatusConfirmation__c.CreatedDate}
+                
+           </td>
+            <apex:outputPanel rendered="{!showDeliverySection}">
+            <td style="background-color:#007eff29;">  <strong>Check-in DELIVERY</strong><br/><br/>
+               <strong> Vehicle State</strong><br/>
+                <apex:form >
+                    Interior Inspected:  <apex:outputField value="{!StatusConfirmation__c.Delivery_Interior_Inspected__c}" /><br/>
+                    Exterior Inspected:  <apex:outputField value="{!StatusConfirmation__c.Delivery_Exterior_Inspected__c}" /><br/><br/>
+                    <strong>Documentation</strong><br/>
+                    A. Copy of Repair Order: (inside cabin): <apex:outputField value=" {!StatusConfirmation__c.Copy_of_Repair_Order__c}"/><br/>
+                    B. Copy of Invoice: (if needed):  <apex:outputField value="{!StatusConfirmation__c.Copy_of_Invocie__c}"/><br/>
+                    C. Hanger CSI (Cust.Satisfac. Survey/ NPS):  <apex:outputField value="{!StatusConfirmation__c.Hanger_CSI_Customer_Satisfaction_Survey__c}"/><br/> 
+                </apex:form>
+                <strong>Notes from valet (DELIVERY)</strong><br/>
+            	{!StatusConfirmation__c.DeliveryNotesfromValet__c}<br/><br/>
+                <strong>Walk Around Inspection (DELIVERY)</strong><br/><br/>
+                <img src="{!IF(
+                            ISBLANK( StatusConfirmation__c.Delivery_OutsideCheckId__c ),
+                            "/resource/1550106869000/repair_car_empty",
+                            "/servlet/servlet.FileDownload?file=" + StatusConfirmation__c.Delivery_OutsideCheckId__c + "&operationContext=S1")
+                           }" width="200px" height="100px"/> <br/>
+              
+               <strong> VALET Signature and date (DELIVERY)</strong><br/><br/>
+                 <img src="{!IF(
+                            ISBLANK( StatusConfirmation__c.Delivery_DriverSignatureId__c ),
+                           "/resource/1610976891000/No_Image",
+                            "/servlet/servlet.FileDownload?file=" + StatusConfirmation__c.Delivery_DriverSignatureId__c + "&operationContext=S1")
+                           }" width="200px" height="100px"/> <br/>
+              
+                {!StatusConfirmation__c.Delivery_DateTime__c} <br/>
+                {!StatusConfirmation__c.CreatedBy.Name}<br/><br/>
+                <strong>CUSTOMER Signature and date (DELIVERY)</strong><br/><br/>
+                 <img src="{!IF(
+                            ISBLANK( StatusConfirmation__c.Delivery_CustomerSignatureId__c ),
+                           "/resource/1610976891000/No_Image",
+                            "/servlet/servlet.FileDownload?file=" + StatusConfirmation__c.Delivery_CustomerSignatureId__c + "&operationContext=S1")
+                           }" width="200px" height="100px"/> <br/>
+                 {!StatusConfirmation__c.Delivery_DateTime__c} <br/>
+                <apex:repeat value="{!vehicleinfo}" var="veh">
+                {!veh.record.Account.Name}<br/><br/>
+                </apex:repeat>
+               <div style="{!IF(ISBLANK( StatusConfirmation__c.Delivery_on_Behalf_SignatureId__c),'display:none','')}">
+                   
+                
+                 <strong>On behalf of Customer</strong><br/>
+                  <img src="{!IF(
+                            ISBLANK( StatusConfirmation__c.Delivery_on_Behalf_SignatureId__c ),
+                            "",
+                            "/servlet/servlet.FileDownload?file=" + StatusConfirmation__c.Delivery_on_Behalf_SignatureId__c + "&operationContext=S1")
+                           }" width="200px" height="100px"/> <br/>
+                {!StatusConfirmation__c.Delivery_Signer_Name_on_behalf__c}</div><br/><br/>
+                <strong>Date and time(DELIVERY)</strong><br/>
+                {!StatusConfirmation__c.Delivery_DateTime__c}
+            </td>
+            </apex:outputPanel>
+        </table>
+        <table>
+            
+            <thead>
+              <td> <Strong>Legal Text: </Strong> {!StatusConfirmation__c.Legal_Texts__c}</td><br/>
+               <td><Strong>GDPR Text: </Strong>{!StatusConfirmation__c.GDPR_Legal_Texts__c}</td>
+                
+            </thead>
+        </table>
+    </div>
+   
+</div>
+</body>
+</apex:page>

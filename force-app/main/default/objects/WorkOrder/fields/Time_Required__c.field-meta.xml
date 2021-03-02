@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Time_Required__c</fullName>
+    <description>Created By: Mayank Pant
+Created Date: 27th Nov 2020
+Purpose: This field will store the time required to do the job.</description>
+    <externalId>false</externalId>
+    <label>Time Required (Hrs)</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

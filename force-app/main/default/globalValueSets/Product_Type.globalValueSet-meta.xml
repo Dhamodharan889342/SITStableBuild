@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Vehicle</fullName>
+        <default>false</default>
+        <label>Vehicle</label>
+    </customValue>
+    <customValue>
+        <fullName>Subscription</fullName>
+        <default>false</default>
+        <label>Subscription</label>
+    </customValue>
+    <customValue>
+        <fullName>Option</fullName>
+        <default>false</default>
+        <label>Option</label>
+    </customValue>
+    <customValue>
+        <fullName>Color</fullName>
+        <default>false</default>
+        <label>Color</label>
+    </customValue>
+    <customValue>
+        <fullName>Part</fullName>
+        <default>false</default>
+        <label>Part</label>
+    </customValue>
+    <customValue>
+        <fullName>Labor</fullName>
+        <default>false</default>
+        <label>Labor</label>
+    </customValue>
+    <customValue>
+        <fullName>Promotion</fullName>
+        <default>false</default>
+        <label>Promotion</label>
+    </customValue>
+    <customValue>
+        <fullName>Tax</fullName>
+        <default>false</default>
+        <label>Tax</label>
+    </customValue>
+    <customValue>
+        <fullName>Genuine Part</fullName>
+        <default>false</default>
+        <label>Genuine Part</label>
+    </customValue>
+    <customValue>
+        <fullName>Compatible Part</fullName>
+        <default>false</default>
+        <label>Compatible Part</label>
+    </customValue>
+    <customValue>
+        <fullName>Consumable Part</fullName>
+        <default>false</default>
+        <label>Consumable Part</label>
+    </customValue>
+    <customValue>
+        <fullName>Package</fullName>
+        <default>false</default>
+        <label>Package</label>
+    </customValue>
+    <description>Created By: Mayank Pant
+Created Date: 23rd Oct 2020
+User Story: https://jira.hyundai-autoever.eu/browse/GD-1238
+Purpose:</description>
+    <masterLabel>Product Type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

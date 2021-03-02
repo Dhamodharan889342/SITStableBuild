@@ -1,0 +1,332 @@
+<!--
+Author: Neha Aggrawal
+Created Date: 28-01-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1257
+-->
+
+<apex:page showHeader="false" standardController="Vehicle_Inspection_Report__c" extensions="AS_VehicleInspectionExtension" standardStylesheets="false" renderAs="pdf" applyBodyTag="false">
+ 
+    <head>
+<style>
+
+td, th {
+  width: 25%;
+    }
+table {
+ width:100%
+    }
+
+td,th,thead {
+   border: 1px solid black;
+            
+    }
+input[type="text"]{
+  width:20px;margin:5px;
+    }
+
+ 	 .header{
+    background-color: #000080;
+    color:white;
+    
+    margin-bottom:1px;
+    border: 3px solid white;
+    padding: 3px;    
+}  
+    .sideheader{
+   
+    writing-mode: vertical-lr;
+    background-color: #5499C7;
+    color:white;
+    padding: 7px;
+    
+}
+   .td .section{
+    
+    color:white;
+    width:50%;
+    margin-bottom:1px;
+    border: 1px solid grey;
+    padding: 1px;
+}
+    .radiosection{
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left:10px;
+    color:black;
+    
+}
+
+        </style>
+</head>
+<body>
+<div class="container">
+ <div class="row">
+        <table class="span12">
+            <thead>
+                <tr>
+                    <th><img src="{!$Resource.Logo}" height="50px" width="200px"/><br/>
+                        {!Vehicle_Inspection_Report__c.Service_Booking__r.Department__r.LegalCompanyDataPackage__c}</th>
+                    <th><h1>Vehicle Health Check<br/><br/><br/></h1></th>
+                    <td><br/><br/><strong>GENESIS Company Data</strong><br/>
+                    {!Vehicle_Inspection_Report__c.Service_Booking__r.Department__r.Name}<br/>
+                	{!Vehicle_Inspection_Report__c.Service_Booking__r.Department__r.Address__c}</td>
+                 
+                </tr>
+            </thead>
+        </table>
+        <table>   
+            <thead>
+            <td style=" border-right: 0 !important;">
+                <apex:repeat value="{!vehicleInsinfo}" var="veh">
+                       <strong>Customer Data</strong><br/>
+                        {!veh.record.Account.Name}<br/>
+                        {!veh.record.Account.PersonMobilePhone}<br/>
+                        {!veh.record.Account.PersonHomePhone}<br/>
+                        {!veh.record.Account.PersonEmail}<br/>
+                </apex:repeat>
+            </td>
+                <th style=" border-left: 0 !important;border-right: 0 !important;"></th>
+                <td  style=" border-left: 0 !important;"><strong>Date and time </strong><br/>
+                    {!Vehicle_Inspection_Report__c.CreatedDate}</td>
+            </thead>
+       </table>
+     
+     <table>
+            <thead>
+                <th>
+                    <center> <h2> Car Data</h2>
+                    Brand: Genesis</center> 
+                    <apex:pageBlock >
+                  		<apex:pageBlockTable value="{!vehicleInsinfo}" var="r">
+							<apex:column value="{!r.record.Vehicle_Model_LTM__r.Model__c}"> </apex:column>
+                        	<apex:column value="{!r.record.Vehicle_Model_LTM__r.Engine_Capacity__c}"></apex:column>
+                            <apex:column value="{!r.record.Model_year__c}"></apex:column>
+                            <apex:column value="{!r.record.Vehicle_Model_LTM__r.Fuel_Type__c}"></apex:column>
+                            <apex:column value="{!r.record.Color__c}"></apex:column>
+                            <apex:column value="{!r.record.Latest_Mileage__c}"></apex:column>
+                            <apex:column value="{!r.record.Licence_plate_after_registration__c}"></apex:column>
+                       		<apex:column value="{!r.record.VIN__c}"></apex:column>
+                        </apex:pageBlockTable></apex:pageBlock>
+               
+                </th>
+         </thead>
+   </table>
+        <table>
+            
+            <td>  
+              
+                   
+                  <center><strong> Walk Around Inspection </strong><br/><br/>
+                   <img src="{!IF(
+                                ISBLANK( Vehicle_Inspection_Report__c.Vehicle_Condition_Report__r.OutsideCheckId__c ),
+                                "/resource/1550106869000/repair_car_empty",
+                                "/servlet/servlet.FileDownload?file=" + Vehicle_Inspection_Report__c.Vehicle_Condition_Report__r.OutsideCheckId__c + "&operationContext=S1")
+                               }" width="200px" height="100px"/> <br/></center> 
+					</td>                    
+ 			</table>
+             <table class="slds-table slds-table--bordered">
+            <tr class="slds-text-heading--label">
+                <td colspan="3"><center><div style="background-color:#000080;color:white;">MULTI-POINT INSPECTION REPORT</div>
+				</center></td></tr>
+            <tr class="slds-text-heading--label">
+                <td class="slds-row-select" >
+                    <img src="{!$Resource.VehicleInspectionReport_Greenbox}" style="height:25px; width:25px"/> &nbsp; CHECKED and OK
+                </td>
+                <td class="slds-row-select">
+                    <img src="{!$Resource.VehicleInspectionReport_yellow}" style="height:25px; width:25px"/> &nbsp; WILL REQUIRE FUTURE ATTENTION
+                </td>
+                <td class="slds-row-select">
+                    <img src="{!$Resource.VehicleInspectionReport_redbox}" style="height:25px; width:25px"/> &nbsp; REQUIRES IMMEDIATE ATTENTION
+                </td>
+            </tr>
+            <tr class="slds-text-heading--label">
+                <td class="slds-row-select" colspan="2">
+                    <img src="{!$Resource.VehicleInspectionReport_Leaf}" style="height:30px; width:30px"/> &nbsp;May contribute to vehicle efficiency and a green enviroment
+                </td>
+                <td class="slds-row-select">
+                    <img src="{!$Resource.VehicleInspectionReport_W}" style="height:30px; width:30px"/> &nbsp;Maintenance Wear Item
+                </td>
+            </tr>
+        </table>
+   <table style="height:35px;">
+       <tr><td></td></tr>
+     </table>
+     
+     	<table class="slds-table slds-table--bordered">
+            <tr class="slds-text-heading--label">
+                <td class="header">INSPECTION POINTS</td>
+                <td class="header">TYRES and BRAKES &nbsp;
+                    <img src="{!$Resource.VehicleInspectionReport_Leaf}" style="height:20px; width:20px"/>
+                    <img src="{!$Resource.VehicleInspectionReport_W}" style="height:20px; width:20px"/>
+                </td>
+            </tr>
+            <tr class="slds-text-heading--label">
+                <td class="section">
+             <div style="width:15%;float:left;"><img src="{!$Resource.Exterior}" style="height:120px; width:40px"/>
+                    </div> <div style="width:85%;float:left;">
+                        <br/>
+                     <apex:image id="theImage1" value="{!If(Vehicle_Inspection_Report__c.Head_Lights_Fog_Lights_Turn_Signals__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Head_Lights_Fog_Lights_Turn_Signals__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Head_Lights_Fog_Lights_Turn_Signals__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/>
+                    Head Lights/Fog Lights/Turn Signals <br/>
+                    <apex:image id="theImage2" value="{!If(Vehicle_Inspection_Report__c.Tail_Brake_Licence_Plate_Lights__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Tail_Brake_Licence_Plate_Lights__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Tail_Brake_Licence_Plate_Lights__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/>
+                    Tail Lights/Brake Lights/Licence Plate Lights<br/>
+                    <apex:image id="theImage3" value="{!If(Vehicle_Inspection_Report__c.Wiper_Blades__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Wiper_Blades__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Wiper_Blades__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/>
+                    Wiper Blades - Condition/Operation<br/>
+                    <apex:image id="theImage4" value="{!If(Vehicle_Inspection_Report__c.Windshield__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Windshield__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Windshield__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/>
+                    Windshield (cracks,chips, pitting) <img src="{!$Resource.VehicleInspectionReport_W}" style="height:20px; width:20px"/>
+                    </div>
+                    </td>
+	
+                <td class="section">
+              <div style="width:20%;float:left;"><img src="{!$Resource.Left_Front}" style="height:120px; width:40px"/> 
+                    </div>
+                    <div style="width:65%;float:left;">
+                        <br/>
+               {!Vehicle_Inspection_Report__c.kPa_Left_Front__c}  &nbsp;-kPa- &nbsp;{!Vehicle_Inspection_Report__c.kPa_Right_Front__c}<br/><br/>
+                         <apex:image id="theImage5" value="{!If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Left_Front__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Left_Front__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Left_Front__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/>
+                    Tyre Tread <apex:image style="padding-left:5px;" id="theImage6" value="{!If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Right_Front__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Right_Front__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Right_Front__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/><br/>
+                         <apex:image id="theImage7" value="{!If(Vehicle_Inspection_Report__c.Brake_Lining_Left_Front__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Brake_Lining_Left_Front__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Brake_Lining_Left_Front__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/>
+                   Brake Lining <apex:image style="padding-left:5px;" id="theImage8" value="{!If(Vehicle_Inspection_Report__c.Brake_Lining_Right_Front__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Brake_Lining_Right_Front__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Brake_Lining_Right_Front__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/><br/>
+                  {!Vehicle_Inspection_Report__c.Tyre_Tread_Depth_mm_Left_Front__c} &nbsp;- Tyre Tread Depth -&nbsp; {!Vehicle_Inspection_Report__c.Tyre_Tread_Depth_mm_Right_Front__c}
+                    </div>
+                    <div style="width:15%;float:right;">
+                    <img src="{!$Resource.Right_front}" style="height:120px; width:40px"/> </div>
+                    
+			</td> 
+		 </tr>
+        </table> 
+     <table class="slds-table slds-table--bordered">
+            
+            <tr class="slds-text-heading--label">
+                <td class="section">
+                    <div style="width:20%;float:left;"><img src="{!$Resource.Interior}" style="height:120px; width:40px"/> </div>
+                    <br/><br/>
+                     <div style="width:65%;float:left;">  <apex:image id="theImage9" value="{!If(Vehicle_Inspection_Report__c.Horn_Interior_Lights__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Horn_Interior_Lights__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Horn_Interior_Lights__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/> Horn (Operation)/Interior Lights <br/>
+                         <apex:image id="theImage10" value="{!If(Vehicle_Inspection_Report__c.Heating_AC__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Heating_AC__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Heating_AC__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/> Heat/A/C System</div>
+                </td>
+             
+                <td class="section">
+                    <div style="width:20%;float:left;">
+                        <img src="{!$Resource.Left_Rear}" style="height:120px; width:40px"/> 
+                    </div>
+                <div style="width:65%;float:left;">
+                        <br/>
+                 {!Vehicle_Inspection_Report__c.kPa_Left_Rear__c} &nbsp;- &nbsp;kPa &nbsp;- &nbsp;{!Vehicle_Inspection_Report__c.kPa_Right_Rear__c}<br/><br/>
+                     <apex:image id="theImage11" value="{!If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Left_Rear__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Left_Rear__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Left_Rear__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/>
+                    Tyre Tread <apex:image id="theImage12" style="padding-left:5px;" value="{!If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Right_Rear__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Right_Rear__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Tyre_Tread_Depth_Right_Rear__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/><br/>
+                   <apex:image id="theImage13" value="{!If(Vehicle_Inspection_Report__c.Brake_Lining_Left_Rear__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Brake_Lining_Left_Rear__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Brake_Lining_Left_Rear__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/>
+                    Brake Lining <apex:image style="padding-left:5px;" id="theImage14" value="{!If(Vehicle_Inspection_Report__c.Brake_Lining_Right_Rear__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Brake_Lining_Right_Rear__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Brake_Lining_Right_Rear__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/><br/>
+                     {!Vehicle_Inspection_Report__c.Tyre_Tread_Depth_mm_LeftRear__c} &nbsp;- Tyre Tread Depth -&nbsp; {!Vehicle_Inspection_Report__c.Tyre_Tread_Depth_mm_Right_Rear__c}
+                    </div>
+                    <div style="width:15%;float:right;">
+                    		<img src="{!$Resource.Right_rear}" style="height:120px; width:40px"/>
+                    </div>
+                    			</td> 
+            </tr>
+        </table> 
+        <table class="slds-table slds-table--bordered">
+            
+            <tr class="slds-text-heading--label">
+                <td class="section">
+                    <div style="width:15%;float:left;">
+                        <img src="{!$Resource.Battery}" style="height:120px; width:40px"/></div>
+                    <div style="width:85%;float:left;"><br/><br/>
+                         <apex:image id="theImage15" value="{!If(Vehicle_Inspection_Report__c.Battery_Performance__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Battery_Performance__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Battery_Performance__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/> Battery Performance 
+                        <img src="{!$Resource.VehicleInspectionReport_W}" style="height:20px; width:20px"/><br/>
+                        (attach battery test results) </div>
+                        
+                </td>
+                
+                <td class="section">
+                    <div style="width:15%;float:left;">
+                        <img src="{!$Resource.Spare}" style="height:120px; width:40px"/> </div>
+                    <div style="width:85%;float:left;"><br/><br/>
+                      {!Vehicle_Inspection_Report__c.kPa_Spare__c}  &nbsp;- &nbsp; kPa set to Factory Spec<br/></div>
+                </td>
+            </tr>
+        </table> 
+         <table class="slds-table slds-table--bordered">
+            
+            <tr class="slds-text-heading--label">
+                <td class="section">
+                    <div style="width:15%;float:left;">
+                    <img src="{!$Resource.Under_bonnet}" style="height:120px; width:40px"/>
+                    </div><div style="width:85%;float:left;"><br/>
+                     <apex:image id="theImage16" value="{!If(Vehicle_Inspection_Report__c.Cooling_System__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Cooling_System__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Cooling_System__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/> Battery Performance 
+               Cooling System (check for visible leaks and damage) <br/>
+                     <apex:image id="theImage17" value="{!If(Vehicle_Inspection_Report__c.Radiator_Heater_AC_hoses__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Radiator_Heater_AC_hoses__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Radiator_Heater_AC_hoses__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/> Battery Performance 
+                Radiator/Heater/A/C hoses <br/>
+                     <apex:image id="theImage18" value="{!If(Vehicle_Inspection_Report__c.Drive_Belts__c == "CHECKED AND OK", $Resource.VehicleInspectionReport_Greenbox, If(Vehicle_Inspection_Report__c.Drive_Belts__c =="REQUIRES IMMEDIATE ATTENTION", $Resource.VehicleInspectionReport_redbox, If(Vehicle_Inspection_Report__c.Drive_Belts__c =="WILL REQUIRE FUTURE ATTENTION", $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/> Battery Performance 
+                    Drive Belts  <img src="{!$Resource.VehicleInspectionReport_W}" style="height:20px; width:20px"/></div>
+                </td>
+                <td style="padding:10px;">Uneven Tyre Wear: <apex:outputField value="{!Vehicle_Inspection_Report__c.Uneven_Tyre_Wear__c}"/> <br/><br/>
+                   <div style="{!IF(ISBLANK( Vehicle_Inspection_Report__c.Tyre_Wear__c),'display:none','')}"> 
+                    We recommend: <br/>
+                    <!--<apex:outputText escape="false" value="<li>{!SUBSTITUTE(Vehicle_Inspection_Report__c.Tyre_Wear__c,';','<li/>')}"/>-->
+                       {!Vehicle_Inspection_Report__c.Tyre_Wear__c}
+                          
+                           
+                       
+                    </div>
+                </td>
+            </tr>
+        </table> 
+     <table>
+         <tr>
+         <td>
+             </td><td class="header">
+                    <apex:outputField value="{!Vehicle_Inspection_Report__c.Brakemeasurementsnotakenthisservicevisit__c}"/>Brake Measurements not taken this service visit. <br/>
+            			
+             	
+                </td>
+         
+         </tr>
+         
+     </table>
+        <table class="slds-table slds-table--bordered">
+            
+            <tr class="slds-text-heading--label">
+                 <td class="section">
+					<div style="width:20%;float:left;">
+                        <img src="{!$Resource.iCare}" style="height:120px; width:40px"/>
+                     </div>
+                     <div style="width:80%;float:right;"><br/>
+				
+                         {!Vehicle_Inspection_Report__c.iCare__c} <br/>
+                          <div style="{!IF(ISBLANK( Vehicle_Inspection_Report__c.Customer_s_Radio_Station__c),'display:none','')}"> 
+                          : <apex:outputField value="{!Vehicle_Inspection_Report__c.Customer_s_Radio_Station__c}"/> 
+                         </div>
+                
+                </div>
+                </td>
+                <td><center>
+            	 Brake pads <apex:image id="theImage20" style="padding-left:10px;" value="{!If(AND(NOT(ISBLANK(Vehicle_Inspection_Report__c.Brake_Pads_Measurement__c)),Vehicle_Inspection_Report__c.Brake_Pads_Measurement__c <1), $Resource.VehicleInspectionReport_Greenbox, If(AND(NOT(ISBLANK(Vehicle_Inspection_Report__c.Brake_Pads_Measurement__c)),Vehicle_Inspection_Report__c.Brake_Pads_Measurement__c >5), $Resource.VehicleInspectionReport_redbox, If(and(NOT(ISBLANK(Vehicle_Inspection_Report__c.Brake_Pads_Measurement__c)),Vehicle_Inspection_Report__c.Brake_Pads_Measurement__c >=1,Vehicle_Inspection_Report__c.Brake_Pads_Measurement__c <=5), $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/>  <br/>
+             	Brake Shoes <apex:image id="theImage21" style="padding-left:10px;" value="{!If(AND(NOT(ISBLANK(Vehicle_Inspection_Report__c.Brake_Shoes_Measurement__c)),Vehicle_Inspection_Report__c.Brake_Shoes_Measurement__c<1) , $Resource.VehicleInspectionReport_Greenbox, If(AND(NOT(ISBLANK(Vehicle_Inspection_Report__c.Brake_Shoes_Measurement__c)),Vehicle_Inspection_Report__c.Brake_Shoes_Measurement__c >3), $Resource.VehicleInspectionReport_redbox, If(and(NOT(ISBLANK(Vehicle_Inspection_Report__c.Brake_Shoes_Measurement__c)),Vehicle_Inspection_Report__c.Brake_Shoes_Measurement__c >=1,Vehicle_Inspection_Report__c.Brake_Shoes_Measurement__c <=3), $Resource.VehicleInspectionReport_yellow,null)))}" width="10" height="10"/><br/>
+                    </center>
+                </td>
+      
+            </tr>
+        </table>
+
+       <table>
+         
+         <td><center>
+         <strong>Workshop Signature</strong><br/><br/>
+                    <img src="{!IF(
+                                ISBLANK( Vehicle_Inspection_Report__c.WorkshopSignatureId__c ),
+                              "/resource/1610976891000/No_Image",
+                                "/servlet/servlet.FileDownload?file=" + Vehicle_Inspection_Report__c.WorkshopSignatureId__c + "&operationContext=S1")
+                               }" width="200px" height="100px"/> <br/>
+             </center></td>
+     </table>
+        <table>
+		 <thead>
+              <td> <Strong>Legal Text: </Strong> {!Vehicle_Inspection_Report__c.Legal_Text_DPA__c}</td><br/>
+               <td><Strong>GDPR Text: </Strong>{!Vehicle_Inspection_Report__c.Legal_Text_Terms_Conditions__c}</td>
+                
+            </thead>
+        </table>
+    </div>
+   
+</div>
+</body>
+</apex:page>

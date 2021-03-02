@@ -1,0 +1,102 @@
+<!--
+ 
+Author: Neha Aggrawal
+Created Date: 15-01-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1026
+-->
+
+<aura:component
+        controller="AS_Signature"
+        extends="c:ObjectType"
+        implements="force:hasRecordId,force:lightningQuickActionWithoutHeader"
+        description="Signature">
+
+
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .slds-modal__container{
+        max-width:none;
+        height:100%;
+        }
+        .repair-scroll{
+        height: 65vh !important;
+        max-height: 100%;
+        overflow: hidden;
+        overflow-y: auto !important;
+        }
+
+    </aura:html>
+    
+    <aura:attribute name="options" type="List" default="[
+    {'label': 'Driver Signature', 'value': 'Driver'},
+    {'label': 'Customer Signature', 'value': 'Customer'},
+     {'label': 'Signer on behalf of Customer', 'value': 'Signer_On_Behalf'}
+    ]"/>
+    <aura:attribute name="value" type="String" default="Driver"/>
+    <aura:attribute name="recordTypeName" type="String"/>
+	<aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="signername" type="String"/>
+	<aura:attribute type="Boolean" default="true" name="showRadioScreen"/>
+    <aura:attribute type="Boolean" default="false" name="showsignerfield"/>
+    <aura:attribute type="Boolean" default="false" name="showerror"/>
+	<aura:attribute name="errormessage" type="String"/>    
+    <aura:attribute name="selectedoption" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+	<aura:if isTrue="{!v.showRadioScreen}">
+        <div id="radio_screen">
+        <div class="modal-header slds-modal__header slds-size_1-of-1">
+            <h4 class="title slds-text-heading--medium">{!v.recordTypeName} Signature</h4>
+        </div>
+        <!-- Radio options to allow user to take signature from driver, customer or signer on behalf of customer-->
+        <div style="border: 1px solid #ccc;" class="slds-m-around--medium">
+        <lightning:radioGroup aura:id="radiooptions" style="padding: 20px;" name="selection"
+                              label="Select option"
+                              options="{! v.options }"
+                              value="{! v.value }"
+                              type="radio" required="true"/>
+        </div>
+        
+        <div class="slds-modal__footer slds-size_1-of-1">
+            <lightning:button label="{!$Label.c.COM_LAB_Next}" variant="brand" onclick="{!c.doNext}"/>
+            <lightning:button label="{!$Label.c.COM_LAB_Cancel}" onclick="{!c.doCancel}"/>
+        </div>
+        </div>
+    </aura:if>  
+    <aura:if isTrue="{!not(v.showRadioScreen)}">
+    <div id="signature_canvas">
+        <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <h4 class="title slds-text-heading--medium">{!v.recordTypeName} Signature</h4>
+    	</div>
+        <!-- in case of signer on behalf of customer, also take Signer Name-->
+        <aura:if isTrue="{!v.showsignerfield}">
+               <lightning:input aura:id="Signer_name" required="true" style="width:300px;margin-left:20px;" label="Signer Name and Signature" value=""/>
+            </aura:if>
+        <div style="border: 1px solid #ccc;" class="slds-m-around--medium">
+           
+           
+            <canvas aura:id="padd" style="height:200px; width:100%;" class="slds-align_absolute-center" required="true"></canvas>
+        </div>
+        <ltng:require scripts="{!$Resource.SignaturePad + '/js/signature_pad.js'}" afterScriptsLoaded="{!c.doInit}"/>
+         <aura:if isTrue="{!v.showerror}">
+        <div>
+            <ui:message title="Error" severity="error" closable="false">
+               {!v.errormessage}
+            </ui:message></div>
+    </aura:if>   
+        <div class="slds-modal__footer slds-size_1-of-1">
+            <lightning:button label="{!$Label.c.COM_LAB_Save}" variant="brand" onclick="{!c.doSave}"/>
+            <lightning:button label="{!$Label.c.COM_LAB_Cancel}" onclick="{!c.doCancel}"/>
+        </div>
+    </div>
+    </aura:if>
+</aura:component>

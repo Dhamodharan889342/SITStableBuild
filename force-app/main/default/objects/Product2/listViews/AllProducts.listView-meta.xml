@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AllProducts</fullName>
+    <columns>SAPKey__c</columns>
+    <columns>PRODUCT2.NAME</columns>
+    <columns>SalesCompanyCode__c</columns>
+    <columns>FSC__c</columns>
+    <columns>LanguageCode__c</columns>
+    <columns>ValidToDate__c</columns>
+    <columns>PRODUCT2.CUSTOMER_PRODUCT_ID</columns>
+    <columns>PRODUCT2.DESCRIPTION</columns>
+    <columns>PRODUCT2.FAMILY</columns>
+    <columns>PRODUCT2.LAST_UPDATE</columns>
+    <columns>PRODUCT2.CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Masterfile</label>
+</ListView>

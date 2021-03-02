@@ -1,0 +1,12 @@
+.THIS .slds-modal__container{
+    max-width: 90rem !important;
+    width: 95% !important;
+}
+
+.THIS .slds-dueling-list__column_responsive {
+    min-width: 48%;
+}
+
+.THIS .slds-dueling-list__column_responsive .slds-dueling-list__options {
+    min-width: 100%;
+}

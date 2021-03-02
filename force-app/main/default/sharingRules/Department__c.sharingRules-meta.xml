@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>AfterSalesDepartmentSR</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>This sharing rule will give access of aftersales departments to all aftersales users.</description>
+        <label>AfterSalesDepartmentSR</label>
+        <sharedTo>
+            <group>AfterSales_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Department_Type__c</field>
+            <operation>equals</operation>
+            <value>GOC (Genesis operation center),GFT (Genesis fast track),Service</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>DepartmentAccessToGTAGermany</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>This sharing rule will provide access of all departments of Germany to a  Germany GTA&#39;s. This rule will also automatically provide access to NSC and GME&#39;s via role hierarchy.</description>
+        <label>DepartmentAccessToGTAGermany</label>
+        <sharedTo>
+            <role>GTA_DE</role>
+        </sharedTo>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Germany</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Center</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>NSC Department</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>DepartmentAccessToGTASwitzerland</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>This sharing rule will provide access of all departments of Switzerland to a  Switzerland GTA&#39;s. This rule will also automatically provide access to NSC and GME&#39;s via role hierarchy.</description>
+        <label>DepartmentAccessToGTASwitzerland</label>
+        <sharedTo>
+            <role>GTACH</role>
+        </sharedTo>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Switzerland</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Center</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>NSC Department</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>DepartmentAccessToGTAUK</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>This sharing rule will provide access of all departments of UK to UK GTA&#39;s. This rule will also automatically provide access to NSC and GME&#39;s via role hierarchy.</description>
+        <label>DepartmentAccessToGTAUK</label>
+        <sharedTo>
+            <role>GTAUK</role>
+        </sharedTo>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>United Kingdom</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Service Center</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>NSC Department</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>DepartmentsCH</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Departments_CH</label>
+        <sharedTo>
+            <group>SalesCH</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Switzerland</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Store</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>DepartmentsDE</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Departments_DE</label>
+        <sharedTo>
+            <group>SalesDE</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Germany</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Store</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>DepartmentsUK</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Departments_UK</label>
+        <sharedTo>
+            <group>SalesUK</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>United Kingdom</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Store</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>NSC_Manage_all_Departments</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>RecordType = Sales</description>
+        <label>NSC Manage all Departments</label>
+        <sharedTo>
+            <group>NSCSales</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Store,NSC Department</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+</SharingRules>

@@ -1,0 +1,28 @@
+<!--
+Author: Neha Aggrawal
+Created Date: 18-01-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1026
+-->
+<aura:component  implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome"
+                access="global"
+        controller="AS_ImageCarousel">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="prefixURL" type="String" default="/sfc/servlet.shepherd/version/download/"/>
+     <aura:attribute name="Files" type="List" />
+        <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+   <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <h4 class="title slds-text-heading--medium">Photos taken during Pickup and Delivery</h4>
+    </div>
+   
+   
+    
+     <lightning:layout multipleRows="true" pullToBoundary="medium">
+        <aura:iteration items="{!v.Files}" var ="file" >
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small">
+                <!--call child component AS_Imagetile to display image tiles-->
+                <c:AS_ImageTile imageUrl="{!v.prefixURL+file}"/>
+            </lightning:layoutItem>
+        </aura:iteration>
+</lightning:layout>
+    
+</aura:component>

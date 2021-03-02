@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Brakemeasurementsnotakenthisservicevisit__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Brake measurements not taken this service visit.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Brake measurements not taken this service visit.</inlineHelpText>
+    <label>Brakemeasurementsnotakenthisservicevisit</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

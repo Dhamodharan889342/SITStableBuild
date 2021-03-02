@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AfterSales_QuantityonInventory</fullName>
+    <active>false</active>
+    <errorConditionFormula>QuantityOnHand  = 0
+&amp;&amp;
+$Profile.Name != &quot;DIH Integration Profile&quot;</errorConditionFormula>
+    <errorDisplayField>QuantityOnHand</errorDisplayField>
+    <errorMessage>We cannot save the record with Quantity On Hand is&quot;0&quot; value</errorMessage>
+</ValidationRule>

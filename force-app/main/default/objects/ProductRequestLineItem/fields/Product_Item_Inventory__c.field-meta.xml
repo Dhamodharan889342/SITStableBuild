@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Item_Inventory__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Created By: Mayank Pant
+Created Date: 17th Dec 2020
+User Story: https://jira.hyundai-autoever.eu/browse/GD-826
+Purpose: This field build the relation ship between Product request line item and its associated inventory</description>
+    <externalId>false</externalId>
+    <label>Product Item(Inventory)</label>
+    <referenceTo>ProductItem</referenceTo>
+    <relationshipLabel>Product Request Line Items</relationshipLabel>
+    <relationshipName>Product_Request_Line_Items</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

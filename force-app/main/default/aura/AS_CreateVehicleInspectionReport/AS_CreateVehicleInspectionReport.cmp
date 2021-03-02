@@ -1,0 +1,424 @@
+<!--
+Author: Neha Aggrawal
+Created Date: 28-01-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1257
+-->
+
+<aura:component implements="lightning:isUrlAddressable,force:hasRecordId,lightning:actionOverride,force:lightningQuickActionWithoutHeader,force:appHostable,flexipage:availableForAllPageTypes"  extends="c:ObjectType" controller="AS_CreateVehicleInspectionReport" access="global">
+   
+
+	<aura:html tag="style">
+        .slds-modal__container{
+        max-width: 80rem !important;
+        width:80% !important;
+        }
+    </aura:html>
+
+	 
+    <aura:attribute name="options" type="List" description="Options for Uneven Tyre Wear field" default="[
+    {'label': 'NO', 'value': 'NO'},
+    {'label': 'YES', 'value': 'YES'}
+    ]"/>
+    <aura:attribute name="value" type="String" default="NO"/>
+    
+     <aura:attribute name="options2" type="List" description="Options for recommend field" default="[
+    {'label': 'Correct Inflation check inflation pressure monthly', 'value': 'Correct Inflation check inflation pressure monthly'},
+    {'label': 'Alignment Check', 'value': 'Alignment Check'},
+    {'label': 'Tyre Replacement', 'value': 'Tyre Replacement'}                                                    
+    ]"/>
+    <aura:attribute name="value2" type="List"/>
+     <aura:attribute name="options3" description="Options for iCARE  field" type="List" default="[
+    {'label': 'Seat Cover Fitted', 'value': 'Seat Cover Fitted'},
+    {'label': 'Floor Mat Fitted', 'value': 'Floor Mat Fitted'},
+    {'label': 'Roadside Assist Renewal', 'value': 'Roadside Assist Renewal'},
+    {'label': 'SatNav Mapcare', 'value': 'SatNav Mapcare'},
+  	{'label': 'Customer Radio Station', 'value': 'Customer Radio Station'}
+    ]"/>
+    <aura:attribute name="vcare" type="List"/>
+    <aura:attribute type="Boolean" default="false" name="showrecommend"/>
+    <aura:attribute type="Boolean" default="false" name="brakemeasure"/>
+    <aura:attribute type="Boolean" default="false" name="showcustomerradiotext"/>
+    <aura:attribute name="RepairData" type="List" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="today" type="Date" />
+   <aura:attribute name="currentUser" type="User"/>
+    <aura:attribute name="ServiceBookingrecordId" type="String" />
+    <aura:attribute type="Boolean" default="false" name="showerror"/>
+	<aura:attribute name="errormessage" type="String"/>  
+    <aura:attribute name="errorvar" type="String"/>
+ <lightning:navigation aura:id="navService"/>
+    
+   <force:recordData aura:id="recordLoader" recordId="{!$SObjectType.CurrentUser.Id}" 
+		fields="Name" 
+		targetFields="{!v.currentUser}"/> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+  
+  
+    <div class="container">
+          <div class="slds-text-title_caps"> New Vehicle Inspection Report</div>
+            <aura:if isTrue="{!v.showerror}">
+        <div>
+            <ui:message title="Error" severity="error" closable="false">
+               {!v.errormessage}
+            </ui:message></div>
+    </aura:if> 
+        
+          <aura:if isTrue="{!not(v.showerror)}">
+        <aura:iteration items="{!v.RepairData}" var="d">
+        <table  class="slds-table slds-table--bordered" >
+            <thead>
+                <tr class="slds-text-heading--label">
+                    <td><img src="{!$Resource.Logo}" style="height:50px; width:200px"/><br/><br/>
+                    {!d.DepartmentLegalPackage}</td>
+                    <td><h1>Vehicle Health Check<br/><br/><br/></h1></td>
+                    <td><br/><br/><strong>GENESIS Company Data</strong><br/>
+                    {!d.DepartmentName}<br/>
+                	{!d.DepartmentAddress}</td>
+                 
+                </tr>
+            </thead>
+        </table>
+                <table class="slds-table slds-table--bordered" >   
+            <thead><tr class="slds-text-heading--label">
+            <td>
+               
+                       <strong>Customer Data</strong><br/>
+                      {!d.CustomerName}<br/>
+                       {!d.CustomerMobilePhone}<br/>
+                      {!d.CustomerHomePhone}<br/>
+                        {!d.CustomerEmail}<br/>
+               
+            </td>
+                <td></td>
+                <td ><strong> <ui:outputDate value="{!v.today}" /> </strong><br/>
+                  </td>
+            </tr></thead>
+       </table>
+        
+        
+             <table class="slds-table slds-table--bordered">
+            <thead><tr class="slds-text-heading--label">
+                <th class="slds-text-heading--label">
+                    <center> Car Data<br/>
+                    Brand: Genesis
+                     <table class="slds-table slds-table--bordered">
+             <tr class="slds-text-heading--label">
+                 <th class="slds-text-heading--label" scope="col"><div class="slds-truncate" title="Model">Model</div></th>
+                <th class="slds-text-heading--label" scope="col"><div class="slds-truncate" title="Engine Capacity">Engine Capacity</div></th>
+             <th class="slds-text-heading--label" scope="col"><div class="slds-truncate" title="ModelYear">Model Year</div></th>
+                <th class="slds-text-heading--label" scope="col"><div class="slds-truncate" title="Fuel Type">Fuel Type</div></th>
+                <th class="slds-text-heading--label" scope="col"><div class="slds-truncate" title="Color">Color</div></th>
+                <th class="slds-text-heading--label" scope="col"><div class="slds-truncate" title="Latest Mileage">Latest Mileage</div></th>
+                <th class="slds-text-heading--label" scope="col"><div class="slds-truncate" title="Plate Registration">Plate Registration</div></th>
+                <th class="slds-text-heading--label" scope="col"><div class="slds-truncate" title="VIN">VIN</div></th>
+              </tr>
+          <tr class="slds-text-heading--label">
+                <td class="slds-row-select"><div class="slds-truncate" title="{!d.Model}">{!d.Model}</div></td>
+           			<td class="slds-row-select"><div class="slds-truncate" title="{!d.EngineCapacity}">{!d.EngineCapacity}</div></td>
+                    <td class="slds-row-select"><div class="slds-truncate" title="{!d.ModelYear}">{!d.ModelYear}</div></td>
+                    <td class="slds-row-select"><div class="slds-truncate" title="{!d.FuelType}">{!d.FuelType}</div></td>
+                    <td class="slds-row-select"><div class="slds-truncate" title="{!d.Color}">{!d.Color}</div></td>
+                     <td class="slds-row-select"><div class="slds-truncate" title="{!d.LatestMileage}">{!d.LatestMileage}</div></td> 
+              			<td class="slds-row-select"><div class="slds-truncate" title="{!d.PlateRegistration}">{!d.PlateRegistration}</div></td>
+          				<td class="slds-row-select"><div class="slds-truncate" title="{!d.VIN}">{!d.VIN}</div></td>
+                         </tr>
+                        </table>
+               </center>
+                </th>
+                </tr> </thead>
+   </table>
+        <table class="slds-table slds-table--bordered">
+            <tr class="slds-text-heading--label">
+                <center>
+                <div style="background-color:#000080;color:white;">RECEPTION INSPECTION and WALK AROUND</div>
+           <aura:if isTrue="{!d.OutsideCheck == null}"><img src="{!$Resource.repair_car_empty}" style="height:200px; width:500px"/>
+                    </aura:if>
+            <aura:if isTrue="{!d.OutsideCheck != null}"><img src="{!d.OutsideCheckimgsrc}" style="height:200px; width:500px"/>
+                    </aura:if>
+                </center></tr>
+        </table>
+        <table class="slds-table slds-table--bordered">
+            <tr class="slds-text-heading--label">
+                <td colspan="3"><center><div style="background-color:#000080;color:white;">MULTI-POINT INSPECTION REPORT</div>
+				</center></td></tr>
+            <tr class="slds-text-heading--label">
+                <td class="slds-row-select" >
+                    <img src="{!$Resource.VehicleInspectionReport_Greenbox}" style="height:25px; width:25px"/> &nbsp; CHECKED and OK
+                </td>
+                <td class="slds-row-select">
+                    <img src="{!$Resource.VehicleInspectionReport_yellow}" style="height:25px; width:25px"/> &nbsp; WILL REQUIRE FUTURE ATTENTION
+                </td>
+                <td class="slds-row-select">
+                    <img src="{!$Resource.VehicleInspectionReport_redbox}" style="height:25px; width:25px"/> &nbsp; REQUIRES IMMEDIATE ATTENTION
+                </td>
+            </tr>
+            <tr class="slds-text-heading--label">
+                <td class="slds-row-select" colspan="2">
+                    <img src="{!$Resource.VehicleInspectionReport_Leaf}" style="height:30px; width:30px"/> &nbsp;May contribute to vehicle efficiency and a green enviroment
+                </td>
+                <td class="slds-row-select">
+                    <img src="{!$Resource.VehicleInspectionReport_W}" style="height:30px; width:30px"/> &nbsp;Maintenance Wear Item
+                </td>
+            </tr>
+        </table>
+		<table class="slds-table slds-table--bordered">
+            <tr class="slds-text-heading--label">
+                <th class="header">INSPECTION POINTS</th>
+                <th class="header">TYRES and BRAKES &nbsp;<img src="{!$Resource.VehicleInspectionReport_Leaf}" style="height:20px; width:20px"/><img src="{!$Resource.VehicleInspectionReport_W}" style="height:20px; width:20px"/></th>
+            </tr>
+            <tr class="slds-text-heading--label">
+                <th class="section">
+                <td class="slds-row-select"><div class="sideheader"> EXTERIOR &nbsp; &nbsp;  </div>
+                </td>
+                <td class="radiosection">
+               		<lightning:input style="display:inline-block;" type="radio" name="headlights" aura:id="headlights_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="headlights" aura:id="headlights_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="headlights" aura:id="headlights_g" class="green" />
+                    Head Lights/Fog Lights/Turn Signals <br/>
+                    
+                    <lightning:input style="display:inline-block;" type="radio" name="taillights" aura:id="taillights_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="taillights" aura:id="taillights_y" class="yellow" />
+                    <lightning:input style="display:inline-block; " type="radio" name="taillights" aura:id="taillights_g" class="green" />
+                    Tail Lights/Brake Lights/Licence Plate Lights<br/>
+                    <lightning:input style="display:inline-block;" type="radio" name="WiperBlades" aura:id="WiperBlades_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="WiperBlades" aura:id="WiperBlades_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="WiperBlades" aura:id="WiperBlades_g" class="green" />
+                     Wiper Blades- Condition/operation<br/>
+                    <lightning:input style="display:inline-block;" type="radio" name="Windshield"  aura:id="Windshield_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="Windshield" aura:id="Windshield_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="Windshield" aura:id="Windshield_g" class="green" />
+                     Windshield (cracks, chips and pitting) <img src="{!$Resource.VehicleInspectionReport_W}" style="height:20px; width:20px"/>
+                    
+                </td>
+                </th>
+                <th class="section">
+                <td class="slds-row-select"> <div class="sideheader">LEFT FRONT &nbsp; </div></td>
+				<td class="radiosection1">
+                     <br/>
+                    <lightning:input style="display:inline-block;" type="radio" name="TyreTreadDepth" aura:id="lfTyreTreadDepth_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="TyreTreadDepth" aura:id="lfTyreTreadDepth_y"  class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="TyreTreadDepth" aura:id="lfTyreTreadDepth_g" class="green" />
+                     Tyre Tread<br/>
+                    <lightning:input style="display:inline-block;" type="radio" name="BrakeLining" aura:id="lfBrakeLining_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="BrakeLining" aura:id="lfBrakeLining_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="BrakeLining" aura:id="lfBrakeLining_g" class="green" />
+                    Brake Lining <br/>
+                    <lightning:input type="number" label="Tyre Tread Depth" name="tyredepthlf" aura:id="tyredepthlf" step="0.01" /> <br/>
+                     <lightning:input type="number" variant="label-inline" label="kPa" name="leftfrontkpa" aura:id="leftfrontkpa" step="0.01" />
+                </td>
+                    
+               
+                </th> 
+            </tr>
+        </table>  
+		<table class="slds-table slds-table--bordered">
+            
+            <tr class="slds-text-heading--label">
+                <th class="section">
+                <td class="slds-row-select"><div class="sideheader"> INTERIOR &nbsp; &nbsp;  </div>
+                </td>
+                <td class="radiosection">
+                    
+               		<lightning:input style="display:inline-block;" type="radio" name="horn" aura:id="horn_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="horn" aura:id="horn_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="horn" aura:id="horn_g" class="green" />
+                    Horn (Operation)/Interior Lights <br/>
+                    
+                    <lightning:input style="display:inline-block;" type="radio" name="Heat" aura:id="Heat_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="Heat" aura:id="Heat_y" class="yellow" />
+                    <lightning:input style="display:inline-block; " type="radio" name="Heat" aura:id="Heat_g" class="green" />
+                    Heat/A/C System<br/>
+
+                    
+                </td>
+                </th>
+                <th class="section">
+                <td class="slds-row-select"> <div class="sideheader">RIGHT FRONT &nbsp; </div></td>
+				<td class="radiosection1">
+                   
+                    <lightning:input style="display:inline-block;" type="radio" name="rfTyreTreadDepth" aura:id="rfTyreTreadDepth_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="rfTyreTreadDepth" aura:id="rfTyreTreadDepth_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="rfTyreTreadDepth" aura:id="rfTyreTreadDepth_g" class="green" />
+                     Tyre Tread Depth<br/>
+                    <lightning:input style="display:inline-block;" type="radio" name="rfBrakeLining" aura:id="rfBrakeLining_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="rfBrakeLining" aura:id="rfBrakeLining_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="rfBrakeLining" aura:id="rfBrakeLining_g" class="green" />
+                    Brake Lining <br/>
+                    <lightning:input type="number"  label="Tyre Tread Depth" name="tyredepthrf" aura:id="tyredepthrf" step="0.01" /><br/>
+                    <lightning:input type="number" variant="label-inline" label="kPa" name="rightfrontkpa" aura:id="rightfrontkpa" step="0.01" /> 
+                </td>
+                   
+                
+                </th>
+            </tr>
+        </table> 
+        <table class="slds-table slds-table--bordered">
+            
+            <tr class="slds-text-heading--label">
+                <th class="section">
+                <td class="slds-row-select"><div class="sideheader"> BATTERY &nbsp; &nbsp;  </div>
+                </td>
+                <td class="radiosection">
+               		<lightning:input style="display:inline-block;" type="radio" name="battery" aura:id="battery_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="battery" aura:id="battery_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="battery" aura:id="battery_g" class="green" />
+                    Battery Performance <img src="{!$Resource.VehicleInspectionReport_W}" style="height:20px; width:20px"/><br/> (attach battery test results) <br/>
+
+
+                    
+                </td>
+                </th>
+                                <th class="section">
+                <td class="slds-row-select"> <div class="sideheader">LEFT REAR &nbsp; </div></td>
+				<td class="radiosection1">
+                  
+                    <lightning:input style="display:inline-block;" type="radio" name="lrTyreTreadDepth" aura:id="lrTyreTreadDepth_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="lrTyreTreadDepth" aura:id="lrTyreTreadDepth_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="lrTyreTreadDepth" aura:id="lrTyreTreadDepth_g" class="green" />
+                     Tyre Tread Depth<br/>
+                    <lightning:input style="display:inline-block;" type="radio" name="lrBrakeLining" aura:id="lrBrakeLining_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="lrBrakeLining" aura:id="lrBrakeLining_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="lrBrakeLining" aura:id="lrBrakeLining_g" class="green" />
+                    Brake Lining<br/>
+                    <lightning:input  label="Tyre Tread Depth" type="number" name="tyredepthlr" aura:id="tyredepthlr" step="0.01" /><br/>
+                   <lightning:input  variant="label-inline" label="KPa" type="number" name="leftrearkpa" aura:id="leftrearkpa" step="0.01" /> 
+                </td>
+                   
+                
+                </th>
+            </tr>
+        </table> 
+         <table class="slds-table slds-table--bordered">
+            
+            <tr class="slds-text-heading--label">
+                <th class="section">
+                    <td class="slds-row-select"><div class="sideheader"> BONNET <br/> UNDER  </div>
+                </td>
+                <td class="radiosection">
+               		<lightning:input style="display:inline-block;" type="radio" name="cooling" aura:id="cooling_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="cooling" aura:id="cooling_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="cooling" aura:id="cooling_g" class="green" />
+                    Cooling System (check for visible leaks and damage) <br/>
+					<lightning:input style="display:inline-block;" type="radio" name="radiator"  aura:id="radiator_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="radiator"  aura:id="radiator_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="radiator"  aura:id="radiator_g" class="green" />
+                    Radiator/Heater/A/C hoses <br/>
+                    <lightning:input style="display:inline-block;" type="radio" name="driveBelts"  aura:id="driveBelts_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="driveBelts"  aura:id="driveBelts_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="driveBelts" aura:id="driveBelts_g" class="green" />
+                    Drive Belts  <img src="{!$Resource.VehicleInspectionReport_W}" style="height:20px; width:20px"/>
+
+                    
+                </td >
+                </th>
+                                               <th class="section">
+                <td class="slds-row-select"> <div class="sideheader">RIGHT REAR &nbsp; </div></td>
+				<td class="radiosection1">
+                  
+                    <lightning:input style="display:inline-block;" type="radio" name="rrTyreTreadDepth" aura:id="rrTyreTreadDepth_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="rrTyreTreadDepth" aura:id="rrTyreTreadDepth_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="rrTyreTreadDepth" aura:id="rrTyreTreadDepth_g" class="green" />
+                     Tyre Tread Depth<br/>
+                    <lightning:input style="display:inline-block;" type="radio" name="rrBrakeLining" aura:id="rrBrakeLining_r" class="red" />
+                    <lightning:input style="display:inline-block;" type="radio" name="rrBrakeLining" aura:id="rrBrakeLining_y" class="yellow" />
+                    <lightning:input style="display:inline-block;" type="radio" name="rrBrakeLining" aura:id="rrBrakeLining_g" class="green" />
+                    Brake Lining <br/>
+                    <lightning:input label="Tyre Tread Depth" type="number" name="tyredepthrr" aura:id="tyredepthrr" step="0.01" /><br/>
+                     <lightning:input variant="label-inline" label="kPa" type="number" name="rightrearkpa" aura:id="rightrearkpa" step="0.01" /> 
+                </td>
+                   
+                
+                </th>
+            </tr>
+        </table> 
+        <table class="slds-table slds-table--bordered">
+            
+            <tr class="slds-text-heading--label">
+                 <th class="section">
+                <td class="slds-row-select"> <div class="sideheader">SPARE &nbsp; </div></td>
+				<td class="radiosection1">
+                    kPa set to Factory Spec&nbsp;<lightning:input type="number" name="sparekpa" aura:id="sparekpa" step="0.01" /> <br/>
+
+                </td>
+                    <td></td>
+                
+                </th>
+                
+                         <th class="section">
+                
+				<td  class="slds-row-select">
+                      <lightning:radioGroup label="Uneven Tyre Wear?" name="UnevenTyreWear" aura:id="UnevenTyreWear"
+                                                                options="{! v.options }" onchange="{!c.getrecommend}"
+                             value="{! v.value }"
+                                               /> </td>
+                    <aura:if isTrue="{!v.showrecommend}">
+                    <td >
+					 <lightning:checkboxGroup label="If YES, we recommend:" name="recommend" aura:id="recommend"
+                                                                options="{! v.options2 }"
+                             value="{! v.value2 }" 
+                             /> 
+                        
+                </td></aura:if>
+                    
+                
+                </th>
+            </tr>
+        </table>
+       <table class="slds-table slds-table--bordered">
+            <tr class="slds-text-heading--label">
+                <th class="slds-cell-shrink"></th>
+                <th class="header"><lightning:input style="display:inline-block;" type="checkbox" name="brakeheader" aura:id="brakeheader" onchange="{!c.getbrakemeasure}"/> &nbsp; Brake Measurements not taken this service visit.</th>
+            </tr>
+            <tr class="slds-text-heading--label">
+                <th class="section">
+                <td class="slds-row-select"><div class="sideheader"> iCARE &nbsp; &nbsp;  </div>
+                </td>
+                <td class="radiosection" style="color:black;">
+                   
+       				 <lightning:checkboxGroup name="icare" aura:id="icare" options="{! v.options3 }"
+                             value="{! v.vcare}" onchange="{!c.getcustomerradiotext}"/> 
+                    <aura:if isTrue="{!v.showcustomerradiotext}">
+                            <lightning:input type="text" name="cust_radio" aura:id="cust_radio" />
+                        </aura:if>	
+                </td>
+                </th>
+                 <aura:if isTrue="{!not(v.brakemeasure)}">
+                <th class="section">
+                    <div style="color:black; padding: 10px;">BRAKE MEASUREMENT REFERENCE<br/>
+                    
+                    BRAKE PADS&nbsp;<lightning:input type="number" name="brakepads" aura:id="brakepads" step="0.01" /><br/>
+                    BRAKE SHOES &nbsp;<lightning:input type="number" name="brakeshoes" aura:id="brakeshoes" step="0.01" /><br/></div>
+                </th>
+                </aura:if>
+            </tr>
+        </table> 
+        <table class="slds-table slds-table--bordered">
+            <tr class="slds-text-heading--label">
+                <td class="slds-row-select" style="width:100%">Signature (Workshop)<br/> {!v.currentUser.Name}
+				<div style="border: 1px solid #ccc;" class="slds-m-around--small"><canvas aura:id="w_padd" style="height:200px; width:100%;" class="slds-align_absolute-center" required="true"></canvas>
+                     <ltng:require scripts="{!$Resource.SignaturePad + '/js/signature_pad.js'}" afterScriptsLoaded="{!c.doInit}"/>
+                    </div>
+                </td>
+
+            </tr>
+        </table>
+         <table class="slds-table slds-table--bordered">
+            
+            <tr class="slds-text-heading--label">
+                 <td class="slds-row-select" > Legal Text: <lightning:input aura:id="legal-text" value="{!d.Legaltext}"/></td><br/></tr>
+             <tr class="slds-text-heading--label">
+                 <td class="slds-row-select" >GDPR Text:<lightning:input aura:id="GDPR-text" value="{!d.GDPRtext}"/></td></tr>
+        </table>
+    
+     <div class="slds-modal__footer slds-size_1-of-1">
+        <lightning:button label="{!$Label.c.COM_LAB_Save}" aura:id="aura_btn_save" variant="brand"
+                          onclick="{!c.save}"/>
+        <lightning:button label="{!$Label.c.COM_LAB_Cancel}" onclick="{!c.cancel}"/>
+    </div>
+            </aura:iteration>
+        </aura:if>
+	</div>
+
+
+</aura:component>

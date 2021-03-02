@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>created By:- Riddhi Mittal
+Created at :- 11/11/2020
+user story:- US- GD-1452
+Purpose:- Need to create as per requirement
+
+LMS 08/01/2021 GD-1014
+Added some stages that take into account GWMS integration</description>
+    <externalId>false</externalId>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Draft</fullName>
+                <default>true</default>
+                <label>Draft</label>
+            </value>
+            <value>
+                <fullName>Canceled</fullName>
+                <default>false</default>
+                <label>Canceled</label>
+            </value>
+            <value>
+                <fullName>GWMS Review</fullName>
+                <default>false</default>
+                <label>GWMS Review</label>
+            </value>
+            <value>
+                <fullName>Accepted by GWMS</fullName>
+                <default>false</default>
+                <label>Accepted by GWMS</label>
+            </value>
+            <value>
+                <fullName>Rejected by GWMS</fullName>
+                <default>false</default>
+                <label>Rejected by GWMS</label>
+            </value>
+            <value>
+                <fullName>In Review</fullName>
+                <default>false</default>
+                <label>In Review</label>
+            </value>
+            <value>
+                <fullName>Accepted</fullName>
+                <default>false</default>
+                <label>Accepted</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

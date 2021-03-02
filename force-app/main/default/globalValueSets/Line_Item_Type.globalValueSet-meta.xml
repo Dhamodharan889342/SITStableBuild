@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Labor</fullName>
+        <default>false</default>
+        <label>Labor</label>
+    </customValue>
+    <customValue>
+        <fullName>Part</fullName>
+        <default>false</default>
+        <label>Part</label>
+    </customValue>
+    <description>Created By: Mayank Pant
+Created Date: 23rd Oct 2020 
+User Story: https://jira.hyundai-autoever.eu/browse/GD-1238 
+Purpose: This global picklist will be used to determine type of the line item.</description>
+    <masterLabel>Line Item Type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

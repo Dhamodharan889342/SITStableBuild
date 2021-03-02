@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>AfterSales_CH_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Created By: Manoj Kumar
+Created Date: 2 Nov 2020
+Purpose: This sharing rule will provide read  and write access to GME, NSC, Call Center and Dealer Users in Switzerland</description>
+        <label>AfterSales CH Sharing Rule</label>
+        <sharedTo>
+            <group>AfterSales_CH</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Switzerland</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>AfterSales_DE_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Created By: Mayank Pant
+Created Date: 29th Oct 2020
+Purpose: This sharing rule will provide read  and write access to GME, NSC, Call Center and Dealer Users in Germany</description>
+        <label>AfterSales DE Sharing Rule</label>
+        <sharedTo>
+            <group>AfterSales_DE</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Germany</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>AfterSales_UK_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Created By: Manoj Kumar
+Created Date: 2 Nov 2020
+Purpose: This sharing rule will provide read  and write access to GME, NSC, Call Center and Dealer Users in United Kingdom</description>
+        <label>AfterSales UK Sharing Rule</label>
+        <sharedTo>
+            <group>AfterSales_UK</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>United Kingdom</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SalesCH</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Sales CH</label>
+        <sharedTo>
+            <group>SalesCH</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Switzerland</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SalesDE</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Sales DE</label>
+        <sharedTo>
+            <group>SalesDE</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Germany</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SalesUK</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Sales UK</label>
+        <sharedTo>
+            <group>SalesUK</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>United Kingdom</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+</SharingRules>

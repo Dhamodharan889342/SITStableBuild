@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pick_Up</fullName>
+    <active>true</active>
+    <label>Pick Up</label>
+    <picklistValues>
+        <picklist>Status</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>On the way to customer %28pick-up%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Picked-up at Customer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

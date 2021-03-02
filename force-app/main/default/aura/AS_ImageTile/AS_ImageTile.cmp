@@ -1,0 +1,16 @@
+<!--
+Author: Neha Aggrawal
+Created Date: 18-01-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1026
+This is Child component, called by Parent Component: AS_ImageCarousel
+-->
+
+<aura:component >
+	<aura:attribute name="imageUrl" type="string" access="global"/>
+   
+ <div class ="tile">
+     
+ <div style="{!'background-image:url('+v.imageUrl+')'}" class="innertile">
+        </div>
+    </div>  
+</aura:component>

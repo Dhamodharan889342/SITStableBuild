@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Action is used to create new product request line</description>
+    <height>350</height>
+    <label>New Product Request Line Item</label>
+    <lightningComponent>AfterSales_ProductNewRequestLineItem</lightningComponent>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>LightningComponent</type>
+    <width>-100</width>
+</QuickAction>

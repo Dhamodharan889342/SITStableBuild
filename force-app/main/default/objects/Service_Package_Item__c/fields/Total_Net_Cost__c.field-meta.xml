@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Net_Cost__c</fullName>
+    <description>Created By: Mayank Pant
+Created Date: 17th Nov 2020
+Purpose: This field will show the total cost of the line item after discount.</description>
+    <externalId>false</externalId>
+    <formula>SpiTotalUnitPrice__c + SpiTotal_Tax__c - DiscountAmounts__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Net Cost</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

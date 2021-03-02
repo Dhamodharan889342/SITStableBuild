@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LineItemType__c</fullName>
+    <description>Created By: Mayank Pant Created Date: 23rd Oct 2020 User Story: https://jira.hyundai-autoever.eu/browse/GD-1238 Purpose:</description>
+    <externalId>false</externalId>
+    <label>Line Item Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Line_Item_Type</valueSetName>
+    </valueSet>
+</CustomField>

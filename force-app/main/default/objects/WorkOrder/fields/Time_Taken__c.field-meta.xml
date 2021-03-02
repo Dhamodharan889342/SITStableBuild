@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Time_Taken__c</fullName>
+    <description>Created By: Mayank Pant
+Created Date: 27th Nov 2020
+Purpose: This field will show the aggregate of time invested in doing the job.</description>
+    <externalId>false</externalId>
+    <label>Time Taken</label>
+    <summarizedField>JobOrderClocking__c.Time_Taken__c</summarizedField>
+    <summaryForeignKey>JobOrderClocking__c.JobOrder__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

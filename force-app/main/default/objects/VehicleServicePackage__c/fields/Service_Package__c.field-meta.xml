@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_Package__c</fullName>
+    <description>Created By: Manoj Kumar
+Created Date: 13/11/2020
+User Story: Gd-1223
+Purpose :- After Sales service available of Customer.</description>
+    <externalId>false</externalId>
+    <label>Service Package</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <filterItems>
+            <field>Service_Package__c.Vehicle_Model__c</field>
+            <operation>equals</operation>
+            <valueField>Service_Package__c.Vehicle__r.Vehicle_Model_LTM__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Service_Package__c.Vehicle_Model__c</field>
+            <operation>notEqual</operation>
+            <value/>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Service_Package__c</referenceTo>
+    <relationshipLabel>Vehicle Service Package</relationshipLabel>
+    <relationshipName>Vehicle_Service_Package</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>true</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

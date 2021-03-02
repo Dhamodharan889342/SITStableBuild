@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>SharingRuleProductItem_CH</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>This sharing rule will provide access to all Switzerland users if product item is marked as shared.</description>
+        <label>SharingRuleProductItem_CH</label>
+        <sharedTo>
+            <group>AfterSales_CH</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Switzerland</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>IsShared__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SharingRuleProductItem_DE</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>This sharing rule will provide access to all germany users if product item is marked as shared.</description>
+        <label>SharingRuleProductItem_DE</label>
+        <sharedTo>
+            <group>AfterSales_DE</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>IsShared__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>Germany</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SharingRuleProductItem_UK</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>This sharing rule will provide access to all UK users if product item is marked as shared.</description>
+        <label>SharingRuleProductItem_UK</label>
+        <sharedTo>
+            <group>AfterSales_UK</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Country__c</field>
+            <operation>equals</operation>
+            <value>United Kingdom</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>IsShared__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+</SharingRules>

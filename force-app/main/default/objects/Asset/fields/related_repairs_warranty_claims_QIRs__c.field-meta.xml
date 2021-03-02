@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>related_repairs_warranty_claims_QIRs__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>related repairs/warranty-claims/QIRs (history).
+
+Created By: Manoj Kumar
+Created Date: 29/10/2020
+User Story: GD-1297
+Purpose :- After Sales record of Customer.</description>
+    <externalId>false</externalId>
+    <label>Repairs/warranty</label>
+    <referenceTo>Repair__c</referenceTo>
+    <relationshipLabel>Vehicle</relationshipLabel>
+    <relationshipName>Vehicle</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

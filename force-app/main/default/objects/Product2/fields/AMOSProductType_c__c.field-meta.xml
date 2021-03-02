@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AMOSProductType_c__c</fullName>
+    <description>US-820 requirement
+created by Riddhi Mittal</description>
+    <externalId>false</externalId>
+    <label>AMOSProductType__c</label>
+    <length>1</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

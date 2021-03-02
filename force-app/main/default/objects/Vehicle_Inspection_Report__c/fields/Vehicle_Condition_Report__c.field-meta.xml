@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vehicle_Condition_Report__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Vehicle Condition Report</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$Source.Service_Booking__c</field>
+            <operation>equals</operation>
+            <valueField>StatusConfirmation__c.Repair__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>StatusConfirmation__c</referenceTo>
+    <relationshipLabel>Vehicle Inspection Reports</relationshipLabel>
+    <relationshipName>Vehicle_Inspection_Reports</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

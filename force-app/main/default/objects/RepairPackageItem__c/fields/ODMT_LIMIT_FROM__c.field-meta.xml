@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ODMT_LIMIT_FROM__c</fullName>
+    <description>Created By : Nagendra Lagisetty
+Created Date: 11/4/2020
+User Story:GD-1228
+Purpose: Basic level object</description>
+    <externalId>false</externalId>
+    <label>ODOMETER LIMIT - FROM</label>
+    <precision>7</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

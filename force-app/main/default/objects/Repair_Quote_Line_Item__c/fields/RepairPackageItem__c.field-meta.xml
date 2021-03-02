@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RepairPackageItem__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Created By: Mayank Pant. This field will capture the repair package line item for the selected repair package for Service Booking/Repair Quote.This field is created as part of user story GD-1014.</description>
+    <externalId>false</externalId>
+    <label>Repair Package Item</label>
+    <referenceTo>RepairPackageItem__c</referenceTo>
+    <relationshipLabel>Repair Quote Line Items</relationshipLabel>
+    <relationshipName>Repair_Quote_Line_Items</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

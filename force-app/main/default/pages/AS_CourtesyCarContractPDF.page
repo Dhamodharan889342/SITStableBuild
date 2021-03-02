@@ -1,0 +1,362 @@
+<!--
+Author: Daniel Varhidi
+Created Date: 03 February 2021
+Story:GD-2328
+-->
+
+<apex:page showHeader="false" standardController="Courtesy_Car_Contract__c" extensions="AS_CourtesyCarContractExtension" standardStylesheets="false" renderAs="pdf" applyBodyTag="false"
+           id="CourtesyCarContractPDF">
+
+    <head>
+        <style>       
+            table {
+            width:100%;
+            border: 1px solid black;
+            }  
+            td{
+            font-size:small; 
+            }
+            ol{
+            font-size:small; 
+            }
+            p{
+            font-size:small; 
+            }
+            .font-size-medium{
+            font-size:medium
+            }
+            .page-break-after{
+            page-break-after: always
+            }
+            input[type="text"]{
+            width:20px;margin:5px;
+            }
+            .align-left{
+            text-align: left;
+            }
+            .align-center{
+            text-align: center;
+            }
+            .align-rigt{
+            text-align: right;
+            }
+            .vertical-top{
+            vertical-align: top;
+            }
+            .padding-left-right{
+            padding-left: 25px;
+            padding-right: 25px;
+            }
+            .padding-bottom-small{
+            padding-bottom: 10px;
+            }
+            .padding-top-small{
+            padding-top: 10px;
+            }
+            .padding-left-small{
+            padding-left: 10px;
+            }
+            .padding-left-medium{
+            padding-left: 15px;
+            }
+            .padding-left-large{
+            padding-left: 25px;
+            }
+            .border-bottom{
+            border-bottom: 1px solid black;
+            }
+            .border-left{
+            border-left: 1px solid black;
+            }
+            .img-center{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            }
+            .background-color-green{
+            <!--background-color:#acf2d2-->
+            }
+            .background-color-blue{
+            <!--background-color:#acdbf2;-->
+            }
+            .signature-size{
+            width:100px !important;
+            height:50px !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!--Form Start-->
+            <div class="page-break-after">
+                <!--Header start-->
+                <table>
+                    <tr>
+                        <!--Logo Start-->
+                        <td  class="padding-bottom-small padding-left-large">
+                            <img src="{!$Resource.Logo}" height="25px" width="100px"/>
+                        </td>
+                        <td class="padding-bottom-small"> 
+                            <div class="align-left">
+                                <h2>Courtesy Car Contract</h2>
+                                (From Agency to Customer)
+                            </div>        
+                        </td>
+                        <!--Logo End-->
+                        <!--Department Start-->
+                        <td  class="padding-bottom-small border-left">
+                            <div class="align-center">
+                                <p>
+                                    {!Courtesy_Car_Contract__c.Repair__r.Department__r.Name}<br/>
+                                    {!Courtesy_Car_Contract__c.Repair__r.Department__r.Address__c}
+                                </p>
+                            </div>
+                        </td>  
+                        <!--Department End-->
+                    </tr>
+                </table>
+                <!--Header end-->
+                <!--Related data table start-->
+                <table>
+                    <tr>
+                        <td valign="top" class="padding-left-right padding-top-small">
+                            <p><strong>Authorized person to drive</strong></p>
+                            <ol>
+                                <li>Name: <apex:outputField style="text-align: right;" value="{!Courtesy_Car_Contract__c.fm_Authorized_Person_Name__c}"/></li>
+                                <li>Mobile:  <apex:outputField value="{!Courtesy_Car_Contract__c.fm_Authorized_Person_Mobile_Phone_Number__c}"/></li>
+                                <li>Home:  <apex:outputField value="{!Courtesy_Car_Contract__c.fm_Authorized_Person_Home_Phone_Number__c}"/></li>
+                                <li>Email:  <apex:outputField value="{!Courtesy_Car_Contract__c.fm_Authorized_Person_Email__c}"/></li>
+                                <li>Address:  <br/> <apex:outputField value="{!Courtesy_Car_Contract__c.fm_Authorized_Person_Address__c}"/></li>
+                                <li>Driver Licence Number:  <apex:outputField value="{!Courtesy_Car_Contract__c.Authorized_Person_Driver_Licence_Number__c}"/></li>
+                                <li>Driver Licence, valid until date:  <apex:outputField value="{!Courtesy_Car_Contract__c.Authorized_Person_Driver_Licence_Valid__c}"/></li>
+                            </ol>   
+                            <p><strong>Data related to the repairing at Workshop</strong></p>
+                            <ol>
+                                <li>Service Booking Number: <apex:outputField value="{!Courtesy_Car_Contract__c.fm_Repair_No__c}"/></li>
+                                <li>Car model in the workshop: <apex:outputField value="{!Courtesy_Car_Contract__c.fm_Customer_Car_Model__c}"/></li>
+                                <li>Plate registration of car in the workshop: <apex:outputField value="{!Courtesy_Car_Contract__c.fm_Customer_Car_Licence_Plate__c}"/></li>
+                            </ol>
+                            <p><strong>Price</strong></p>
+                            <ol>
+                                <li>Price by Day:  <apex:outputField value="{!Courtesy_Car_Contract__c.Price_by_Day__c}"/></li>
+                                <li>Price by Hour:  <apex:outputField value="{!Courtesy_Car_Contract__c.Price_by_Hour__c}"/></li>
+                            </ol>                        
+                        </td>
+                        <td valign="top" class="padding-left-right padding-top-small">
+                            
+                            <p><strong>Date, Time and Odometer</strong></p>
+                            <ol>
+                                <li>Date and Time (DELIVERY):  <apex:outputField value="{!Courtesy_Car_Contract__c.Date_Time_DELIVERY__c}"/></li>
+                                <li>Initial Kilometers (odometer):  <apex:outputField value="{!Courtesy_Car_Contract__c.Initial_Kilometers_odometer__c}"/></li>
+                                <li>Expected Date and Time to PICK UP:  <apex:outputField value="{!Courtesy_Car_Contract__c.Expected_Date_Time_to_PICK_UP__c}"/></li>
+                                <li>Date and Time (PICK UP):  <apex:outputField value="{!Courtesy_Car_Contract__c.Date_Time_PICK_UP__c}"/></li>
+                                <li>Final Kilometers (odometer):  <apex:outputField value="{!Courtesy_Car_Contract__c.Final_Kilometers_odometers__c}"/></li>
+                            </ol>       
+                            
+                            <p><strong>Car data</strong></p>
+                            <ol>
+                                <li>Brand: <apex:outputField value="{!Courtesy_Car_Contract__c.Courtesy_Car_Brand__c}"/></li>
+                                <li>Model: <apex:outputField value="{!Courtesy_Car_Contract__c.Courtesy_Car_Model__c}"/></li>
+                                <li>Version: <apex:outputField value="{!Courtesy_Car_Contract__c.Courtesy_Car_Version__c}"/></li>
+                                <li>Color: <apex:outputField value="{!Courtesy_Car_Contract__c.Courtesy_Car_Color__c}"/></li>
+                                <li>Plate Registration: <apex:outputField value="{!Courtesy_Car_Contract__c.Courtesy_Car_Plate_Registration__c}"/></li>
+                                <li>VIN: <apex:outputField value="{!Courtesy_Car_Contract__c.Courtesy_Car_VIN__c}"/></li>
+                            </ol>  
+                        </td>
+                    </tr>
+                    
+                </table>
+                <!--Related data table end-->
+                <!---DELIVERY and PICKUP columns start-->
+                <table> 
+                    <tr>
+                        <!--DELIVERY column start-->
+                        <th class="padding-left-right border-bottom align-center background-color-green"  >
+                            <strong>DELIVERY</strong>
+                        </th>
+                        <!--DELIVERY column end--> 
+                        <!--PICK UP column start-->
+                        <apex:outputPanel rendered="{!showPickUpSection}">    
+                            <apex:pageBlock title="My Content">
+                                <strong>PICK UP</strong>
+                            </apex:pageBlock>
+                        </apex:outputPanel>
+                        <!--PICK UP column end-->
+                    </tr>
+                    <tr class="page-break-after">
+                        <!--DELIVERY column start-->
+                        <td valign="top" class="padding-left-right padding-top-small background-color-green">
+                            Check-in <strong>DELIVERY</strong> <br/>
+                            <apex:form >
+                                <span class="padding-left-small">1 Vehicle State</span><br/> 
+                                <span class="padding-left-medium">A Interior Inspected:  <apex:outputField value="{!Courtesy_Car_Contract__c.Delivery_Interior_Inspected__c}" /></span><br/> 
+                                <span class="padding-left-medium">B Exterior Inspected:  <apex:outputField value="{!Courtesy_Car_Contract__c.Delivery_Exterior_Inspected__c}" /></span><br/> 
+                                <br/>
+                                <span class="padding-left-small">2 Documentation</span><br/> 
+                                <span class="padding-left-medium">A Copy of Repair Order: (inside cabin): <apex:outputField value=" {!Courtesy_Car_Contract__c.Copy_of_Repair_Order__c}"/></span><br/> 
+                                <span class="padding-left-medium">B Copy of Invoice: (if needed):  <apex:outputField value="{!Courtesy_Car_Contract__c.Copy_of_Invocie__c}"/></span><br/> 
+                                <span class="padding-left-medium">C Hanger CSI (Cust.Satisfac. Survey/ NPS):  <apex:outputField value="{!Courtesy_Car_Contract__c.Hanger_CSI_Customer_Satisfaction_Survey__c}"/></span><br/>                                
+                            </apex:form>
+                        </td>                   	
+                        <!--DELIVERY column end-->
+                        <!--PICK UP column start-->
+                        <apex:outputPanel rendered="{!showPickUpSection}">  
+                            <td valign="top" class="padding-left-right padding-top-small background-color-blue">
+                                Check-in <strong>PICK-UP</strong> <br/>                            
+                                <apex:form >
+                                    <span class="padding-left-small">1 Vehicle State</span><br/>
+                                    <span class="padding-left-medium">A Interior Inspected:   <apex:outputField value="{!Courtesy_Car_Contract__c.Pickup_Interior_Inspected__c}"/></span><br/> 
+                                    <span class="padding-left-medium">B Exterior Inspected:   <apex:outputField value="{!Courtesy_Car_Contract__c.Pickup_Exterior_Inspected__c}"/></span><br/> 
+                                </apex:form>
+                            </td>
+                        </apex:outputPanel>
+                        <!--PICK UP column end-->
+                    </tr>                    
+                    <tr>
+                        <!--DELIVERY column start-->
+                        <td class="padding-left-right background-color-green">                                                         
+                            <p><strong>Notes from valet (DELIVERY)</strong></p>
+                            <p>{!Courtesy_Car_Contract__c.DeliveryNotesfromValet__c} </p>                          
+                            <p><strong>Walk Around Inspection (DELIVERY)</strong></p>
+                            <p><img class="img-center" src="{!IF(
+                                                            ISBLANK( Courtesy_Car_Contract__c.Delivery_OutsideCheckId__c ),
+                                                            "/resource/1550106869000/repair_car_empty",
+                                                                                                      "/servlet/servlet.FileDownload?file=" + Courtesy_Car_Contract__c.Delivery_OutsideCheckId__c + "&operationContext=S1")
+                                                                                                                                                                                                                          }" width="200px" height="100px"/> </p>
+                            <p><strong>VALET Signature and date (DELIVERY)</strong></p>
+                            <p><img class="img-center signature-size" src="{!IF(
+                                                                           ISBLANK( Courtesy_Car_Contract__c.Delivery_DriverSignatureId__c ),
+                                                                           "/resource/1610976891000/No_Image",
+                                                                                                             "/servlet/servlet.FileDownload?file=" + Courtesy_Car_Contract__c.Delivery_DriverSignatureId__c + "&operationContext=S1")
+                                                                                                                                                                                                                                    }" width="200px" height="100px"/> </p>
+                            <p>{!Courtesy_Car_Contract__c.CreatedBy.Name}</p>
+                            <div style="{!IF(NOT(ISBLANK( Courtesy_Car_Contract__c.Delivery_on_Behalf_SignatureId__c)),'display:none','')}">
+                                <p><strong>CUSTOMER Signature and date (DELIVERY)</strong></p>
+                                <p><img class="img-center signature-size" src="{!IF(
+                                                                               ISBLANK( Courtesy_Car_Contract__c.Delivery_CustomerSignatureId__c ),
+                                                                               "/resource/1610976891000/No_Image",
+                                                                                                                 "/servlet/servlet.FileDownload?file=" + Courtesy_Car_Contract__c.Delivery_CustomerSignatureId__c + "&operationContext=S1")
+                                                                                                                                                                                                                                          }" width="200px" height="100px"/> </p>
+                                <p>{!Courtesy_Car_Contract__c.Repair__r.Customer__r.Name}</p>
+                            </div>
+                            <div style="{!IF(ISBLANK( Courtesy_Car_Contract__c.Delivery_on_Behalf_SignatureId__c),'display:none','')}">
+                                <p><strong>On behalf of Customer</strong></p>
+                                <p><img class="img-center signature-size" src="{!IF(
+                                                                               ISBLANK( Courtesy_Car_Contract__c.Delivery_on_Behalf_SignatureId__c ),
+                                                                               "",
+                                                                                 "/servlet/servlet.FileDownload?file=" + Courtesy_Car_Contract__c.Delivery_on_Behalf_SignatureId__c + "&operationContext=S1")
+                                                                                                                                                                                                            }" width="200px" height="100px"/> </p>
+                                <p>{!Courtesy_Car_Contract__c.Delivery_Signer_Name_on_behalf__c}</p>
+                            </div>
+                            <br/>
+                            <br/>
+                            <p>Date and time(DELIVERY)<br/>
+                                {!Courtesy_Car_Contract__c.Date_Time_DELIVERY__c}</p>
+                        </td>
+                        <!--DELIVERY column end-->                         
+                        <!--PICK UP column start-->
+                        <apex:outputPanel rendered="{!showPickUpSection}">  
+                            <td class="padding-left-right background-color-blue">      
+                                <p><strong>Notes from valet (PICKUP)</strong></p>
+                                <p>{!Courtesy_Car_Contract__c.PickupNotesfromValet__c}</p>
+                                <p><strong>Walk Around Inspection (PICKUP)</strong></p>
+                                <p><img class="img-center" src="{!IF(
+                                                                ISBLANK( Courtesy_Car_Contract__c.OutsideCheckId__c ),
+                                                                "/resource/1550106869000/repair_car_empty",
+                                                                                                          "/servlet/servlet.FileDownload?file=" + Courtesy_Car_Contract__c.OutsideCheckId__c + "&operationContext=S1")
+                                                                                                                                                                                                                     }" width="200px" height="100px"/> </p>
+                                <p><strong>VALET Signature and date (PICKUP)</strong></p>
+                                <p><img class="img-center signature-size" src="{!IF(
+                                                                               ISBLANK( Courtesy_Car_Contract__c.SignatureId__c ),
+                                                                               "/resource/1610976891000/No_Image",
+                                                                                                                 "/servlet/servlet.FileDownload?file=" + Courtesy_Car_Contract__c.SignatureId__c + "&operationContext=S1")
+                                                                                                                                                                                                                         }" width="200px" height="100px"/> </p>
+                                <p>{!Courtesy_Car_Contract__c.CreatedBy.Name}</p> 
+                                <div style="{!IF(NOT(ISBLANK( Courtesy_Car_Contract__c.Pickup_On_Behalf_SignatureId__c)),'display:none','')}">
+                                    <p><strong>CUSTOMER Signature and date (PICKUP)</strong></p>
+                                    <p><img class="img-center signature-size" src="{!IF(
+                                                                                   ISBLANK( Courtesy_Car_Contract__c.CustomerSignatureId__c ),
+                                                                                   "/resource/1610976891000/No_Image",
+                                                                                                                     "/servlet/servlet.FileDownload?file=" + Courtesy_Car_Contract__c.CustomerSignatureId__c + "&operationContext=S1")
+                                                                                                                                                                                                                                     }" width="200px" height="100px"/> </p>
+                            
+                                    <p>{!Courtesy_Car_Contract__c.Repair__r.Customer__r.Name}</p>
+                                </div>
+                                <div style="{!IF(ISBLANK( Courtesy_Car_Contract__c.Pickup_On_Behalf_SignatureId__c),'display:none','')}">
+                                    <p>On behalf of Customer</p>
+                                    <p><img class="img-center signature-size" src="{!IF(
+                                                                                   ISBLANK( Courtesy_Car_Contract__c.Pickup_On_Behalf_SignatureId__c ),
+                                                                                   "",
+                                                                                     "/servlet/servlet.FileDownload?file=" + Courtesy_Car_Contract__c.Pickup_On_Behalf_SignatureId__c + "&operationContext=S1")
+                                                                                                                                                                                                              }" width="200px" height="100px"/> </p>
+                                    <p>{!Courtesy_Car_Contract__c.Pickup_Signer_onbehalf__c}</p>
+                                </div>   
+                                <br/>
+                                <br/>
+                                <p>Date and time(PICK UP)<br/>
+                                    {!Courtesy_Car_Contract__c.Date_Time_PICK_UP__c}</p>                          
+                            </td>
+                         </apex:outputPanel>
+                        <!--PICK UP column end-->   
+                    </tr>
+                </table>  
+                <!---DELIVERY and PICKUP columns end-->
+            </div> 
+            <!--Form End-->
+            <!--Terms Start-->
+            <div>
+                <table class="padding-left-right">
+                    <tr>
+                        <td class="align-center">
+                            GPA Mobile Phone:  <apex:outputField value="{!Courtesy_Car_Contract__c.fm_GPA_Mobile__c}" />
+                        </td>
+                        <td class="align-center">
+                            GPA ASSISTANCE Phone: TODO
+                        </td>                  
+                    </tr>
+                </table>
+                <div class="padding-left-right">
+                    <h3> Terms and conditions </h3>
+                    <ol>
+                        <li>The authorized person states the driving license type is according to the type of vehicle, and is currently into effect. </li>
+                        <li>The authorized person knows that driving is an activity to which the consumption of alcohol or other susbtances or medicaments could affect, so … etc … </li>
+                        <li>The authorized person should use the proper fuel to refill the tank, and to verify the tyres pressure or to stop the car if the indicator shows any alarm. </li>
+                        <li>The authorized person should present a formal report to the Police in case of car theft or disappearance. </li>
+                        <li>The authorized person knows that the driving activity must be inside this country, and any cross-border or driving out of boundaries should be previously informed to the Agency, needing always a formal permission. </li>
+                        <li>The vehicle is equiped with all the legal and formal documentation for circulation, as well as the required combination set consisting of: warning triangle, first aid kit, safety vest
+                            Also the tools for changing a spare tyre are included, or alternatively the tools to inflate a flat tyre as the user manual explains in such a case.</li>
+                        <li>The authorized person knows that the Agency is not responsible at all of the items and objects of his/her propierty kept inside the vehicle, and those elements should be taken out when the test drive finishes </li>
+                        <li>The vehicle can not be overloaded, and neither can be used to transport any good dangerous or inflammable. </li>
+                        <li>The authorized person to drive the car agrees that all infractions for traffic or other matters are of his/her responsibility</li>
+                        <li>The vehicle is fully insured with an excess of 500 Euros, which the driver will be liable for in the event of a claim.
+                            In case of accident or any damages caused to a third party, the authorized person commits to notify to the Insurance Company, and to deliver the due form fully filled out to that company and to the Agency, inside the next 24 hrs to the accident time.</li>
+                        <li>The only authorized person the signatory one, and any other person should need a written and formal authorization from the agency side, being the first mentioned driver fully responsible of any damages or infractions made by a third other one. </li>
+                        <li>The authorized person to drive must give back the car on the agreed date and time, or at any time the agency should require it </li>
+                        <li>The authorized person commits to keeping the car in a perfect status as it was delivered </li>
+                        <li>The below signatory person commits to not doing any use of the car either for political or union/strike activities, as well as promises not to participate at any motorsport event or any type of competition, or to tow or push any other vehicule. </li>
+                        <li>It's forbidden to smoke inside the car, and also to carry animals inside. </li>
+                        <li>Etc … (any other legal disclaimer related to Test Drive, TBD)</li>
+                        <li>The Agency (company signatory) let the car above specified to the authorized person as a Courtesy Car, consisting of driving the car meanwhile the workshop repairs the driver's one, and during the specified period on this document.</li>
+                        <li>This form must be completely filled out and kept for 2 years, providing information on who has driven which vehicle with which license number and in which period. A copy of the driver's license must also be enclosed with this form.</li>
+                        <li>The proper handover is confirmed by the driver's signatures in this document</li>
+                    </ol>
+                    <p>
+                        <strong>GDPR Legal: </strong><apex:outputField value="{!Courtesy_Car_Contract__c.fm_GDPR_Legal__c}"/><br/>
+                        <strong>GDPR Acceptance: </strong><apex:outputField value="{!Courtesy_Car_Contract__c.GDPR_Acceptance__c}"/><br/>
+                        <strong>Legal basic disclaimer (TBD by Legal): </strong><apex:outputField value="{!Courtesy_Car_Contract__c.fm_Legal_basic_disclaimer__c}"/>
+                    </p>
+                    <div class="align-center">
+                        <p>
+                            Registered Office:<br/>
+                            {!Courtesy_Car_Contract__c.Repair__r.Department__r.Name}<br/>
+                            {!Courtesy_Car_Contract__c.Repair__r.Department__r.Address__c}
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+            <!--Terms End-->
+        </div>
+    </body>
+</apex:page>

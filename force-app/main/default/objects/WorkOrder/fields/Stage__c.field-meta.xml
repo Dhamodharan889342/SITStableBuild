@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage__c</fullName>
+    <description>Confirmed by Hamid. GD-2198
+Keep synchrony with Status on ServiceAppointment</description>
+    <externalId>false</externalId>
+    <label>Stage</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>None</fullName>
+                <default>true</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>On the way to customer (pick-up)</fullName>
+                <default>false</default>
+                <label>On the way to customer (pick-up)</label>
+            </value>
+            <value>
+                <fullName>Picked-up at Customer</fullName>
+                <default>false</default>
+                <label>Picked-up at Customer</label>
+            </value>
+            <value>
+                <fullName>Picked-up at Department</fullName>
+                <default>false</default>
+                <label>Picked-up at Department</label>
+            </value>
+            <value>
+                <fullName>On the way to Customer (delivery)</fullName>
+                <default>false</default>
+                <label>On the way to Customer (delivery)</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Cancel</fullName>
+                <default>false</default>
+                <label>Cancel</label>
+            </value>
+            <value>
+                <fullName>Drop-down at Customer</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Drop-down at Customer</label>
+            </value>
+            <value>
+                <fullName>Drop-down at Department</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Drop-down at Department</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

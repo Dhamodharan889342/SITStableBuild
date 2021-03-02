@@ -1,0 +1,203 @@
+<!--
+ - Created by H1903060 on 2019-04-04.
+ -->
+
+<aura:component
+        implements="force:hasRecordId"
+        extends="c:ObjectType"
+        controller="ServicePartController"
+        description="ServiceNewPart">
+
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="laborCode" type="String"/>
+    <aura:attribute name="partList" type="List" default="[]"/>
+    <aura:attribute name="selectedPartList" type="List" default="[]"/>
+    <aura:attribute name='defaultVal' type='String' default=""/>
+    <aura:attribute name="isOpen" type="Boolean" default="false" description="Dialog 상태"/>
+    <aura:attribute name="intervalId" type="Object"/>
+    <!-- <aura:attribute name="modelList" type="List"/> -->
+    <!--
+        GD-1014 attributes to communicate with the main page of repair quote
+                itemList is a bound attribute to the parent 
+    -->
+    <aura:attribute name="itemList" type="List" default="[]"/>
+    <aura:attribute name="sectionUnitName" type="String"/>
+    <aura:attribute name="sectionType" type="String"/>
+    <!-- LMS 10/2/2021  make it flexible so that it works with sublets -->
+    <aura:attribute name="PartSublet" type="String" Default="Part"/>
+    
+
+
+    <aura:method name="open" action="{!c.open}" access="public" description="Dialog Open">
+        <aura:attribute name="param" type="Object"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <!-- New Part Popup -->
+    <aura:if isTrue="{!equals(v.isOpen,true)}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                 aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <div class="modal-header slds-modal__header slds-size_1-of-1">
+                    <h4 class="title slds-text-heading--medium">
+                    	<!--    {!$Label.unknown_custom_label+' '+$Label.c.RPR_LAB_Part}   -->
+                    		{! $Label.c.RPR_LAB_Part}
+                    </h4>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col" style="color: gray;">
+                            <!-- label="{! $Label.c.Car_Model }"
+                                LMS GD-1014 disabled due to the fact that car parts are not
+                                            associated to car models in Genesis Europe
+                            -->
+                            <lightning:select
+                                    label="*Car Model"
+                                    title="Association of vehicle part to Genesis Model no yet available"
+                                    aura:id="model"
+                                    disabled="true"  >
+                                <!--
+                                <aura:iteration items="{!v.modelList}" var="mo">
+                                    <option value="{!mo.value}">{!mo.label}</option>
+                                </aura:iteration>
+                                -->
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col">
+                             <!-- label="{! v.ObjectType.RepairPart__c.fm_PartCode__c.label }"  -->
+                            <lightning:input type="text" name="opPartNo" aura:id="opPartNo"
+                                label="{! '*Sublet/'+$Label.c.RPR_LAB_PartCode }"
+                                minlength="4"  />
+                        </div>
+                        <div class="slds-col">
+                            <!--label="{! v.ObjectType.RepairPart__c.fm_PartName__c.label }-->
+                            <lightning:input type="text" name="opDesc" aura:id="opDesc"
+                                    label="{! '*Sublet/'+$Label.c.RPR_LAB_PartName }"
+                            />
+                        </div>
+                        <div class="slds-col slds-m-top_large">
+                            <lightning:button label="{! $Label.c.COM_LAB_Search }" aura:id="aura_btn_search"
+                                              variant="brand" onclick="{!c.search}" class="slds-float--center"
+                                              disabled="{!v.IsLoading}"/>
+                        </div>
+                    </div>
+
+                    <div class="slds-card__body slds-scrollable slds-m-top_small" style="height: 200px;"
+                         aura:Id="scroll_container">
+                        <table class="slds-table slds-table_bordered slds-table_col-bordered" role="grid">
+                            <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" style="width:10%; text-align: center;">
+                                    {! $Label.c.COM_LAB_Number }
+                                </th>
+                                <th scope="col" style="width:10%; text-align: center;">
+                                    <!--{! v.ObjectType.RepairQuoteLineItem__c.fm_PartCode__c.label } -->
+                                    {! '*Sublet/'+$Label.c.RPR_LAB_PartCode }
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    <!--{! v.ObjectType.RepairQuoteLineItem__c.fm_PartName__c.label }-->
+                                    {! '*Sublet/'+$Label.c.RPR_LAB_PartName }
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    {!$Label.c.RQL_LAB_QuantityOfHand}
+                                </th>
+                                <th scope="col" style="width:10%; text-align: center;">
+                                    *List Price 
+                                    <!-- {! v.ObjectType.RepairQuoteLineItem__c.ListPrice__c.label } -->
+
+                                    <!-- {!$Label.c.Sales_StockSearch_Quantity} -->
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <aura:iteration items="{!v.partList}" var="p" indexVar="i">
+                                <tr class="slds-hint-parent">
+                                    <td role="gridcell" style="width:10%; text-align: center;">
+                                                {!i + 1}
+                                            </td>
+                                    <td scope="gridcell" style="width:10%; text-align: center;">
+                                        <a href="javascript:void(0);" onclick="{! c.add }"
+                                           data-value="{! i }">{!p.partCode}</a>
+                                    </td>
+                                    <td role="gridcell" class="slds-cell-wrap">
+                                                {!p.partName}
+                                            </td>
+                                    <td role="gridcell" style="width:10%; text-align: right;">
+                                        <lightning:formattedNumber value="{!p.quantityOnHand}" style="decimal"
+                                                                   maximumFractionDigits="2"/>
+                                    </td>
+                                    <td role="gridcell" style="width:10%; text-align: right;">
+                                        <lightning:formattedNumber value="{!p.listPrice}" style="decimal"
+                                                                   maximumFractionDigits="2"/>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <div class="slds-card__body slds-scrollable slds-m-top_small" style="height: 200px;">
+                        <h2>▶ Selected Part</h2>
+                        <table class="slds-table slds-table_bordered slds-table_col-bordered" role="grid">
+                            <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" style="width:10%; text-align: center;">
+                                    {! $Label.c.COM_LAB_Number }
+                                </th>
+                                <th scope="col" style="width:10%; text-align: center;">
+                                    <!--{! v.ObjectType.RepairQuoteLineItem__c.fm_PartCode__c.label }-->
+                                    {! '*Sublet/'+$Label.c.RPR_LAB_PartCode }
+                                </th>
+                                <th scope="col" style="text-align: center;">
+                                    <!--{! v.ObjectType.RepairQuoteLineItem__c.fm_PartName__c.label }-->
+                                    {! '*Sublet/'+$Label.c.RPR_LAB_PartName }
+                                </th>
+                                <th scope="col" style="width:10%; text-align: center;">
+                                    <!--{! v.ObjectType.RepairQuoteLineItem__c.ListPrice__c.label }-->
+                                    *List Price
+                                </th>
+                                <th scope="col" style="width:10%; text-align: center;">
+                                    <!--{! v.ObjectType.RepairQuoteLineItem__c.Quantity__c.label } -->
+                                    {! $Label.c.Sales_StockSearch_Quantity }
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <aura:iteration items="{! v.selectedPartList }" var="p" indexVar="i">
+                                <tr class="slds-hint-parent">
+                                    <td role="gridcell" style="width:10%; text-align: center;">{!i + 1}</td>
+                                    <td scope="gridcell" style="width:10%; text-align: center;">
+                                        <a href="javascript:void(0);" onclick="{! c.remove }"
+                                           data-value="{! i }">{!p.partCode}</a>
+                                    </td>
+                                    <td role="gridcell" class="slds-cell-wrap">
+                                            {!p.partName}
+                                    </td>
+                                    <td role="gridcell" style="width:10%; text-align: right;">
+                                        <lightning:formattedNumber value="{!p.listPrice}" style="decimal"
+                                                                   maximumFractionDigits="2"/>
+                                    </td>
+                                    <td role="gridcell" style="width:10%; text-align: right;">
+                                        <lightning:formattedNumber value="{!p.quantity}" style="decimal"
+                                                                   maximumFractionDigits="0"/>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- // contents -->
+                <div class="slds-modal__footer">
+                    <lightning:button label="{! $Label.c.COM_LAB_Close }" type="button" variant="neutral"
+                                      onclick="{!c.close}"/>
+                    <lightning:button label="{! $Label.c.COM_LAB_Save }" type="button" variant="brand"
+                                      onclick="{!c.save}" disabled="{!or(v.hasError,v.saved) }"/>
+                </div>
+            </div>
+        </section>
+        <div aura:id="overlay" class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+</aura:component>

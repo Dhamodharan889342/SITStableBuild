@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Available_Services__c</fullName>
+    <externalId>false</externalId>
+    <label>Available Services</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Maintenance</fullName>
+                <default>false</default>
+                <label>Maintenance</label>
+            </value>
+            <value>
+                <fullName>Repair incl. Diagnosis and Warranty</fullName>
+                <default>false</default>
+                <label>Repair incl. Diagnosis and Warranty</label>
+            </value>
+            <value>
+                <fullName>Body &amp; Paint</fullName>
+                <default>false</default>
+                <label>Body &amp; Paint</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

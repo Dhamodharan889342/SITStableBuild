@@ -1,0 +1,214 @@
+<aura:component implements="lightning:actionOverride,lightning:isUrlAddressable,flexipage:availableForRecordHome,force:hasRecordId" controller="AS_SchedRepair_AppointmentCreationCtrl" access="global">
+    <aura:attribute name="newServiceBookingLabel" type="String" default="Service Booking"/>
+    <aura:attribute name="newRepairRecord" type="Repair__c" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="selectedLookUpAssetRecord" type="sObject" default="{}"/>
+    <aura:attribute name="selectedLookUpAccountRecord" type="sObject" default="{}"/>
+    <aura:attribute name="selectedLookUpServiceResourceRecord" type="sObject" default="{}"/>
+    <aura:attribute name="selectedLookUpPickupPersonRecord" type="sObject" default="{}"/>
+
+    <aura:attribute name="vinNumber" type="String"/>
+    <aura:attribute name="vehicleType" type="String"/>
+    <aura:attribute name="mileageAmount" type="String"/>
+    <aura:attribute name="recallsInfo" type="String"/>
+    <aura:attribute name="gcsDTC" type="String"/>
+    <aura:attribute name="vehicleColor" type="String"/>
+    <aura:attribute name="servicePackageAvailability" type="String"/>
+
+<aura:attribute name="trailerOrJockey" type="String"/>
+<aura:attribute name="hasCourtesyCar" type="Boolean"/>
+
+    <aura:attribute name="receivingDate" type="Date"/>
+    <aura:attribute name="receivingTime" type="Time"/>
+    <aura:attribute name="repairCompleteDate" type="Date"/>
+    <aura:attribute name="repairCompleteTime" type="Time"/>
+    <aura:attribute name="parentRecordId" type="String"/>
+    <aura:attribute name="picklistValues" type="Object"/>
+    <aura:attribute name="departmentAddress" type="Object"/>
+    <aura:attribute name="pickupDistance" type="Decimal"/>
+    <aura:attribute name="pickupDuration" type="Decimal"/>
+    <aura:attribute name="closestDepartmentId" type="Id"/>
+    <aura:attribute name="closestDeprtmentName" type="String"/>
+    <aura:attribute name="closestDepartmentStreet" type="String"/>
+    <aura:attribute name="closestDepartmentCity" type="String"/>
+    <aura:attribute name="closestDepartmentCountry" type="String"/>
+    <aura:attribute name="dropoffDistance" type="Decimal"/>
+    <aura:attribute name="dropoffDuration" type="Decimal"/>
+    <aura:attribute name="mapMarkers" type="Object"/>
+    <aura:attribute name="markersTitle" type="String" default="Services Map"/>
+    <aura:attribute name="selectedMarkerValue" type="String" default="ClosestDepartment"/>
+    <aura:attribute name="availableRepairPackagesList" type="List" default="[]" description="Available Service Booking Repair Packages Picklist Values"/>
+    <aura:attribute name="selectedRepairPackagesList" type="List" default="[]" description="Selected Service Booking Repair Packages Picklist Values"/>
+    <aura:attribute name="serviceResourcesList" type="List"/>
+    <aura:attribute name="individualRepairItemsList" type="List" default="[{'SObjectType':'Individual_Repair_Item__c', 'Description__c':'', 'Hour__c':'', 'Minute__c':'', 'Skill__c':''}]"/>
+
+<aura:attribute name="trailerJockeyOptions" type="List" default="[
+    { 'value': 'Trailer', 'label': 'Trailer' },
+    { 'value': 'Jockey', 'label': 'Jockey' }
+]"/>
+
+<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+<aura:handler name="oSelectedRecordEvent" event="c:AS_SelectedSObjectRecordEvent" action="{!c.handleComponentEvent}"/>
+<aura:handler name="oSelectedRecordClearedEvent" event="c:AS_SelectedSObjectRecordClearedEvent" action="{!c.handleClearEvent}"/>
+<aura:handler name="receivingDateChanged" value="{!v.receivingDate}" action="{!c.receivingDateChanged}"/>
+<aura:registerEvent name="oSelectedRecordAppEvent" type="c:AS_SelectedSObjectAppRecordEvent"/>
+<aura:registerEvent name="dateSelectedAppEvent" type="c:AS_DateSelectedAppEvent"/>
+
+<!-- <c:PickListValues sObjectName="Property__c" fieldName="Status__c" picklistValues="{!v.picklistValues}" /> -->
+<div aura:id="editDialog" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+        <div class="slds-modal__header">
+            <!-- <h2 class="slds-text-heading- -medium">New {!v.newServiceBookingLabel} Record{!v.parentRecordId}</h2> -->
+
+
+
+<!-- to use labels: AS_feature_purpose_of_the_labe -->
+
+
+
+            <h2 class="slds-text-heading--medium">New {!v.newServiceBookingLabel} Record</h2>
+        </div>
+        <div class="slds-modal__content slds-p-around--medium slds-grid slds-wrap">
+            
+
+            <lightning:tabset>
+                <lightning:tab label="General" title="General Section">
+                    <h3 class="slds-section-title--divider slds-size--1-of-1">General Section</h3>
+
+                    <!-- <lightning:input aura:id="vehicleName" name="vehicleName" label="Vehicle Name" required="true" class="slds-size- -1-of-1 slds-p-horizontal_x-small"/> -->
+                    <c:AS_CustomLookup objectAPIName="Asset" IconName="standard:asset_object" selectedRecord="{!v.selectedLookUpAssetRecord}" label="Search for Customer's Vehicle"/>
+                    <c:AS_CustomLookup objectAPIName="Account" IconName="standard:account" selectedRecord="{!v.selectedLookUpAccountRecord}" label="Search for Customer"/>
+                    <!-- <c:AS_CustomLookup objectAPIName="Asset" IconName="standard:asset_object" selectedRecord="{!v.selectedLookUpAssetRecord}" label="Vehicle Name"/> -->
+                    <!-- <lightning:input aura:id="customerName" name="customerName" label="Customer Name" required="true" class="slds-size- -1-of-1 slds-p-horizontal_x-small"/> -->
+
+                    <!-- <lightning:input aura:id="serviceResource" name="serviceResource" label="Service Resource Name" class="slds-size- -1-of-2 slds-p-horizontal_x-small"/> -->
+                    <lightning:input aura:id="serviceCenter" name="serviceCenter" label="Preferred Service Center" class="slds-size--1-of-1 slds-p-horizontal_x-small" readonly="true"/>
+                    <!-- <lightning:select aura:id="propStatus" name="propStatus" label="Status" class="slds-size- -1-of-2 slds-p-horizontal_x-small">
+                        <aura:iteration items="{!v.picklistValues}" var="item">
+                            <option value="{!item}">{!item}</option>
+                        </aura:iteration>
+                    </lightning:select> -->
+                </lightning:tab>
+                <lightning:tab label="Services" title="Services">
+                    <h3 class="slds-section-title--divider slds-size--1-of-1 slds-m-top_small">Vehicle Details Section</h3>
+                    <div class="slds-grid slds-wrap">
+                        <lightning:input value="{!v.vinNumber}" name="vinNumber" label="VIN Number" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <lightning:input value="{!v.vehicleType}" name="vehicleType" label="Vehicle Type" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <lightning:input value="{!v.mileageAmount}" name="mileageAmount" label="Mileage Amount" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <lightning:input value="{!v.recallsInfo}" name="recallsInfo" label="Recall" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <lightning:input value="{!v.gcsDTC}" name="gcsDTC" label="GCS-DTCs" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <lightning:input value="{!v.vehicleColor}" name="vehicleColor" label="Color" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <lightning:input value="{!v.servicePackageAvailability}" name="servicePackageAvailability" label="Service Packages Availability" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+
+                        <h3 class="slds-section-title--divider slds-size--1-of-1 slds-m-top_small">Additional Repair Items Section</h3>
+                        <lightning:dualListbox
+                            aura:id="serviceBookingRepairPackagePicklist"
+                            name="serviceBookingRepairPackagePicklist"
+                            label="Service Booking Repair Package"
+                            sourceLabel="Available Repair Packages"
+                            selectedLabel="Selected Repair Packages"
+                            options="{!v.availableRepairPackagesList}"
+                            value="{!v.selectedRepairPackagesList}"
+                            onchange="{!c.handleServiceBookingRepairChange}"
+                            class="slds-size--1-of-1 slds-p-horizontal_x-small"
+                            fieldLevelHelp="Please ask the customer which service he would like to have"
+                        />
+                        <aura:iteration items="{!v.individualRepairItemsList}" var="repairItem" indexVar="index">
+                            <lightning:input
+                                aura:id="{!repairItem.Id + '_desc'}"
+                                value="{!repairItem.Description__c}"
+                                label="Description"
+                                class="slds-size--1-of-4 slds-p-horizontal_x-small"
+                                fieldLevelHelp="If we don´t have the customers request as a predefined package, please try to take his request as detailed as possible and estimate the repair time"/>
+                            <lightning:input
+                                aura:id="{!repairItem.Id + '_hour'}"
+                                value="{!repairItem.Hour__c}"
+                                label="Hours"
+                                class="slds-size--1-of-4 slds-p-horizontal_x-small"/>
+                            <lightning:input
+                                aura:id="{!repairItem.Id + '_minute'}"
+                                value="{!repairItem.Minute__c}"
+                                label="Minutes"
+                                class="slds-size--1-of-4 slds-p-horizontal_x-small"/>
+                            <lightning:input
+                                aura:id="{!repairItem.Id + '_skill'}"
+                                value="{!repairItem.Skill__c}"
+                                label="Skill"
+                                class="slds-size--1-of-4 slds-p-horizontal_x-small"/>
+                        </aura:iteration>
+                        <lightning:button label="Add Row" variant="brand" title="Add Row" class="slds-m-top_small" onclick="{!c.handleAddRow}"/>
+                        <lightning:button label="Remove Row" variant="destructive" title="Remove Row" class="slds-m-top_small" onclick="{!c.handleRemoveRow}"/>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-box slds-theme--default slds-m-top_small slds-size--1-of-2">
+                            <lightning:radioGroup value="{!v.trailerOrJockey}" name="radioGroup" label="Trailer or Jockey?" options="{!v.trailerJockeyOptions}" type="radio"/>
+                            <lightning:input checked="{!v.hasCourtesyCar}" type="checkbox" label="Is Curtesy Car needed?" name="curtesyCarInput" class="slds-m-top_medium"/>
+                        </div>
+                        <div class="slds-m-top_small slds-m-top_small slds-m-bottom_small slds-p-left_medium slds-p-right_medium slds-size--1-of-2">If the customers service is part of the Stress Free Program the Pick up and Delivery is free of charge (Maintenance, Warranty or Recall/Service campaigns).<br/><br/>
+
+                        If the customers service is not part of the Stress Free Program what Pick up &amp; Delivery service will he choose?<br/>
+                        Trailer à 100 Euro<br/>
+                        Jockey à 50 Euro</div>
+<div class="slds-size--1-of-2 slds-p-horizontal_x-small slds-m-bottom_small"><lightning:button variant="neutral" label="Test" onclick="{!c.testJockeyAndCourtesyCar}"/></div>
+                    </div>
+                </lightning:tab>
+                <lightning:tab label="Transportation &#38; Department" title="Pickup and Delivery Section">
+                    <h3 class="slds-section-title--divider slds-size--1-of-1 slds-m-top_small">Delivery Section</h3>
+
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-m-top_small slds-m-top_small slds-m-bottom_small slds-size--1-of-1"><lightning:icon iconName="utility:warning" alternativeText="Light bulb" title="light bulb with warning variant" variant="warning" class="slds-p-right_small"/>Please ask the customer where he would like to have his car picked up and if the delivery-address will differ from this?</div>
+                        <lightning:input aura:id="pickupStreet" name="pickupStreet" label="Pickup Street" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="pickupZipcode" name="pickupZipcode" label="Pickup Zipcode" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="pickupCity" name="pickupCity" label="Pickup City" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="pickupCountry" name="pickupCountry" label="Pickup Country" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="pickupDistanceResult" name="pickupDistanceResult" label="Pickup Distance" value="{!v.pickupDistance}" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <lightning:input aura:id="pickupDurationResult" name="pickupDurationResult" label="Pickup Duration" value="{!v.pickupDuration}" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <lightning:input aura:id="closestDeprtmentName" name="closestDeprtmentName" label="Closest Department" value="{!v.closestDeprtmentName}" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <div class="slds-size--1-of-2 slds-p-horizontal_x-small"></div>
+
+                        <lightning:input aura:id="dropoffStreet" name="dropoffStreet" label="Drop Off Street" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="dropoffZipcode" name="dropoffZipcode" label="Drop Off Zipcode" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="dropoffCity" name="dropoffCity" label="Drop Off City" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="dropoffCountry" name="dropoffCountry" label="Drop Off Country" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="dropoffDistanceResult" name="dropoffDistanceResult" label="Drop Off Distance" value="{!v.dropoffDistance}" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <lightning:input aura:id="dropoffDurationResult" name="dropoffDurationResult" label="Drop Off Duration" value="{!v.dropoffDuration}" class="slds-size--1-of-2 slds-p-horizontal_x-small" readonly="true"/>
+                        <div class="slds-size--1-of-2 slds-p-horizontal_x-small slds-m-bottom_small"><lightning:button variant="neutral" label="Test" onclick="{!c.testGetDistance}"/></div>
+                    </div>
+                    <lightning:map 
+                        mapMarkers = "{!v.mapMarkers}"
+                        markersTitle = "{!v.markersTitle}"
+                        selectedMarkerValue = "{!v.selectedMarkerValue}"
+                        onmarkerselect = "{!c.handleMarkerSelect}"
+                    />
+                </lightning:tab>
+                <lightning:tab label="Pick-up" title="Pick-up">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-m-top_small slds-m-top_small slds-m-bottom_small slds-size--1-of-1"><lightning:icon iconName="utility:warning" alternativeText="Light bulb" title="light bulb with warning variant" variant="warning" class="slds-p-right_small"/>Please ask the customer when would be the right time to pick-up his car</div>
+                        <lightning:input aura:id="receivingDate" name="receivingDate" onchange="{!c.receivingDateChanged}" type="date" label="Receiving Date" value="{!v.receivingDate}" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="receivingTime" label="Receiving Time" type="time" value="{!v.receivingTime}" displayDatePicker="true" class="slds-size--1-of-2 slds-p-horizontal_x-small field"/>
+                        <c:AS_CustomLookup objectAPIName="Employee__c" IconName="custom:custom14" selectedRecord="{!v.selectedLookUpPickupPersonRecord}" label="Pickup Person Name"/>
+                    </div>
+                    <c:AS_CustomLookup objectAPIName="Employee__c" IconName="custom:custom14" selectedRecord="{!v.selectedLookUpServiceResourceRecord}" label="Service Resource Name"/>
+                    <h3 class="slds-section-title--divider slds-size--1-of-1 slds-m-top_small">Calendar Section for <lightning:formattedDateTime value="{!v.receivingDate}"/></h3>
+                    <c:AS_SchedRepair_CalendarScheduler serviceResourcesList="{!v.serviceResourcesList}"/>
+                </lightning:tab>
+                <lightning:tab label="Delivery" title="Delivery">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-m-top_small slds-m-top_small slds-m-bottom_small slds-size--1-of-1"><lightning:icon iconName="utility:warning" alternativeText="Light bulb" title="light bulb with warning variant" variant="warning" class="slds-p-right_small"/>Please consider informing the customer that there may be unforeseen issues that will delay the delivery of the vehicle</div>
+                        <lightning:input aura:id="repairCompleteDate" name="repairCompleteDate" type="date" label="Repair Complete Date" value="{!v.repairCompleteDate}" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
+                        <lightning:input aura:id="repairCompleteTime" label="Repair Complete Time" type="time" value="{!v.repairCompleteTime}" displayDatePicker="true" class="slds-size--1-of-2 slds-p-horizontal_x-small field"/>
+                    </div>
+                </lightning:tab>
+            </lightning:tabset>
+        </div>
+        <div class="slds-modal__footer">
+            <lightning:button variant="neutral" label="Cancel" onclick="{!c.cancel}"/>
+            <lightning:button variant="brand" label="Submit" onclick="{!c.saveRecord}"/>
+        </div>
+    </div>
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner alternativeText="Loading" size="medium"/>
+    </aura:if>
+</div>
+<div aura:id="overlay" class="slds-backdrop slds-backdrop--open"></div>
+</aura:component>

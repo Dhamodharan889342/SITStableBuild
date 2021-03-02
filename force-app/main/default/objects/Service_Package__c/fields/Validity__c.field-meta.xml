@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validity__c</fullName>
+    <description>Created By: Manoj Kumar
+Created Date: 10/11/2020
+User Story: Gd-1222
+Purpose :- After Sales service available of Customer.</description>
+    <externalId>false</externalId>
+    <label>Validity</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1 Year</fullName>
+                <default>false</default>
+                <label>1 Year</label>
+            </value>
+            <value>
+                <fullName>2 Year</fullName>
+                <default>false</default>
+                <label>2 Year</label>
+            </value>
+            <value>
+                <fullName>3 Year</fullName>
+                <default>false</default>
+                <label>3 Year</label>
+            </value>
+            <value>
+                <fullName>4 Year</fullName>
+                <default>false</default>
+                <label>4 Year</label>
+            </value>
+            <value>
+                <fullName>5 Year</fullName>
+                <default>false</default>
+                <label>5 Year</label>
+            </value>
+            <value>
+                <fullName>6 Year</fullName>
+                <default>false</default>
+                <label>6 Year</label>
+            </value>
+            <value>
+                <fullName>7 Year</fullName>
+                <default>false</default>
+                <label>7 Year</label>
+            </value>
+            <value>
+                <fullName>8 Year</fullName>
+                <default>false</default>
+                <label>8 Year</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

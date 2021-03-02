@@ -1,0 +1,72 @@
+<aura:component controller="AS_SchedRepair_CalendarSchedulerCtrl">
+<aura:attribute name="selectedDate" type="Date"/>
+    <!-- currently selected (with focus) record should have dashed blue border, maybe animated border -->
+<aura:attribute name="serviceResourcesList" type="List"/>
+    <aura:attribute name="days2DList" type="List"/>
+    <aura:attribute name="colorsMap" type="Map"/>
+    <aura:attribute name="firstDayOfMonthDate" type="Date"/>
+    <aura:attribute name="monthName" type="String"/>
+    <aura:attribute name="workingHoursList" type="List" default="8,9,10,11,12,13,14,15,16,17,18"/>
+    
+<aura:attribute name="calendarWrappersList" type="List"/>
+<aura:attribute name="repairSchedulesForSelectedDate" type="List"/>
+<aura:attribute name="serviceResources2serviceAppointmentsMap" type="Map"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!-- <aura:handler event="c:AS_MonthSelectedAppEvent" action="{!c.handleMonthSelectedAppEvent}"/> -->
+    <!-- <aura:handler name="oSelectedRecordClearedEvent" event="c:AS_SelectedSObjectRecordClearedEvent" action="{!c.handleClearEvent}"/> -->
+    <aura:handler event="c:AS_DateSelectedAppEvent" action="{!c.handleDateSelectedAppEvent}"/>
+
+    <table>
+        <!-- <caption style="text-align:center; margin-top:5px; margin-bottom:5px; font-weight:bold;">{!v.monthName}</caption> -->
+        <tr>
+            <th>Service Resource</th>
+            <aura:iteration items="{!v.workingHoursList}" var="workingHoursItem">
+                <th>{!workingHoursItem}:00</th>
+            </aura:iteration>
+        </tr>
+
+        <!-- <aura:iteration items="{!v.serviceResourcesList}" var="serviceResourceItem" indexVar="index">
+            <tr>
+                <td>{!serviceResourceItem.Name}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+                <td>{!index}</td>
+            </tr>
+        </aura:iteration> -->
+
+        <aura:iteration items="{!v.calendarWrappersList}" var="calWrpItem" indexVar="iIndex">
+            <tr>
+                <td>{!calWrpItem.Name}</td>
+                <aura:iteration items="{!calWrpItem.hoursList}" var="workingHour" indexVar="jIndex">
+                    <td class="{!'bg-' + workingHour.class}"></td>
+                </aura:iteration>
+            </tr>
+        </aura:iteration>
+
+        <!-- <lightning:button variant="neutral" label="Test" onclick="{!c.testList}"/> -->
+
+        <!-- <lightning:textarea value="{!v.serviceResourcesList[0]}"></lightning:textarea>
+        <lightning:textarea value="{!v.serviceResourcesList[0].Name}"></lightning:textarea>
+        <lightning:textarea value="{!v.serviceResourcesList[0].Id}"></lightning:textarea>
+        <lightning:textarea value="{!v.serviceResourcesList}"></lightning:textarea> -->
+
+        <!-- <aura:iteration items="{!v.days2DList}" var="daysList"> -->
+            <!-- <tr> -->
+            <!-- <aura:iteration items="{!daysList}" var="dayItem"> -->
+                <!-- class="bg-{!colorsMap[!dayItem]}" -->
+
+                <!-- <td data-day="{!dayItem}" onclick="{!c.getDay}">{!dayItem}</td> -->
+                <!-- <td data-day="{!dayItem.value}" onclick="{!c.getDay}" class="{!dayItem.class}">{!dayItem.value}</td> -->
+            <!-- </aura:iteration> -->
+            <!-- </tr> -->
+        <!-- </aura:iteration> -->
+    </table>
+</aura:component>

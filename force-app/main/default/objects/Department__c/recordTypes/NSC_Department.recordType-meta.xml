@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NSC_Department</fullName>
+    <active>true</active>
+    <label>NSC Department</label>
+    <picklistValues>
+        <picklist>Department_Type__c</picklist>
+        <values>
+            <fullName>GFT %28Genesis fast track%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GOC %28Genesis operation center%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

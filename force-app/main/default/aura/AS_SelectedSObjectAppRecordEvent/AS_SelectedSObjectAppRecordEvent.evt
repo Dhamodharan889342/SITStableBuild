@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="By this event we are passing the selected sObject from the root of the application to child components">
+    <aura:attribute name="recordLabel" type="String"/>
+    <aura:attribute name="recordByEvent" type="sObject"/>
+</aura:event>

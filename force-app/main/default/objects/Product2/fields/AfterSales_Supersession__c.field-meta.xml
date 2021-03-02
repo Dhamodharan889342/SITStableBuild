@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AfterSales_Supersession__c</fullName>
+    <description>This field created for Suppression 
+Created By: Shashikant Bagale</description>
+    <externalId>false</externalId>
+    <label>Supersession</label>
+    <length>100</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

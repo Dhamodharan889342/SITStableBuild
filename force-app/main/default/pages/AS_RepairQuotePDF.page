@@ -1,0 +1,175 @@
+<!--
+Author: Neha Aggrawal
+Created Date: 02-02-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1015
+-->
+
+<apex:page showHeader="false" standardController="RepairQuote__c" extensions="AS_RepairQuotePDFExtension" standardStylesheets="false" renderAs="pdf" applyBodyTag="false">
+   <head>
+<style>
+
+td {
+ 
+    font-size: 13px;
+    }
+    th{
+    
+    font-size: 13px;
+    }
+table {
+ width:100%
+    }
+
+td,th {
+   border: 1px solid black;
+            text-align:center;
+    }
+input[type="text"]{
+  width:20px;margin:5px;
+    }
+
+</style>
+</head>
+<body>
+<div class="container">
+ <div class="row">
+     
+        <table class="span12">
+            <thead>
+                <tr>
+                    <th><img src="{!$Resource.Logo}" height="50px" width="200px"/><br/> <strong>Legal Company Data Package:</strong> {!RepairQuote__c.Repair__r.Department__r.LegalCompanyDataPackage__c}</th>
+                    <th><h1>Service Quotation</h1>(From Agency Workshop to Customer)</th>
+				 </tr>
+            </thead>
+        </table>
+ 
+       <table>
+         <tr>
+             <td><strong>Service Quotation Number: </strong>{!RepairQuote__c.Name}</td>
+             <td><strong>Plate Registration: </strong> <apex:repeat value="{!vehicleinfo}" var="veh">{!veh.record.Licence_plate_after_registration__c}</apex:repeat></td>
+             <td><strong>Service Advisor: </strong>{!RepairQuote__c.CreatedBy.Name}</td>
+         </tr>
+         
+     </table>
+     <table>
+        <tr>
+            <td>
+                <apex:repeat value="{!vehicleinfo}" var="veh">
+                       <strong>Customer Data</strong><br/>
+                        {!veh.record.Account.Name}<br/>
+                   		{!veh.record.Account.PersonMailingStreet}<br/>
+                    	{!veh.record.Account.PersonMailingCity}, {!veh.record.Account.PersonMailingState} {!veh.record.Account.PersonMailingPostalCode}
+                    {!veh.record.Account.PersonMailingCountry}<br/>
+                        {!veh.record.Account.PersonMobilePhone}<br/>
+                        {!veh.record.Account.PersonHomePhone}<br/>
+                        {!veh.record.Account.PersonEmail}<br/>
+                   		 {!veh.record.Account.Account_Number__c}<br/>
+                </apex:repeat>
+            </td>
+            <td>	<strong>Date: </strong>{!RepairQuote__c.CreatedDate}<br/><br/>
+                       <strong>Agency Workshop Data</strong><br/>
+                        {!RepairQuote__c.Repair__r.Department__r.Name}<br/>
+                 {!RepairQuote__c.Repair__r.Department__r.Address__c}<br/>
+                 {!RepairQuote__c.Repair__r.Department__r.Phone__c}<br/>
+                 {!RepairQuote__c.Repair__r.Department__r.Email__c}<br/>
+          
+               </td>
+         </tr>
+         
+     </table>
+     <br/>
+     
+     <table>
+         <tr>
+             <td><strong></strong>Brand: Genesis      </td>
+         </tr>
+         
+     </table>
+                 <apex:pageBlock >
+                  
+                  		<apex:pageBlockTable value="{!vehicleinfo}" var="r">
+							<apex:column value="{!r.record.Vehicle_Model_LTM__r.Model__c}"> </apex:column>
+                        	<apex:column value="{!r.record.Vehicle_Model_LTM__r.Engine_Capacity__c}"></apex:column>
+                            <apex:column value="{!r.record.Sales_Trim__c}"></apex:column>
+                            <apex:column value="{!r.record.Vehicle_Model_LTM__r.Fuel_Type__c}"></apex:column>
+                            <apex:column value="{!r.record.Color__c}"></apex:column>
+                            <apex:column value="{!r.record.Latest_Mileage__c}"></apex:column>
+                            <apex:column value="{!r.record.Licence_plate_after_registration__c}" headerValue="License Plate"></apex:column>
+                       		<apex:column value="{!r.record.VIN__c}"></apex:column>
+                            <apex:column value="{!r.record.Date_of_Registration__c}" headerValue="Registration Date"></apex:column>
+                            <apex:column value="{!r.record.Expiration_date__c}"></apex:column>
+                            
+                        </apex:pageBlockTable></apex:pageBlock>
+       
+     <br/>
+     <br/>
+     <apex:repeat value="{!RepairQuoteSectioninfo}" var="rqSection">   
+     <table>
+	<tr><td colspan="2">{!rqSection.record.Name}</td></tr>
+	
+      <apex:variable value="{!repairQuoteLineItemMap[rqSection.record.Name]}"  var="myList" rendered="{!renderrepairQuoteLinemap}">
+          <apex:pageBlock >
+                  		<apex:pageBlockTable value="{!myList}" var="m">
+                             <apex:column value="{!m.LineItemType__c}" headerValue="Item Type"> </apex:column>
+                            <apex:column value="{!m.Name}" headerValue="Operation Description"> </apex:column>
+							 <apex:column value="{!m.Hours__c}"> </apex:column>
+                             <apex:column value="{!m.ListPrice__c}" headerValue="List Price (Euros)"> </apex:column>
+                             <apex:column value="{!m.Quantity__c}"> </apex:column>
+                             <apex:column value="{!m.Discount_in_Percentage__c}" headervalue="Discount"> </apex:column>
+                             <apex:column value="{!m.Tax_in_Percentage__c}" headerValue="Tax"> </apex:column>
+                            <apex:column value="{!m.Total_Price_VAT_included__c}" headerValue="Total Price inclu. VAT (Euros)"> </apex:column>
+		              </apex:pageBlockTable>
+          </apex:pageBlock>
+        </apex:variable> 
+
+         <tr><td><strong>SubTotal</strong></td><td><apex:repeat value="{!SubtotalMap[rqSection.record.Name]}"  var="mlist" first="3" rows="1" rendered="{!rendersubtotoalmap}">{!mlist}</apex:repeat></td></tr>
+         <br/><br/>
+     </table>
+          </apex:repeat>
+     <table>
+         <tr><th colspan="6">Repair Quote Summary</th></tr>
+         <tr>
+         <th>Custom Request Number</th>
+         <th>Operation Description</th>
+         <th>Total Net Price (Euros)</th>
+         <th>VAT(%)</th>
+         <th>VAT(Euros)</th>
+         <th>Total Euros (inclu. VAT)</th>
+         </tr>
+        <apex:variable value="{!1}" var="rowNum"/>
+         <apex:repeat value="{!RepairQuoteSectioninfo}" var="rqSection"> 
+            <apex:variable value="{!SubtotalMap[rqSection.record.Name]}"  var="mlist" rendered="{!rendersubtotoalmap}">
+             <tr>
+                 <td>{!rowNum}</td>
+                 <td>{!rqSection.record.Name}</td>
+                 <apex:repeat value="{!mlist}" var="m" >
+                <td>{!m}</td>
+                
+                     </apex:repeat>
+             </tr>
+              <apex:variable var="rowNum" value="{!rowNum + 1}"/>
+             </apex:variable>
+         </apex:repeat>
+        <tr><td colspan="2"><strong>Grand Total</strong></td>
+            <apex:repeat value="{!GrandTotal}" var="r" rows="1">
+              <td colspan="2">{!r}</td>
+             </apex:repeat> 
+            <apex:repeat value="{!GrandTotal}" var="r" first="1">
+         <td>{!r}</td>
+     </apex:repeat> 
+         </tr>
+         
+     </table>
+     
+     <br/><br/>
+     <table>
+         
+         <tr><td><strong>Legal Text: </strong>{!RepairQuote__c.Repair__r.Department__r.Legal_texts__c}</td></tr>
+         <tr><td><strong>GDPR Text: </strong>{!RepairQuote__c.Repair__r.Department__r.GDPRLegal__c}</td></tr>
+             
+       
+     </table>
+    </div>
+    </div>
+    </body>
+</apex:page>

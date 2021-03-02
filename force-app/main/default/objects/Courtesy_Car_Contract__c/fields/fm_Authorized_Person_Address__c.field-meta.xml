@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fm_Authorized_Person_Address__c</fullName>
+    <description>GD-2328</description>
+    <externalId>false</externalId>
+    <formula>IF(NOT(ISBLANK(Repair__r.Requester__r.Contact__r.MailingStreet)),      Repair__r.Requester__r.Contact__r.MailingStreet            + BR(), NULL) +
+IF(NOT(ISBLANK(Repair__r.Requester__r.Contact__r.MailingCity)),        Repair__r.Requester__r.Contact__r.MailingCity              + BR(), NULL) +
+IF(NOT(ISBLANK(Repair__r.Requester__r.Contact__r.MailingState)),       Repair__r.Requester__r.Contact__r.MailingState,                    NULL) +
+IF(NOT(ISBLANK(Repair__r.Requester__r.Contact__r.MailingPostalCode)),  Repair__r.Requester__r.Contact__r.MailingPostalCode + BR(), NULL) +
+IF(NOT(ISBLANK(Repair__r.Requester__r.Contact__r.MailingCountry)),     Repair__r.Requester__r.Contact__r.MailingCountry,                  NULL)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Authorized Person Address</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Labor__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Created By: Mayank Pant Created Date: 23rd Oct 2020 User Story: https://jira.hyundai-autoever.eu/browse/GD-1238 Purpose:</description>
+    <externalId>false</externalId>
+    <label>Labor</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Product2.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>Labor</value>
+        </filterItems>
+        <filterItems>
+            <field>Product2.Locale__c</field>
+            <operation>equals</operation>
+            <valueField>$User.Department_Locale__c</valueField>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>Work Order Line Items (Labor)</relationshipLabel>
+    <relationshipName>WorkOrderLineItemsLabor</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

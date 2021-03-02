@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approved</fullName>
+    <active>true</active>
+    <errorConditionFormula>Is_Approved__c 
+&amp;&amp;
+(
+ ISCHANGED( Case__c ) 
+||
+ ISCHANGED( Customer__c ) 
+||
+ ISCHANGED( Service_Booking__c ) 
+||
+ ISCHANGED( Vehicle__c  ) 
+||
+ ISCHANGED( Credit_Note_Amount__c ) 
+||
+ ISCHANGED( CurrencyIsoCode ) 
+||
+ ISCHANGED( Issue_Description__c ) 
+||
+ ISCHANGED( Solution_Description__c ) 
+)</errorConditionFormula>
+    <errorMessage>The record is approved, changes not available.</errorMessage>
+</ValidationRule>

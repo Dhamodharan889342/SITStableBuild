@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>isTestDriveAvailable__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Defines Whether a test drive is possible
+at the department</description>
+    <externalId>false</externalId>
+    <label>is Test Drive Available</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

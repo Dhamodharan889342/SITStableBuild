@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Auto_Link__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Created By:- Riddhi Mittal
+Created At:- 11/17/2020
+US:- GD-1335
+Purpose:- Initial connection Service Package/Vehicle automatic</description>
+    <externalId>false</externalId>
+    <label>Auto Link</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Non_Customer_Relation_Details__c</fullName>
+    <description>Created By: Manoj Kumar
+Created Date: 22/10/2020
+User Story: GD-1297
+Purpose :- After Sales record of Customer.</description>
+    <externalId>false</externalId>
+    <label>Non Customer Relation Details</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Self</fullName>
+                <default>false</default>
+                <label>Self</label>
+            </value>
+            <value>
+                <fullName>Spouse</fullName>
+                <default>false</default>
+                <label>Spouse</label>
+            </value>
+            <value>
+                <fullName>Parents</fullName>
+                <default>false</default>
+                <label>Parents</label>
+            </value>
+            <value>
+                <fullName>Children</fullName>
+                <default>false</default>
+                <label>Children</label>
+            </value>
+            <value>
+                <fullName>Sibling</fullName>
+                <default>false</default>
+                <label>Sibling</label>
+            </value>
+            <value>
+                <fullName>Acquaintance</fullName>
+                <default>false</default>
+                <label>Acquaintance</label>
+            </value>
+            <value>
+                <fullName>Maintenance Manager</fullName>
+                <default>false</default>
+                <label>Maintenance Manager</label>
+            </value>
+            <value>
+                <fullName>Driver</fullName>
+                <default>false</default>
+                <label>Driver</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

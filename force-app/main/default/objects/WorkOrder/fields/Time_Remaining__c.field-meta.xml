@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Time_Remaining__c</fullName>
+    <description>Created By: Mayank Pant
+Created Date: 27th Nov 2020
+User Story: https://jira.hyundai-autoever.eu/browse/GD-1448
+Purpose: This field will show the time remaining to do the Job.</description>
+    <externalId>false</externalId>
+    <formula>Time_Required__c -  Time_Taken__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Time Remaining (Hrs)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

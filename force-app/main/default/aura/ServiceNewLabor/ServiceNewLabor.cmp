@@ -1,0 +1,209 @@
+<!--
+ - Created by H1812104 on 2019-03-28.
+ -->
+
+<aura:component
+        implements="force:hasRecordId"
+        extends="c:ObjectType"
+        controller="ServiceLaborController"
+        description="ServiceNewLabor">
+
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="laborList" type="List" default="[]"/>
+    <aura:attribute name="selectedLaborList" type="List" default="[]"/>
+    <aura:attribute name='defaultVal' type='String' default=""/>
+    <aura:attribute name="isOpen" type="Boolean" default="false" description="Dialog 상태"/>
+
+    <!-- 
+            LMS GD-1014 3/1/2021
+
+            Added the other parameters to assist in adding values to the items
+            list
+     -->
+    <aura:attribute name="sectionUnitName" type="String"/>
+    <aura:attribute name="itemList" type="List" default="[]"/> 
+    <aura:attribute name="sectionType" type="String"/>
+
+    <!-- 
+        LMS GD-1014   NOT USED !!
+            component event that passes to the parent (repair quote)
+            the new item list (added items)
+        
+        https://gist.github.com/pozil/70e101ae3e22dc4330474ea2ffb040bb
+     -->
+     <aura:registerEvent name="itemList_ComponentEvent" type="c:AS_itemList_CEVENT"/>
+
+    <aura:method name="open" action="{!c.open}" access="public" description="Dialog Open">
+        <aura:attribute name="param" type="Object"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <!-- New Labor Popup -->
+    <aura:if isTrue="{!equals(v.isOpen,true)}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+
+                 aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+
+            <div class="slds-modal__container">
+
+                <div class="modal-header slds-modal__header slds-size_1-of-1">
+
+                    <h4 class="title slds-text-heading--medium">
+                    <!--    {!$Label.FSL.New+' '+$Label.c.RPR_LAB_Labor} -->
+                            *New Labor
+                    </h4>
+
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <!--label="{! v.ObjectType.RepairLabor__c.fm_LaborCode__c.label }"-->
+                                <lightning:input type="text" name="opCode" aura:id="opCode"
+                                                 label="{! $Label.c.RPR_LAB_LaborCode }"
+                                                 minlength="4"/>
+                            </div>
+                            <div class="slds-col">
+                                <!--label="{! v.ObjectType.RepairLabor__c.fm_LaborName__c.label }"-->
+                                <lightning:input type="text" name="opDesc" aura:id="opDesc"
+                                                label="{! $Label.c.RPR_LAB_LaborName }"
+                                                 />
+                            </div>
+                            <div class="slds-col slds-m-top_large">
+                                <lightning:button label="{! $Label.c.COM_LAB_Search }" aura:id="aura_btn_search"
+                                                  variant="brand" onclick="{!c.search}" class="slds-float--center"
+                                                  disabled="{!v.IsLoading}"/>
+                            </div>
+                        </div>
+
+                        <div class="slds-card__body slds-scrollable slds-m-top_small" style="height: 200px;">
+                            <table class="slds-table slds-table_bordered slds-table_col-bordered" role="grid">
+                                <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                            {! $Label.c.COM_LAB_Number }
+                                    </th>
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                            <!--{! v.ObjectType.RepairQuoteLineItem__c.fm_LaborCode__c.label }-->
+                                            {! $Label.c.RPR_LAB_LaborCode }
+                                    </th>
+                                    <th scope="col" style="text-align: center;">
+                                            <!--{! v.ObjectType.RepairQuoteLineItem__c.fm_LaborName__c.label }-->
+                                            {! $Label.c.RPR_LAB_LaborName }
+                                    </th>
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                            <!--{! v.ObjectType.Repair_Quote_Line_Item__c.Hours__c.label }    -->
+                                            *Hours                                   
+                                    </th>
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                            <!--{! v.ObjectType.Repair_Quote_Line_Item__c.Quantity__c.label }-->
+                                            {! $Label.c.Sales_StockSearch_Quantity }
+                                    </th>
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                           <!--{! v.ObjectType.Repair_Quote_Line_Item__c.fm_Amount__c.label }-->
+                                           *Amount
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <aura:iteration items="{!v.laborList}" var="s" indexVar="i">
+                                    <tr class="slds-hint-parent">
+                                        <td role="gridcell" style="text-align: center;">
+                                                {!i + 1}
+                                        </td>
+                                        <th scope="gridcell" style="text-align: center;">
+                                            <a href="javascript:void(0);" onclick="{! c.add }"
+                                               data-value="{! i }">{!s.laborCode}</a>
+                                        </th>
+                                        <td role="gridcell" class="slds-cell-wrap">
+                                                {!s.laborName}
+                                        </td>
+                                        <td role="gridcell" style="text-align: right;">
+                                            <lightning:formattedNumber value="{!s.hours}" style="decimal"
+                                                                       maximumFractionDigits="1"/>
+                                        </td>
+                                        <td role="gridcell" style="text-align: right;">
+                                            <lightning:formattedNumber value="1" style="decimal"/>
+                                        </td>
+                                        <td role="gridcell" style="text-align: right;">
+                                            <lightning:formattedNumber value="{!s.amount}" style="decimal"
+                                                                       maximumFractionDigits="2"/>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="slds-card__body slds-scrollable slds-m-top_small" style="height: 200px;">
+                            <h2>▶ Selected Operation</h2>
+                            <table class="slds-table slds-table_bordered slds-table_col-bordered" role="grid">
+                                <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                            {! $Label.c.COM_LAB_Number }
+                                    </th>
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                            <!-- {! v.ObjectType.RepairQuoteLineItem__c.fm_LaborCode__c.label } -->
+                                            {! $Label.c.RPR_LAB_LaborCode }
+                                    </th>
+                                    <th scope="col" style="text-align: center;">
+                                            <!-- {! v.ObjectType.RepairQuoteLineItem__c.fm_LaborName__c.label } -->
+                                            {! $Label.c.RPR_LAB_LaborName }
+                                    </th>
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                            <!-- {! v.ObjectType.RepairQuoteLineItem__c.Hours__c.label } -->
+                                            *Hours
+                                    </th>
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                            <!-- {! v.ObjectType.RepairQuoteLineItem__c.Quantity__c.label } -->
+                                            {! $Label.c.Sales_StockSearch_Quantity }
+                                    </th>
+                                    <th scope="col" style="width:10%; text-align: center;">
+                                            <!-- {! v.ObjectType.RepairQuoteLineItem__c.fm_Amount__c.label } -->
+                                            *Amount
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <aura:iteration items="{! v.selectedLaborList }" var="s" indexVar="i">
+                                    <tr class="slds-hint-parent">
+                                        <td role="gridcell" style="width:10%; text-align: center;">{!i + 1}</td>
+                                        <th scope="gridcell" style="width:10%; text-align: center;">
+                                            <div><a href="javascript:void(0);" onclick="{! c.remove }"
+                                                    data-value="{! i }">{!s.laborCode}</a></div>
+                                        </th>
+                                        <td role="gridcell" class="slds-cell-wrap">
+                                                {!s.laborName}
+                                        </td>
+                                        <td role="gridcell" style="width:10%; text-align: right;">
+                                            <lightning:formattedNumber value="{!s.hours}" style="decimal"
+                                                                       maximumFractionDigits="1"/>
+                                        </td>
+                                        <td role="gridcell" style="width:10%; text-align: right;">
+                                            <lightning:formattedNumber value="{!s.quantity}" style="decimal"
+                                                                       maximumFractionDigits="0"/>
+                                        </td>
+                                        <td role="gridcell" style="width:10%; text-align: right;">
+                                            <lightning:formattedNumber value="{!s.amount}" style="decimal"
+                                                                       maximumFractionDigits="2"/>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning:button label="{! $Label.c.COM_LAB_Close }" type="button" variant="neutral"
+                                      onclick="{!c.close}"/>
+                    <lightning:button label="{! $Label.c.COM_LAB_Save }" type="button" variant="brand"
+                                      onclick="{!c.save}" disabled="{!or(v.hasError,v.saved) }"/>
+
+                </div>
+            </div>
+        </section>
+        <div aura:id="overlay" class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+</aura:component>

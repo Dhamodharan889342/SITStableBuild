@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>WorkOrder$Name</field>
+    </columns>
+    <columns>
+        <field>WorkOrder.WorkOrderLineItems$VIN__c</field>
+    </columns>
+    <columns>
+        <field>WorkOrder$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>WorkOrder.WorkOrderLineItems$ProductMasterFile__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>WorkOrder.WorkOrderLineItems.ProductsConsumed$QuantityConsumed</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>Report to s how consumed parts. User Story - 1809</description>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>WorkOrder.WorkOrderLineItems$Department__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>WorkOrder$Owner</field>
+        <sortOrder>Desc</sortOrder>
+    </groupingsDown>
+    <name>Contractor management Parts Report</name>
+    <params>
+        <name>co</name>
+        <value>0</value>
+    </params>
+    <reportType>Part_Labour_Consumed__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>false</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>WorkOrder$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,189 @@
+<!--
+Author: Neha Aggrawal
+Created Date: 15-01-2020
+Story:https://jira.hyundai-autoever.eu/browse/GD-1026
+-->
+
+<apex:page showHeader="false" standardStylesheets="false" applyBodyTag="false"
+           docType="html-5.0"
+           id="StatusConfirmation">
+
+    <div style="border: 1px solid #ccc; width:850px; height:410px;">
+        <div style="width:600px; height:410px; float:left;">
+            <canvas id="my_canvas" class="my_canvas"
+                    style="width:600px; height:410px; float:left; border-right:1px solid lightgray;" />
+        </div>
+        <div style="width:250px; height:410px; float:left;" id="outside" class="outside">
+            <br/><br/><br/><br/><br/><br/>
+            <div class="imgType">
+                <div style="font-size:12px; text-align:center; width:75px; float:left;">
+                    <apex:image url="{!URLFOR($Resource.repair_img, 'scratch_image.png')}" style="margin-left:5px;" styleClass="img" title="{!$Label.RPR_LAB_Scratch}"
+                                onclick="selectImage(this, 0 );" />
+                    <br/>
+                    {!$Label.RPR_LAB_Scratch}
+                </div>
+                <div style="font-size:12px; text-align:center; width:75px; float:left;">
+                    <apex:image url="{!URLFOR($Resource.repair_img, 'damage_image.png')}" style="margin-left:5px;" styleClass="img" title="{!$Label.RPR_LAB_Damage}" onclick="selectImage(this);" />
+                    <br/>
+                    {!$Label.RPR_LAB_Damage}
+                </div>
+                <div style="font-size:12px; text-align:center; width:75px; float:left;">
+                    <apex:image url="{!URLFOR($Resource.repair_img, 'dent_image.png')}" style="margin-left:5px;" styleClass="img" title="{!$Label.RPR_LAB_Dent}" onclick="selectImage(this);" />
+                    <br/>
+                    {!$Label.RPR_LAB_Dent}
+                </div>
+            </div>
+            <br/>
+            <div class="imgType">
+                <div style="font-size:12px; text-align:center; width:75px; float:left;">
+                    <apex:image url="{!URLFOR($Resource.repair_img, 'peeling_paint_image.png')}" style="margin-left:5px;" styleClass="img" title="{!$Label.RPR_LAB_Peeling_paint}"  onclick="selectImage(this);"/>
+                    <br/>
+                    {!$Label.RPR_LAB_Peeling_paint}
+                </div>
+                <div style="font-size:12px; text-align:center; width:75px; float:left; display:inline-table;">
+                    <apex:image url="{!URLFOR($Resource.repair_img, 'crack_image.png')}" styleClass="img" title="{!$Label.RPR_LAB_Crack}" onclick="selectImage(this);"/>
+                    <br/>
+                    {!$Label.RPR_LAB_Crack}
+                </div>
+                <div style="font-size:12px; text-align:center; width:75px; float:left; display:inline-table;">
+                    <apex:image url="{!URLFOR($Resource.repair_img, 'etc_image.png')}" styleClass="img" title="{!$Label.RPR_LAB_ETC}" onclick="selectImage(this);"/>
+                    <br/>
+                    {!$Label.RPR_LAB_ETC}
+                </div>
+            </div>
+            <br/>
+            <div>
+                <input type="button" value="{!$Label.RPR_LAB_Default}" onclick="resetView()"/>
+            </div>
+        </div>
+    </div>
+    <style>
+        .img{
+            width: 50px;
+            height: 50px;
+            margin-top: 5px;
+        }
+        input{
+            text-align:center;
+            margin-top:10px;
+            margin-left:80px;
+        }
+        .selected {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+        .imgType{
+            margin-left:10px;
+        }
+
+    </style>
+    <script type="text/javascript">
+        var canvas = document.getElementById("my_canvas");
+        var context = canvas.getContext("2d");
+        var mouseButton = 0;
+        var count = 0;
+        var lastX = null;
+        var lastY = null;
+        var imagePath ={};
+
+        resizeCanvas();
+
+        function saveImage() {
+            var image = canvas.toDataURL().split(',')[1];
+            console.log('image ::', image);
+            var origin = "{!$Label.COM_LAB_Domain}";// cheat this page as lightning page event.
+            var command = 'save';
+            var param = {};
+            param.command = 'save';
+            param.data = image;
+            parent.postMessage(param, origin); // send to lightning
+        }
+        function resetView(){
+            var background = new Image();
+            background.src = "{!URLFOR($Resource.repair_car_empty)}";
+            context.drawImage(background, 0, 0, 550, 380);
+            count = 0;
+        }
+
+        var selectedImage = {};
+        selectedImage.icon = '';
+        selectedImage.img = null;
+
+        function selectImage(img, index) {
+        console.log(img);
+        console.log(index);
+            console.log('imgClassList = '+ img.classList);
+            if (img.classList.contains("selected")) {
+                img.classList.remove("selected"); // 취소
+                selectedImage.img = null;
+                selectedImage.icon = '';
+            } else {
+                var elements = document.getElementsByClassName('img'); // or:
+                for (var i = 0; i < elements.length; i++) {
+                    var ele = elements[i];
+                    ele.classList.remove("selected");
+                }
+                img.classList.add("selected");
+
+
+                selectedImage.img = img;
+//                selectedImage.icon = img.src;
+
+            }
+//            event.stopPropagation();
+        }
+
+        function handleEvent(event) {
+            var classNm = event.target.className;
+            if (classNm == undefined || classNm == 'outside') return;
+
+            var markImage = new Image();
+            if(event.type=="mousedown") {
+                mouseButton = event.which;
+                lastX = event.offsetX;
+                lastY = event.offsetY;
+                var event1 = event.target.name;
+                if (selectedImage.img != null) {
+                    context.drawImage(selectedImage.img, lastX-20, lastY-20, 40, 40);
+                    context.font="bold 15px serif";
+                    count++;
+                    context.fillText(count, lastX-5, lastY+5);
+                }
+
+            }
+
+
+        }
+
+        var background = new Image();
+        background.src = "{!URLFOR($Resource.repair_car_empty)}";
+
+        background.onload = function(){
+            context.drawImage(background, 0, 0, 550, 380);
+        }
+
+        function resizeCanvas() {
+            var ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext('2d').scale(ratio, ratio);
+        }
+
+        var origin = "{!$Label.COM_LAB_Domain}";
+
+        window.addEventListener("message", function(event) {
+//            console.log('event :: ', event.data);
+
+            if (event.origin !== origin) return;
+
+            var param = event.data;
+            if (param.command == 'save') {
+                saveImage();
+            }
+        }, false);
+
+        canvas.addEventListener("mousemove",handleEvent,true);
+        canvas.addEventListener("mousedown",handleEvent,true);
+
+    </script>
+
+</apex:page>

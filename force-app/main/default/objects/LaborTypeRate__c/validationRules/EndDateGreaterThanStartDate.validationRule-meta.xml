@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EndDateGreaterThanStartDate</fullName>
+    <active>true</active>
+    <description>This validation rule is created as part of https://jira.hyundai-autoever.eu/browse/GD-2465. Rule validates that end date can not be before start date.</description>
+    <errorConditionFormula>EndDate__c  &lt; StartDate__c</errorConditionFormula>
+    <errorMessage>End Date cannot be before start date</errorMessage>
+</ValidationRule>

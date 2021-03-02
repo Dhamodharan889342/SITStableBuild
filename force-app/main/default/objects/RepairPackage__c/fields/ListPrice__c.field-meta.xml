@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ListPrice__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>Created By : Nagendra Lagisetty
+Created Date: 11/2/2020
+User Story:GD-1228
+Purpose: Basic level object</description>
+    <externalId>false</externalId>
+    <label>List Price</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

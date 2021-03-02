@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fm_TotalAmount__c</fullName>
+    <description>created By:- Riddhi Mittal
+Created at :- 11/11/2020
+user story:- US- GD-1452
+Purpose:- Need to create as per requirement</description>
+    <externalId>false</externalId>
+    <formula>fm_Amount__c + Tax__c -Discount__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

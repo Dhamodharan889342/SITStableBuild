@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SpEngine_Capacity__c</fullName>
+    <description>Created By: Manoj Kumar
+Created Date: 05/11/2030
+User Story: Gd-1222
+Purpose :- After Sales service available of Customer.</description>
+    <externalId>false</externalId>
+    <label>Engine Capacity</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>2,999 cc (183.0 cu in)</fullName>
+                <default>false</default>
+                <label>2,999 cc (183.0 cu in)</label>
+            </value>
+            <value>
+                <fullName>3,342 cc (203.9 cu in) G6DH</fullName>
+                <default>false</default>
+                <label>3,342 cc (203.9 cu in) G6DH</label>
+            </value>
+            <value>
+                <fullName>3,778 cc (230.5 cu in) G6DJ</fullName>
+                <default>false</default>
+                <label>3,778 cc (230.5 cu in) G6DJ</label>
+            </value>
+            <value>
+                <fullName>5,038 cc (307.4 cu in)</fullName>
+                <default>false</default>
+                <label>5,038 cc (307.4 cu in)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

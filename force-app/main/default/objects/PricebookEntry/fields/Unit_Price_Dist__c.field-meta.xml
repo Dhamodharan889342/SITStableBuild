@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unit_Price_Dist__c</fullName>
+    <description>Created By: Mayank Pant
+Created Date: 22nd Oct 2020
+User Story: https://jira.hyundai-autoever.eu/browse/GD-1238 
+Purpose: List Price Discount</description>
+    <externalId>false</externalId>
+    <label>Unit Price Dist</label>
+    <precision>11</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>
